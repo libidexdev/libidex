@@ -1,0 +1,2 @@
+[21-Nov-2016 09:56:42 America/Chicago] PHP Warning:  require_once(app/Mage.php): failed to open stream: No such file or directory in /home/libidex/public_html/shell/copy-category.php on line 3
+[21-Nov-2016 09:56:42 America/Chicago] PHP Fatal error:  require_once(): Failed opening required 'app/Mage.php' (include_path='.:/usr/lib/php:/usr/local/lib/php') in /home/libidex/public_html/shell/copy-category.php on line 3
