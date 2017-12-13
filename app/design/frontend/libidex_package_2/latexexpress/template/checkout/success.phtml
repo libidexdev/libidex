@@ -1,0 +1,46 @@
+<?php /* ?>
+
+
+
+
+<?php $order = Mage::getModel('sales/order')->loadByIncrementId($this->getOrderId());?>
+</div><!-- End Wrapper early -->
+<h1 class="page-subtitle"><span class="inner"><?php echo $this->__('Thank you for your purchase.') ?></span></h1>
+<div class="wrapper"><!-- Begin Wrapper again -->
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<p>Your order number is <?php echo $this->escapeHtml($this->getOrderId()?> and your expected date of dispatch is <?php echo date("d/m/y", strtotime($order->getFulfillmentDataValue('finish_date')));?></p>
+
+<div class="buttons-set">
+    <button type="button" class="button" title="<?php echo $this->__('Continue Shopping') ?>" onclick="window.location='<?php echo $this->getUrl() ?>'"><?php echo $this->__('Continue Shopping') ?></button>
+</div>
+
+
+
+
+
+
+<?php */ ?>
+
+
+
+<?php $order = Mage::getModel('sales/order')->loadByIncrementId($this->getOrderId());?>
+</div><!-- End Wrapper early -->
+<h1 class="page-subtitle"><span class="inner"><?php echo $this->__('Thank you for your purchase.') ?></span></h1>
+<div class="wrapper"><!-- Begin Wrapper again -->
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+
+
+
+
+
+<?php if ($this->getOrderId()):?>
+<?php if ($this->getCanViewOrder()) :?>
+    <p><?php echo $this->__('Your order number is %s', sprintf('<a class="highlight-link" href="%s">%s</a>', $this->escapeHtml($this->getViewOrderUrl()), $this->escapeHtml($this->getOrderId()))) ?> and will be despatched within 14 days of receipt, during this busy Sale period (Normally the despatch period is 10 days or less).</p>
+<?php  else :?>
+    <p><?php echo $this->__('Your order number is %s', $this->escapeHtml($this->getOrderId())) ?> and will be despatched within 14 days of receipt, during this busy Sale period (Normally the despatch period is 10 days or less).</p>
+<?php endif;?>
+    <p><?php echo $this->__('You will receive an order confirmation email with details of your order.') ?></p>
+<?php endif;?>
+
+<button type="button" class="button success-btn-continue" title="<?php echo $this->__('Continue Shopping') ?>" onclick="window.location='<?php echo $this->getUrl() ?>'"><?php echo $this->__('Continue Shopping') ?></button>

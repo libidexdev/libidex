@@ -1,0 +1,48 @@
+<?php
+/**
+ * Magegiant
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the magegiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magegiant
+ * @package     Magegiant_GiftCard
+ * @copyright   Copyright (c) 2014 Magegiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+
+$_element = $this->getElement();
+$_note    = $_element->getNote();
+$_trId    = $_element->getHtmlContainerId();
+$_class   = $_element->getFieldsetHtmlClass();
+?>
+<tr<?php if($_trId): ?> id="<?php echo $_trId ?>"<?php endif; ?>>
+    <td class="label<?php echo $_class ? " {$_class}-label" : ''?>"><?php echo trim($_element->getLabelHtml()) ?></td>
+    <td class="<?php echo $_element->hasValueClass() ? $_element->getValueClass() : 'value' ?><?php echo $_class ? " {$_class}-value" : ''?>">
+        <div class="store-scope">
+			<select id="store_switcher" class="system-config-store-switcher" name="store_id">
+				<?php foreach ($this->getStoreSelectOptions() as $_value => $_option): ?>
+					<?php if (isset($_option['is_group'])): ?>
+						<?php if ($_option['is_close']): ?>
+							</optgroup>
+						<?php else: ?>
+							<optgroup label="<?php echo $this->escapeHtml($_option['label']) ?>" style="<?php echo $_option['style'] ?>">
+						<?php endif; ?>
+						<?php continue ?>
+					<?php endif; ?>
+					<option value="<?php echo $this->escapeHtml($_value) ?>" <?php echo $_option['selected'] ? 'selected="selected"' : '' ?> <?php echo $_option['disabled'] ? 'disabled="disabled"' : '' ?> style="<?php echo $_option['style'] ?>">
+						<?php echo $this->escapeHtml($_option['label']) ?>
+					</option>
+				<?php endforeach ?>
+			</select>
+        </div>
+    </td>
+</tr>

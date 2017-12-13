@@ -1,0 +1,192 @@
+<?php $_helper = $this->helper('catalog/output'); ?>
+<?php $_product = $this->getProduct(); ?>
+<?php $_manufacture_process = $_product->getAttributeText('manufacturing_type'); ?>
+<script type="text/javascript" xmlns="http://www.w3.org/1999/html">
+    var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
+</script>
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div class="product-view cf">
+    <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+        <?php echo $this->getBlockHtml('formkey') ?>
+        <div class="no-display">
+            <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
+            <input type="hidden" name="related_product" id="related-products-field" value="" />
+        </div>
+	<div class="product-img-box cf">
+		<?php $specialprice = Mage::getModel('catalog/product')->load($_product->getId())->getSpecialPrice(); ?>
+		<?php if ($specialprice):?><span class="special-badge"></span><?php endif; ?>
+        <?php echo $this->getChildHtml('media') ?>
+		<div class="full-description std"><?php echo ($_product->getTypeId() != 'giantcard') ? $_product->getDescription() : '';?></div>
+	</div>
+
+    <div class="product-shop <?php echo $_product->getTypeId();?> <?php echo $_manufacture_process;?> cf">
+	    <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+	    <div class="price-box-top"><?php echo $this->getPriceHtml($_product, true) ?></div>
+		<div class="full-description std"><?php echo ($_product->getTypeId() != 'giantcard') ? $_product->getDescription() : '';?></div>
+
+		<?php if ($_product->getShortDescription()):?><div class="short-description"><?php echo $this->stripTags($_product->getShortDescription());?></div><?php endif;?>
+        <?php echo $this->getChildHtml('alert_urls') ?>
+        <?php echo $this->getChildHtml('product_type_data') ?>
+        <?php echo $this->getTierPriceHtml() ?>
+        <?php echo $this->getChildHtml('extrahint') ?>
+
+	   <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+	<div id="tabs" class="product-options-chooser osconfigupsell-tabs">
+		<ul>
+            <?php if (Mage::app()->getStore()->getName()=="Libidex"): ?>
+                    <?php if ($_manufacture_process == 'made_to_order'):?>
+                            <li class="madeToOrder-tab"><a href="#tab1" name="custom-options">Made to Order</a></li>
+                    <?php else :?>
+                            <li class="express-tab"><a href="#tab1" name="custom-options">LatexEXPRESS <?php echo Mage::getModel('core/variable')->loadByCode('latex_express_percentage')->getValue('html'); ?> Off</a></li>
+                    <?php endif; ?>
+            <?php else: ?>
+                    <li class="madeToOrder-tab"><a href="#tab1" name="custom-options">Your Selection</a></li>
+            <?php endif; ?>
+            <li class="discreet-tab"><a href="#tab2">Discreet Deliveries/Returns/Allergy</a></li>
+            <?php if (Mage::app()->getStore()->getCode()=="latexexpress_store"): ?>
+                <li class="libidex-tab"><a href="#tab3">More Choices Here...</a></li>
+            <?php endif; ?>
+            <?php echo $this->getChildHtml('upsell_product_tab'); // Show tab only if an upsell exists ?>
+		</ul>
+
+		<div id="tab1">
+		<?php if (Mage::app()->getStore()->getCode()=="Libidex"): ?>
+                    <?php if ($_manufacture_process == 'made_to_order'):?>
+                    <p>Have your garment hand-made to order from the full Libidex range, in any size or colour, and with your choice of options. Please note delivery normally takes 3-4 weeks, or up to 8 weeks during sale periods, for made-to-order garments.</p>
+                    <?php else :?>
+                    <p>This garment is regularly stocked by our off-the-peg range on our sister site LatexEXPRESS currently at <?php echo Mage::getModel('core/variable')->loadByCode('latex_express_percentage')->getValue('html'); ?> off our made-to-order price. You can check out the sizes and colours LatexEXPRESS has available on the menu below, and if it’s got what you want, then click the button and go to our LatexEXPRESS site and buy it at a bargain price while it’s still there!</p>
+                    <?php endif; ?>
+                <?php endif; ?>
+
+	        <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+	                <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
+	            <?php endif;?>
+	            <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+	            	<?php echo $this->getChildChildHtml('container2', '', true, true) ?>
+			<?php endif; ?>
+		</div>
+        <div id="tab2">
+            <?php if (Mage::app()->getStore()->getCode()=="default"): ?>
+                <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('libidex-discrete-packaging')->toHtml(); ?>
+            <?php endif; ?>
+            <?php if (Mage::app()->getStore()->getCode()=="latexexpress_store"): ?>
+                <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('latexexpress-discrete-packaging')->toHtml(); ?>
+            <?php endif; ?>
+        </div>
+        <?php if (Mage::app()->getStore()->getCode()=="latexexpress_store"): ?>
+              <div id="tab3">
+                  <p>If we don't have your colour and size here at LatexEXPRESS then why don't you visit our sister site <a href="//libidex.com/" target="_blank">Libidex.com</a> where we make all our clothes to order for you. The site offers a far larger range of garments all of which are available in over 60 colours - the choice is yours!!</p>
+                  <p><a href="//libidex.com/" target="_blank" class="libidex-button">Libidex.com <i class="fa fa-caret-right"></i></a></p>
+              </div>
+        <?php endif; ?>
+		<?php echo $this->getChildHtml('upsell_product'); // Show content only if an upsell exists ?>
+	</div><!-- END #tabs -->
+	<script src="<?php echo $this->getSkinUrl('plugins/jquery-ui-1.11.2/jquery-ui.min.js') ?>"></script>
+	<script>
+			jQuery( "#accordion1,#accordion2" ).accordion({heightStyle: "content", collapsible: true});
+			jQuery( "#tabs,#tabsNested,.tabsNested" ).tabs();
+	</script>
+	<?php endif; ?>
+		    <?php if (!$this->hasOptions()):?>
+                <div class="add-to-box">
+                    <?php if($_product->isSaleable()): ?>
+                        <?php echo $this->getChildHtml('addtocart') ?>
+                    <?php endif; ?>
+                    <?php echo $this->getChildHtml('addto') ?>
+                </div>
+                <?php echo $this->getChildHtml('extra_buttons') ?>
+            <?php elseif (!$_product->isSaleable()): ?>
+                <div class="add-to-box">
+                    <?php echo $this->getChildHtml('addto') ?>
+                </div>
+            <?php endif; ?>
+            <?php echo $this->getChildHtml('other');?>
+     </form>
+
+		<div class="product-section">
+			Need Help? <a href="<?php echo $this->getUrl('contact-us') ?>">Contact Us</a>
+			<?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
+			<a class="right wishlist-product-link" href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>">Add to wishlist</a>
+			</div>
+
+<div class="product-section share"><strong>Share</strong>
+	<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-54b011527ad8922c" async="async"></script>
+	<div class="addthis_sharing_toolbox">
+		<a class="addthis_button_facebook"><i class="fa fa-facebook"></i></a>
+		<a class="addthis_button_twitter"><i class="fa fa-twitter"></i></a>
+		<a class="addthis_button_pinterest_share"><i class="fa fa-pinterest"></i></a>
+		<a class="addthis_button_email"><i class="fa fa-envelope-o"></i></a>
+		<a class="addthis_button_more"><i class="fa fa-plus-circle"></i></a>
+	</div>
+</div>
+
+
+<div class="product-section">SKU: <?php echo $_product->getSku();?></div>
+
+
+</div><!-- End product product-shop -->
+
+		<div class="clear"></div>
+        <?php echo $this->getChildHtml('related_products') ?>
+        <?php echo $this->getChildHtml('recently_products') ?>
+		<?php  echo $this->getChildHtml('product_additional_data') ?>
+
+    <script type="text/javascript">
+    //<![CDATA[
+        var productAddToCartForm = new VarienForm('product_addtocart_form');
+        productAddToCartForm.submit = function(button, url) {
+            $('add-to-cart-advice-text').hide();
+            if (this.validator.validate()) {
+                var form = this.form;
+                var oldUrl = form.action;
+
+                if (url) {
+                   form.action = url;
+                }
+                var e = null;
+                try {
+                    this.form.submit();
+                } catch (e) {
+                }
+                this.form.action = oldUrl;
+                if (e) {
+                    throw e;
+                }
+
+                if (button && button != 'undefined') {
+                    button.disabled = true;
+                }
+            }
+            else
+            {
+                $('add-to-cart-advice-text').show();
+            }
+        }.bind(productAddToCartForm);
+
+        productAddToCartForm.submitLight = function(button, url){
+            if(this.validator) {
+                var nv = Validation.methods;
+                delete Validation.methods['required-entry'];
+                delete Validation.methods['validate-one-required'];
+                delete Validation.methods['validate-one-required-by-name'];
+                // Remove custom datetime validators
+                for (var methodName in Validation.methods) {
+                    if (methodName.match(/^validate-datetime-.*/i)) {
+                        delete Validation.methods[methodName];
+                    }
+                }
+
+                if (this.validator.validate()) {
+                    if (url) {
+                        this.form.action = url;
+                    }
+                    this.form.submit();
+                }
+                Object.extend(Validation.methods, nv);
+            }
+        }.bind(productAddToCartForm);
+    //]]>
+    </script>
+</div><!-- End product-view -->
+
+<?php echo $this->getChildHtml('review_form');?>

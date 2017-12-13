@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <inventorymenu module="lexel_inventoryreport">
+            <title>Inventory</title>
+            <sort_order>9999</sort_order>
+            <children>
+                <malaysiabulkupdate module="lexel_malaysiabulkupdate" translate="title">
+                    <title>Malaysia Bulk Update</title>
+                    <sort_order>2</sort_order>
+                    <action>adminhtml/malaysiabulkupdate</action>
+                </malaysiabulkupdate>
+            </children>
+        </inventorymenu>
+    </menu>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <index translate="title" module="lexel_malaysiabulkupdate">
+                        <title>Malaysia Bulk Update</title>
+                        <sort_order>300</sort_order>
+                    </index>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

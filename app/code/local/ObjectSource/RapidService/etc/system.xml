@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <rapidservice translate="label" module="os_rapidservice">
+            <label>Rapid Service</label>
+            <tab>objectsource</tab>
+            <sort_order>1100</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general>
+                    <label>General</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1100</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enable translate="label">
+                            <label>Enable RapidService</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enable>
+                        <surcharge translate="label">
+                            <label>Percentage Surcharge</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>i.e. 25 means that surcharge equals to 25%</comment>
+                        </surcharge>
+                    </fields>
+                </general>
+            </groups>
+        </rapidservice>
+    </sections>
+</config>

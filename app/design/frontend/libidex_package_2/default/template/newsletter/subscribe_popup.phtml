@@ -1,0 +1,21 @@
+<div id="subscribe" class="subscribe-popup" style="display:none">	
+	<h4 class="modal-title">Subscribe to our Newsletter</h4>
+	<div class="modal-content newsletter-popup-content">
+		
+		<img src="<?php echo $this->getSkinUrl('images/subscribe-promo.jpg') ?>" alt=""/>
+	<p>Want to be the first to know about our special sales,discounts & Promotions?</p>
+	
+	
+	
+	
+	<form action="<?php echo $this->getFormActionUrl() ?>" method="post" id="newsletter-validate-detail">
+	<input type="text" name="email" id="newsletter" placeholder="Enter your email address" title="<?php echo $this->__('Join our newsletter') ?>" class="input-text required-entry validate-email" />
+	<button class="button" type="submit" title="<?php echo $this->__('Go') ?>"><?php echo $this->__('Go') ?></button>
+	</form>
+	<script type="text/javascript">
+	//<![CDATA[
+	    var newsletterSubscriberFormDetail = new VarienForm('newsletter-validate-detail');
+	//]]>
+	</script>
+	</div><!-- END modal-content -->
+</div><!--  END #subscribe -->

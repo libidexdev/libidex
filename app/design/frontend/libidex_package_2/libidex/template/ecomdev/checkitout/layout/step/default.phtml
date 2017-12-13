@@ -1,0 +1,134 @@
+<?php
+/**
+ * CheckItOut extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement for EcomDev Premium Extensions.
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.ecomdev.org/license-agreement
+ *
+ * @category   EcomDev
+ * @package    EcomDev_CheckItOut
+ * @copyright  Copyright (c) 2013 EcomDev BV (http://www.ecomdev.org)
+ * @license    http://www.ecomdev.org/license-agreement  End User License Agreement for EcomDev Premium Extensions.
+ * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
+ */
+ /**
+  * Checkout layout step template
+  */
+ /* @var $this EcomDev_CheckItOut_Block_Layout_Step_Abstract */
+?>
+<?php if ($this->isVisible()): ?>
+<div class="<?php echo $this->escapeHtml($this->getClassName());?> <?php if ($this->getPositionCode()): ?><?php echo $this->escapeHtml($this->getPositionCode());?><?php endif;?>" id="checkout-step-<?php echo $this->getStepCode();?>">
+    <?php if ($this->getStepName()): ?>
+    <div class="step-header" id="checkout-step-<?php echo $this->getStepCode();?>-header">
+        <?php if($this->getStepNumber() != 0): ?><span class="number"><?php echo $this->escapeHtml($this->getStepNumber()); ?></span><?php endif;?>
+        <?php echo $this->escapeHtml($this->getStepName()); ?>
+    </div>
+    <?php endif; ?>
+    <div class="step-content" id="checkout-step-<?php echo $this->getStepCode();?>-content"><?php echo $this->getStepContent(); ?></div>
+    <?php if ($this->hasLoadingOverlay()):?>
+    <div class="step-loading" style="display:none;"><span><img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Loading step data...') ?>" title="<?php echo $this->__('Loading step data...') ?>" class="v-middle" /> <?php echo $this->__('Loading step data...') ?></span></div>
+    <?php endif;?>
+    <?php if($this->getBlockAlias() == 'checkout.layout.shipping_method'): ?>
+        <div style="display: none">
+            <strong>Your expected date of dispatch is <?php echo Mage::helper('orderfulfillment')->getExpectedDispatch(); ?>.</strong>
+        </div>
+<?php if (Mage::helper('os_rapidservice')->isRapidServiceAvailable($this->getQuote())): ?>
+    <div id="rapid-order-selection">
+    <?php
+        $helper = Mage::helper('rapidorder');
+        $value = $helper->getQuoteCouponValue();
+    ?>
+    <div class="rapid-selection-wrapper-checkout">
+    <strong>Please choose how fast you want your order made:</strong><br><br>
+        <input type="radio" name="rapidSelection"<?php echo $value!='SILVER'?' checked':''?> value="STANDARD" class="required-entry" onclick="rapidApplyStandard()"><strong>Standard Service (no extra charge)</strong> - <span>Made within 4 weeks.</span>
+        <br><br>
+        <?php if (Mage::helper('os_rapidservice')->isRapidServiceEnabled()) { ?>
+            <input type="radio" name="rapidSelection"<?php echo $value=='SILVER'?' checked':''?> value="SILVER" class="validate-one-required-by-name" onclick="rapidApplySilver()"><strong>Silver Rapid</strong> - <span>Made within 10 working days (working days means Monday to Friday, excluding weekends and UK public holidays) The Cost for this service is an additional 25%, calculated using the full original price and not discounted prices.</span>
+            <div id="rapid-selection-advice" class="validation-advice" style="display:none;">Please select your production type</div>
+        <?php } else { ?>
+            <input type="radio" name="rapidSelection" value="SILVER" class="validate-one-required-by-name" style="display:none;">
+            <div id="rapid-selection-advice" class="validation-advice" style="display:none;">Please select your production type</div>
+            <?php /* echo $this->__('Sorry - our Rapid Order Service is temporarily suspended due to high demand. It will be returning in a few days.'); */ ?>
+            <?php echo $this->__('Our Rapid Service has been suspended for the time being, but will be enabled again the coming weeks. Thank you for your patience.'); ?>
+        <?php } // if Rapid Order is Available ?>
+    </div>
+    <?php echo $this->getChildHtml('coupon') ?>
+    <script type="text/javascript">
+
+    document.observe('dom:loaded', function() {
+    if (checkout !== undefined)
+    {
+        var validates = 0;
+        checkout.origIsValid = checkout.isValid;
+        checkout.isValid = function()
+        {
+            $('rapid-selection-advice').hide();
+            result = this.origIsValid();
+            var radios = document.getElementsByName('rapidSelection')
+
+            for (var i = 0; i < radios.length; i++) {
+                 if (radios[i].checked) {
+                      //return result; // checked
+                     validates = 1;
+                 }
+
+            }
+            if(validates == 0) {
+                $('rapid-selection-advice').show();
+            }
+            //return false;
+
+            // validate shipping methods
+            $('delivery-method-advice').hide();
+
+            var hasValueSelected = false;
+            var royalMailRadio = false;
+
+            var Shippingradios = document.getElementsByName('shipping_method')
+
+            for (var i = 0; i < Shippingradios.length; i++) {
+                if (Shippingradios[i].checked) {
+                    //return result; // checked
+                    validates = 2;
+                }
+
+            }
+
+            if (validates != 2) {
+                $('delivery-method-advice').show();
+            }
+            else {
+                return true;
+            }
+
+            return false
+        };
+    }
+
+    couponCode.handleRemove = function(evt) {
+        this.remove = true;
+            this.autoValidate = false;
+            this.submit();
+            this.autoValidate = true;
+            this.remove = false;
+    };
+
+    $('checkout-step-coupon-form').down('button.remove').stopObserving('click');
+    $('checkout-step-coupon-form').down('button.remove').observe(
+        'click',
+        couponCode.handleRemove.bind(couponCode)
+    );
+
+    });
+
+    </script>
+
+    </div>
+    <?php endif; // if Rapid Order is Available ?>
+    <?php endif ?>
+</div>
+<?php endif;?>

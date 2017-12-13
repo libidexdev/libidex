@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <ObjectSource_MalaysiaInvoice>
+            <active>true</active>
+            <codePool>local</codePool>
+        </ObjectSource_MalaysiaInvoice>
+    </modules>
+</config>

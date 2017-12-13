@@ -1,0 +1,11 @@
+<?php
+$value = $this->getQuoteCouponValue();
+?>
+<form id="rapidSelectionForm" name="rapidSelectionForm" method="post" action="<?php echo Mage::getUrl('rapidorder/index/setRapidSelection', array());?>">
+    <input type="radio" name="rapidSelection"<?php echo $value=='STANDARD'?' checked':''?> value="STANDARD"><strong>Standard Service</strong> - Made within 4 weeks (up to 8 weeks
+    during busy periods)<br>
+    <input type="radio" name="rapidSelection"<?php echo $value=='SILVER'?' checked':''?> value="SILVER"><strong>Silver Rapid</strong> - Made within 2 weeks
+    This service may not be available on certain items, in which case we will inform you on receipt of your order.<br>
+    <!--<input type="radio" name="rapidSelection" value="gold"><strong>Gold Rapid</strong> - Made within 3 working days
+    This service may not be available on certain items, in which case we will inform you on receipt of your order.<br>-->
+</form>

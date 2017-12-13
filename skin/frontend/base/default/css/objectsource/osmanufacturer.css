@@ -1,0 +1,11 @@
+/* Mini shopping cart manufacturer styling (top-left )*/
+#cart-sidebar li.productLatexEXPRESS { background-color: rgba(14, 212, 255, 0.28)}
+#cart-sidebar li.productLibidex { background-color: rgba(255, 5, 35, 0.36)}
+
+/* Main shopping cart page manufacturer styling */
+#shopping-cart-table tr.productLatexEXPRESS { background-color: rgba(14, 212, 255, 0.28)}
+#shopping-cart-table tr.productLibidex { background-color: rgba(255, 5, 35, 0.36)}
+
+/* Checkout review page manufacturer styling */
+#checkout-review-table-wrapper tr.productLatexEXPRESS { background-color: rgba(14, 212, 255, 0.28)}
+#checkout-review-table-wrapper tr.productLibidex { background-color: rgba(255, 5, 35, 0.36)}

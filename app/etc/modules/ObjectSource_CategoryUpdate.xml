@@ -1,0 +1,8 @@
+<config>
+    <modules>
+        <ObjectSource_CategoryUpdate>
+            <active>true</active>
+            <codePool>local</codePool>
+        </ObjectSource_CategoryUpdate>
+    </modules>
+</config>

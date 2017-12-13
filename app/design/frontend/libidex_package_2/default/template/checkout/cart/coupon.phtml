@@ -1,0 +1,35 @@
+<?php
+$parentBlock = $this->getParentBlock();
+$discountClass = ($parentBlock instanceof EcomDev_CheckItOut_Block_Layout_Step_Shipping_Method) ? ' discountShipping' : '';
+// below created to pass to gift card form
+$key = ($discountClass != '') ? 'checkout' : 'basket';
+Mage::Register('coupon_giftcard_parent', $key);
+?>
+<div class="discount<?php echo $discountClass ?>">
+	<form id="discount-coupon-form" action="<?php echo $this->getUrl('checkout/cart/couponPost') ?>" method="post">
+		<h4 class="priority-1-heading thick">Promotional Code</h4>	
+		<input type="hidden" name="remove" id="remove-coupone" value="0" />
+		<input class="input-text" id="coupon_code" placeholder="Enter promo code here" name="coupon_code" value="<?php echo $this->escapeHtml($this->getCouponCode()) ?>" />
+		
+		<button type="button" title="<?php echo $this->__('Apply') ?>" class="button secondary-cta" onclick="discountForm.submit(false)" value="<?php echo $this->__('Apply Coupon') ?>"><?php echo $this->__('Apply') ?></button>
+		
+		<?php if(strlen($this->getCouponCode())): ?>
+		&nbsp; <button type="button" title="<?php echo $this->__('Cancel') ?>" class="button secondary-cta cancel-code" onclick="discountForm.submit(true)" value="<?php echo $this->__('Cancel Coupon') ?>"><?php echo $this->__('Cancel code') ?></button>
+		<?php endif;?>
+	</form>
+	<script type="text/javascript">
+	//<![CDATA[
+	var discountForm = new VarienForm('discount-coupon-form');
+	discountForm.submit = function (isRemove) {
+	    if (isRemove) {
+	        $('coupon_code').removeClassName('required-entry');
+	        $('remove-coupone').value = "1";
+	    } else {
+	        $('coupon_code').addClassName('required-entry');
+	        $('remove-coupone').value = "0";
+	    }
+	    return VarienForm.prototype.submit.bind(discountForm)();
+	}
+	//]]>
+	</script>
+</div>

@@ -1,0 +1,100 @@
+<?php if(count($this->getItemCollection()->getItems())): ?>
+<div id="tab3">
+<script type="text/javascript">
+  productAddToCartFromFormSubmit = function(button, url) {
+      if (this.validator.validate()) {
+          var form = this.form;
+          var oldUrl = form.action;
+
+          if (url) {
+             form.action = url;
+          }
+          var e = null;
+          try {
+              // Bit of a hack to get around nested forms
+              var a = document.createElement('form');
+              a.setAttribute('action', url);
+              a.setAttribute('method', 'POST');
+              this.form = this.form.wrap(a);
+              this.form.submit();
+          } catch (e) {
+          }
+          this.form.action = oldUrl;
+          if (e) {
+              throw e;
+          }
+
+          if (button && button != 'undefined') {
+              button.disabled = true;
+          }
+      }
+  }    
+</script>
+
+<?php // Force store to latexexpress to get correct stock values ?>
+<?php
+	$currentStoreId = Mage::app()->getStore()->getStoreId();
+	$lexStoreId = Mage::app()->getStore("latexexpress_store")->getId();
+	Mage::app()->setCurrentStore($lexStoreId);	
+?>
+<?php $_productCollection = $this->getItemCollection()->getItems(); ?>
+<?php $_iterator = 0; ?>
+<?php $_helper = $this->helper('catalog/output'); ?>
+
+    <?php foreach ($_productCollection as $_product): ?>
+        <?php $p = Mage::getModel('catalog/product')->load($_product->getId()); ?>
+        <?php $_product = $p; ?>
+            <div action="<?php echo $this->getSubmitUrl($p) ?>" method="post" id="product_addtocart_form_<?php echo $_product->getId(); ?>"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+	             <div class="product-shop-downsell cf">
+		             <p class="downsell-msg">This garment is regularly stocked by our off-the-peg range on our sister site LatexEXPRESS currently at <?php echo Mage::getModel('core/variable')->loadByCode('latex_express_percentage')->getValue('html'); ?> off our made-to-order price. You can check out the sizes and colours LatexEXPRESS has available on the menu below, and if it’s got what you want, then click the button and go to our LatexEXPRESS site and buy it at a bargain price while it’s still there!</p>
+
+		             <div class="downsell-product-options">
+	                    <?php echo $this->getConfigurableHtml($_product); ?>
+		             </div>
+						<div class="downsell-product-buy">
+						
+						<?php
+							$_coreHelper = $this->helper('core');
+							$_oldprice = $this->getProduct()->getPrice();
+							$_id = $_product->getId();
+							$_fproduct = Mage::getModel('catalog/product')->setStoreId(2)->load($_id);
+							$_price = $_fproduct->getFinalPrice();
+						?>
+						<div class="price-box">
+							<span class="price-box-total-text">Total</span>
+							<p class="old-price">
+								<span class="price" id="old-price-<?php echo $_id ?>">
+									<?php echo $_coreHelper->formatPrice($_oldprice, false) ?>
+								</span>
+							</p>
+							<br>
+							<p class="special-price">
+								<span class="price" id="product-price-<?php echo $_id ?>">
+									<?php echo $_coreHelper->formatPrice($_price, false) ?>
+								</span>
+							</p>
+						</div>
+						
+	                    <?php if($_product->isSaleable()): ?>
+						<a target="_blank" class="button btn-cart" href="<?php echo $_product->getProductUrl();?>">Visit LatexEXPRESS</a>
+<?php /* ?>
+<button type="button" title="<?php echo $this->__('Add to bag') ?>" class="button btn-cart" onclick="productAddToCartForm<?php echo $_product->getId(); ?>.submit(this, '<?php echo $this->getSubmitUrl($p) ?>')"><?php echo $this->__('Add to bag') ?></button>
+<?php */ ?>
+	                    <?php else: ?>
+	                        <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+	                    <?php endif; ?>
+						</div>
+	             </div> <!-- END product-shop-downsell -->
+            </div> <!-- END div action -->
+
+        <script type="text/javascript">
+          var productAddToCartForm<?php echo $_product->getId(); ?> = new VarienForm('product_addtocart_form_<?php echo $_product->getId(); ?>');
+          productAddToCartForm<?php echo $_product->getId(); ?>.submit = productAddToCartFromFormSubmit.bind(productAddToCartForm<?php echo $_product->getId(); ?>);
+        </script>
+    <?php endforeach; ?>
+</div><!-- END tab2 -->
+
+<?php // restore the correct store ?>
+<?php Mage::app()->setCurrentStore($currentStoreId); ?>
+
+<?php endif; ?>

@@ -1,0 +1,44 @@
+<?php $category  = Mage::registry('current_category');?>
+<?php $_imgHtml  = $category->getImageUrl();?>
+<?php $_descHtml = $category->getDescription();?>
+<?php $_cat_text_col = $category->getData('custom_cat_bg_text_colour');?>
+<?php $_cat_bg_image = $category->getData('custom_cat_bg_img');?>
+<?php if ($_cat_bg_image):?>
+	<?php $_cat_bg_image_url = $this->getUrl('media/catalog/category').$_cat_bg_image;?>
+<?php else:?>
+	<?php $_cat_bg_image_url = $this->getSkinUrl('images/placeholders/cat-top-bg.jpg');?>
+<?php endif;?>
+<div class="category-top-section cf" style="background-image:url(<?php echo $_cat_bg_image_url;?>); color:<?php echo $_cat_text_col;?>">
+		<div class="inner">
+			<div class="category-top-content">
+				<h1><?php echo $category->getName(); ?></h1>
+				<?php if($_descHtml): ?>
+					<div class="cat-desc"><?php echo $category->getDescription(); ?></div>
+				<?php endif;?>
+			</div>
+			<div style="background-image:url(<?php echo $_imgHtml;?>);" class="category-top-image"></div>			
+		</div>
+</div> 
+
+<?php $left_bg_img = $category->getData('left_background_image');?>
+<?php $right_bg_img = $category->getData('right_background_image');?>
+<?php $bg_col = $category->getData('background_colour');?>
+
+
+<?php if($left_bg_img):?>
+<style>
+.category-background-left{background-image:url('/media/catalog/category/<?php echo $left_bg_img?>');}
+</style>
+<?php endif;?>
+
+<?php if($right_bg_img):?>
+<style>
+.category-background-right{background-image:url('/media/catalog/category/<?php echo $right_bg_img?>');}
+</style>
+<?php endif;?>
+
+<?php if($bg_col):?>
+<style>
+.category-background-left,.category-background-right{background-color:<?php echo $bg_col;?> }
+</style>
+<?php endif;?>

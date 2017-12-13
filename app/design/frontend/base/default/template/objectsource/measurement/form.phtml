@@ -1,0 +1,15 @@
+<?php
+echo $this->getLayout()->createBlock('webforms/webforms', 'libidex_measurements', array
+(
+    'webform_id' => 2,
+    'template' => 'webforms/made_to_measure.phtml',
+))->toHtml();
+
+?>
+<script type="text/javascript">
+(function($) {
+    var url = window.location.href;
+    var part = url.substring(url.substring(0, url.length - 1).lastIndexOf('/') + 1);
+    $('.webforms-fields-orderItemId').find('input').val(part.replace('/',''));
+})(jQuery);
+</script>

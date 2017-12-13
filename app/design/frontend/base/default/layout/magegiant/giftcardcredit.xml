@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * MageGiant
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MageGiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category    MageGiant
+ * @package     MageGiant_GiftCardCredit
+ * @copyright   Copyright (c) 2014 MageGiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+-->
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/magegiant/giftcard/credit.js</name>
+            </action>
+        </reference>
+    </default>
+    <giftcard_index_index>
+        <reference name="giftcard.account">
+            <action method="addButton" translate="label" module="giftcardcredit" ifconfig="giftcard/redeem/credit/allow_redeem">
+                <name>redeem</name>
+                <path>giftcardcredit/index/redeem</path>
+                <label>Redeem Gift Card</label>
+                <type>submit</type>
+                <position>30</position>
+            </action>
+        </reference>
+        <reference name="giftcard.extra">
+            <block type="giftcardcredit/account_giftcard_credit" name="giftcard.account.credit" as="gc.credit" before="-" template="magegiant/giftcardcredit/account/giftcard/credit.phtml" />
+        </reference>
+    </giftcard_index_index>
+</layout>

@@ -1,0 +1,8 @@
+<config>
+    <modules>
+        <ObjectSource_OrderOptions>
+            <active>true</active>
+            <codePool>local</codePool>
+        </ObjectSource_OrderOptions>
+    </modules>
+</config>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<layout>
+    <onestepcheckout_ajax_set_methods_separate>
+        <reference name="set_methods_result">
+            <block type="giftvoucher/payment_form" name="lexel.giftvoucher.osc.form"
+                   template="giftvoucher/onestepcheckout/Idev_OneStepCheckout/form.phtml" />
+        </reference>
+    </onestepcheckout_ajax_set_methods_separate>
+</layout>

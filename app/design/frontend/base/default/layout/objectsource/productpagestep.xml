@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<layout>
+    <PRODUCT_TYPE_configurable>
+        <reference name="product.info.options.wrapper">
+            <reference name="product.info.options.configurable">
+                <block type="productpagestep/configurableattribute" name="options_configurable_attribute" as="options_configurable_attribute" template="objectsource/productpagestep/configurableAttribute.phtml"/>
+            </reference>
+        </reference>
+    </PRODUCT_TYPE_configurable>
+    <catalog_product_view>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/objectsource/productpagestep/pagestep.js</name><params/></action>
+            <action method="addItem"><type>skin_css</type><name>css/objectsource/osproductpagestep.css</name><params/></action>
+        </reference>
+    </catalog_product_view>
+</layout>

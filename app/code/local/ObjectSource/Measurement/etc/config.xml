@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <ObjectSource_Measurement>
+            <version>0.1.0</version>
+        </ObjectSource_Measurement>
+    </modules>
+    <global>
+        <helpers>
+            <measurement>
+                <class>ObjectSource_Measurement_Helper</class>
+            </measurement>
+        </helpers>
+    </global>
+    <frontend>
+        <routers>
+            <measurement>
+                <use>standard</use>
+                <args>
+                    <module>ObjectSource_Measurement</module>
+                    <frontName>measurement</frontName>
+                </args>
+            </measurement>
+        </routers>
+        <layout>
+            <updates>
+                <measurement module="ObjectSource_Measurement">
+                    <file>objectsource/measurement.xml</file>
+                </measurement>
+            </updates>
+        </layout>
+    </frontend>
+</config>

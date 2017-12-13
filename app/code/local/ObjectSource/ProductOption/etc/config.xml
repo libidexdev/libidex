@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <ObjectSource_ProductOption>
+            <version>0.0.1</version>
+        </ObjectSource_ProductOption>
+    </modules>
+    <global>
+        <models>
+            <sales>
+                <rewrite>
+                    <order_item>ObjectSource_ProductOption_Model_Sales_Order_Item</order_item>
+                    <quote_item>ObjectSource_ProductOption_Model_Sales_Quote_Item</quote_item>
+                </rewrite>
+            </sales>
+            <catalog_resource>
+                <rewrite>
+                    <product_option_type_price>ObjectSource_ProductOption_Model_Resource_Catalog_Product_Option_Type_Price</product_option_type_price>
+                </rewrite>
+            </catalog_resource>
+            <os_productOption>
+                <class>ObjectSource_ProductOption_Model</class>
+            </os_productOption>
+        </models>
+        <helpers>
+            <os_productOption>
+                <class>ObjectSource_ProductOption_Helper</class>
+            </os_productOption>
+        </helpers>
+    </global>
+</config>

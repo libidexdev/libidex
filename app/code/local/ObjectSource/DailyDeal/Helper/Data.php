@@ -1,0 +1,241 @@
+<?php
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
+class ObjectSource_DailyDeal_Helper_Data extends Mage_Core_Helper_Abstract
+{
+    public function apply()
+    {
+        Mage::getModel('catalogrule/rule')->applyAll();
+    }
+    public function run()
+    {
+        // Retrieve all the store IDs on magento installation
+        $promotionStoreIds = array();
+        foreach (Mage::app()->getWebsites() as $website)
+        {
+            foreach ($website->getGroups() as $group)
+            {
+                $stores = $group->getStores();
+                foreach ($stores as $store)
+                {
+                    $promotionStoreIds[] = $store->getId();
+                }
+            }
+        }
+
+        // Process all stores on the installation
+        foreach ($promotionStoreIds as $promotionStoreId)
+        {
+            $enabled = Mage::getStoreConfig('dailydeal/dailydeal_group/enabled', $promotionStoreId);
+            if (!$enabled) continue;
+
+            $perDay = Mage::getStoreConfig('dailydeal/dailydeal_group/per_day', $promotionStoreId);
+            $preprocessLength = Mage::getStoreConfig('dailydeal/dailydeal_group/preprocess_lenth', $promotionStoreId);
+            $promotionLength = Mage::getStoreConfig('dailydeal/dailydeal_group/prom_length', $promotionStoreId);
+            $promotionPercentage = Mage::getStoreConfig('dailydeal/dailydeal_group/prom_percentage', $promotionStoreId);
+            $promotionSuffix = Mage::getStoreConfig('dailydeal/dailydeal_group/prom_suffix', $promotionStoreId);
+
+            $lastExistingToDate = strtotime(date('Y-m-d'));
+            //	$lastExistingToDate = time();
+            $products = $this->getNewProducts($promotionStoreId, null);
+
+
+            if (count($products) < 1) {
+                Mage::log('No Products were loaded for store '. $promotionStoreId, null, 'OS_DailyDeal.log');
+                continue;
+            }
+
+            $promotionsGenerateUntil = strtotime("+$preprocessLength days");
+
+            while (1)
+            {
+                $newPromotionFromDate = strtotime("+1 day", $lastExistingToDate);
+
+                $newPromotionToDate = strtotime("+".($promotionLength-1)." days", $newPromotionFromDate);
+
+                // Have we generated promotions for the full time period needed?
+                if ($newPromotionToDate > $promotionsGenerateUntil)
+                    break;
+
+                // Lookup existing promotions
+                $promotions = Mage::getModel('catalogrule/rule')->getDailydealPromotionsCollection($promotionStoreId);
+                # Handling Stupidityh with BST!
+                $dateTimeZoneLondon = new DateTimeZone("Europe/London");
+                $dateTimeZoneUTC = new DateTimeZone("UTC");
+                $dateTimeUTC = new DateTime("now", $dateTimeZoneUTC);
+                $isBST = timezone_offset_get($dateTimeZoneLondon, $dateTimeUTC);
+                if ($isBST > 0)
+                {
+                    $newPromotionFromDate = $newPromotionFromDate - (24*3600);
+                }
+                $existingCount = 0;
+                foreach ($promotions as $promotion)
+                {
+                    if ( (strtotime($promotion->getFromDate()) >= $newPromotionFromDate) &&
+                        (strtotime($promotion->getToDate()) <= $newPromotionToDate))
+                    {
+                        $existingCount += 1;
+                    }
+                }
+
+                // Generate as many as required for period
+                $toGenerateCount = $perDay - $existingCount;
+                for ($toGenerateCount; $toGenerateCount > 0; $toGenerateCount--)
+                {
+                    // Generate promotion for dates
+                    $productSku = $products->getFirstItem()->getSku();
+
+                    if ($promotion->getWebsiteId() == 1) {
+                        $this->generateRule($promotionStoreId,
+                            $promotionSuffix . ' Get ' . $promotionPercentage . '% off ' . $productSku,
+                            $productSku,
+                            date('Y-m-d', $newPromotionFromDate),
+                            date('Y-m-d', $newPromotionToDate),
+                            $promotionPercentage,
+			                0
+                        );
+                    } else {
+                        // check if there is a currently active LatexEXPRESS deal first
+                        $doGenerateLatexExpressDeal = true;
+                        foreach ($promotions as $promotion) {
+                            if (strpos($promotion->getName(), $promotionSuffix) === 0) {
+                                if ($promotion->getWebsiteId() == 2) {
+
+                                    if (    (strtotime($promotion->getFromDate()) == strtotime(date('Y-m-d', time()))) &&
+                                        (strtotime($promotion->getToDate()) == strtotime(date('Y-m-d', time()+60*60*24)))  ) {
+                                        $doGenerateLatexExpressDeal = false;
+                                    }
+                                }
+                            }
+                        }
+                        if ($doGenerateLatexExpressDeal) {
+                            $this->generateRule($promotionStoreId,
+                                $promotionSuffix . ' Get ' . $promotionPercentage . '% off ' . $productSku,
+                                $productSku,
+                                date('Y-m-d', $newPromotionFromDate),
+                                date('Y-m-d', $newPromotionToDate),
+                                $promotionPercentage,
+				                0
+                            );
+                        }
+                    }
+
+                    // Update counter and prepare for next period
+                    $pIndex += 1;
+
+                    // Load next set of products
+                    if ($pIndex + 1 >= $pLimit)
+                    {
+                        shuffle($products);
+                        $pIndex = 0;
+                    }
+                }
+                $lastExistingToDate = $newPromotionToDate;
+            }
+
+            // Delete old promotions
+            $promotions = Mage::getModel('catalogrule/rule')->getDailydealPromotionsCollection($promotionStoreId);
+            foreach($promotions as $promotion)
+            {
+                //$promotion->delete();
+                //continue;
+                if (strpos($promotion->getName(), $promotionSuffix) === 0)
+                {
+                    if (strtotime($promotion->getToDate()) < strtotime(date('Y-m-d')))
+                    {
+                        $promotion->delete();
+                    }
+                }
+            }
+        } // end main promotion store id loop
+    }
+
+    public function getNewProducts($promotionStoreId, $promotions)
+    {
+        // $promotions could be used to ensure we dont use same product in next promotion
+        // Map promotion store to warehouse to retrieve correct products
+        switch ($promotionStoreId) {
+            // NOTE: For the moment need to look in Mysql eav_attribute_option_value and use the option_id
+            case 1: $warehouse = 1/*16*/; break; // Libidex
+            case 2: $warehouse = 2/*15*/; break; // LatexEXPRESS
+            default: {
+                Mage::log('Error: Invalid store id inside getNewProducts()', null, 'OS_DailyDeal.log');
+                return array();
+            }
+        }
+        $supplier = Mage::getModel('catalog/product')->getResource()->getAttribute('supplier');
+        // Strictly, we should check if the attribute usesSource before calling getSource. I've omitted it here because
+        // we KNOW that the supplier attribute usesSource (that is to say it has the frontend type "select"), and having the
+        // condition in the code was misleading.
+        $malaysia = $supplier->getSource()->getOptionId('Malaysia');
+
+        if ($promotionStoreId == 2)
+        {
+            $products = Mage::getModel('catalog/category')->load(109)
+                ->getProductCollection()
+                ->addAttributeToSelect("*")
+                ->addWebsiteFilter(Mage::getModel('core/store')->load($promotionStoreId)->getWebsiteId())
+                ->addAttributeToFilter('visibility', array('neq' => 1))
+                ->addAttributeToFilter(
+                    'status',
+                    array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+                );
+
+                $products->getSelect()->order(new Zend_Db_Expr('RAND()'));
+
+
+        } else {
+            $products = Mage::getModel('catalog/category')->load(141)
+                ->getProductCollection()
+                ->addAttributeToSelect("*")
+                ->addWebsiteFilter(Mage::getModel('core/store')->load($promotionStoreId)->getWebsiteId())
+                ->addAttributeToFilter('visibility', array('neq' => 1))
+                ->addAttributeToFilter('warehouse', array('in' => array($warehouse)))
+                ->addAttributeToFilter('supplier', $malaysia)
+                ->addAttributeToFilter(
+                    'status',
+                    array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+                );
+
+            $products->getSelect()->order(new Zend_Db_Expr('RAND()'));
+        }
+
+        return $products;
+    }
+
+    function generateRule($store, $name, $sku, $from_date, $to_date, $percentage, $sort_order)
+    {
+        $customerGroupId = [0, 1];
+        $actionType = 'by_percent';
+
+        $catalogPriceRule = Mage::getModel('catalogrule/rule');
+
+        $catalogPriceRule->setName($name)
+            ->setDescription('')
+            ->setIsActive(1)
+            ->setWebsiteIds(array($store))
+            ->setCustomerGroupIds($customerGroupId)
+            ->setFromDate($from_date)
+            ->setToDate($to_date)
+            ->setSortOrder($sort_order)
+            ->setSimpleAction($actionType)
+            ->setDiscountAmount($percentage)
+            ->setStopRulesProcessing(1);
+
+        $skuCondition = Mage::getModel('catalogrule/rule_condition_product')
+            ->setType('catalogrule/rule_condition_product')
+            ->setAttribute('sku')
+            ->setOperator('==')
+            ->setValue($sku);
+
+        try {
+            $catalogPriceRule->getConditions()->addCondition($skuCondition);
+            $catalogPriceRule->save();
+            $catalogPriceRule->applyAll();
+        } catch (Exception $e) {
+            Mage::log(Mage::helper('catalog')->__($e->getMessage()), null, 'DailyDeal.log', true);
+            return;
+        }
+    }
+}

@@ -1,0 +1,64 @@
+<?php
+/**
+ * Magegiant
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the magegiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magegiant
+ * @package     Magegiant_GiftCard
+ * @copyright   Copyright (c) 2014 Magegiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+?>
+
+<dt>
+	<input id="giftcard-credit-payment-method" onchange="changeUseCredit(this, '<?php echo $this->getCreditUrl() ?>')" type="checkbox" name="giftcard_credit_payment_method" title="<?php echo $this->__('Use Gift Card Credit') ?>" class="checkbox" >
+	<label for="giftcard-credit-payment-method"><?php echo $this->__('Use Gift Card Credit (%s)', Mage::helper('giftcardcredit')->getCustomerBalanceFormated()) ?></label>
+</dt>
+<dd class="payment-form-giftcard-credit" style="display:none;">
+	<ul class="form-list" id="payment_form_giftcard_credit" style="overflow: hidden;">
+		<li>
+			<label for="credit_amount" class="required"><?php echo $this->__('Enter the credit which you want to spend for this order.') ?></label>
+			<div class="input-box">
+				<input type="text" id="credit_amount" name="credit_amount" title="<?php echo $this->__('Credit Amount') ?>" class="input-text validate-greater-than-zero validate-credit-max-value" value="<?php echo $this->getCreditUsed() ?>">
+			</div>
+		</li>
+		<li>
+			<div class="gc-buttons-set">
+				<button type="button" title="<?php echo $this->__('Apply Credit') ?>" class="button" onclick="checkGiftcard('<?php echo $this->getCreditUrl() ?>', 'credit_amount', 'check-gc-credit-status', 'check-gc-credit-please-wait')" value="<?php echo $this->__('Apply Credit') ?>"><span><span><?php echo $this->__('Apply Credit') ?></span></span></button>
+				<?php if ($this->getCreditUsed()): ?>
+					<button type="button" title="<?php echo $this->__('Cancel Credit') ?>" class="button" onclick="checkGiftcard('<?php echo $this->getCreditUrl(true) ?>', 'credit_amount', 'check-gc-credit-status', 'check-gc-credit-please-wait')" value="<?php echo $this->__('Cancel Credit') ?>"><span><span><?php echo $this->__('Cancel Credit') ?></span></span></button>
+				<?php endif; ?>
+			</div>
+			<div id="check-gc-credit-please-wait" class="gc-please-wait" style="display: none; margin-top: 15px;">
+        		<img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle"> <?php echo $this->__('Please wait, loading...') ?>
+			</div>
+			<div class="check-gc-status" id="check-gc-credit-status" style="margin-top: 15px;"><?php echo $this->getMessage() ?></div>
+        </li>
+    </ul>
+</dd>
+
+<script type="text/javascript">
+	<?php if($this->useCredit()): ?>
+		var inputEl = $('giftcard-credit-payment-method');
+		inputEl.checked = 'checked';
+		expandDetails(inputEl, '.payment-form-giftcard-credit');
+	<?php endif; ?>
+
+	var maxCredit = <?php echo Mage::helper('giftcardcredit')->getCustomerBalance() ?>;
+	Validation.add('validate-credit-max-value', '<?php echo Mage::helper('giftcard')->__('Please enter amount equal or less than %s', Mage::helper('giftcardcredit')->getCustomerBalanceFormated()); ?>', function(v) {
+		if(parseFloat(v)) {
+			return parseFloat(v) <= maxCredit;
+		}
+		return true;
+	});
+</script>

@@ -1,0 +1,64 @@
+<?php
+/**
+ * MageGiant
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageGiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    MageGiant
+ * @package     MageGiant_GiftCardTemplate
+ * @copyright   Copyright (c) 2014 MageGiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+?>
+<?php $_formatOptions = $this->getFormatOptions(); ?>
+<?php if (sizeof($_formatOptions) > 1): ?>
+    <div class="giftcard-template-header">
+        <h2>
+            <?php echo $this->__('Format'); ?>
+        </h2>
+    </div>
+    <div class="format-type">
+        <ul id="giftcard_template_format_type">
+            <li>
+                <input type="radio" name="template-format-type" id="template_format_0"
+                       value="0"
+                    <?php echo $this->getFormatType() == 0 ? 'checked' : ''; ?>
+                    >
+                <label for="template_format_0"><?php echo $this->__("All") ?></label>
+            </li>
+            <?php foreach ($_formatOptions as $format): ?>
+                <li>
+                    <input type="radio" name="template-format-type" id="template_format_<?php echo $format['value'] ?>"
+                           value="<?php echo $format['value'] ?>"
+                        <?php echo $format['value'] == $this->getFormatType() ? 'checked' : ''; ?>
+                        >
+                    <label for="template_format_<?php echo $format['value'] ?>"><?php echo $format['label'] ?></label>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <script>
+        (function ($) {
+            $(document).ready(function () {
+                var format_config = {
+                    changeFormatUrl: '<?php echo $this->getChangeFormatUrl()?>',
+                    formatEls: '#giftcard_template_format_type input',
+                    currentFormat: '#current_format'
+                }
+                GifCardTemplate.format.initialize(format_config);
+            })
+        })
+        (jQuery)
+    </script>
+<?php endif; ?>
+
+

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * MageGiant
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MageGiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category    MageGiant
+ * @package     MageGiant_GiftCardCredit
+ * @copyright   Copyright (c) 2014 MageGiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_giftcard_credit_index>
+        <reference name="content">
+            <block type="giftcardcredit/adminhtml_credit" name="giftcard.credit" />
+        </reference>
+    </adminhtml_giftcard_credit_index>
+
+    <adminhtml_sales_order_create_index>
+        <reference name="giftcard">
+            <block type="giftcardcredit/adminhtml_order_create_form" template="magegiant/giftcardcredit/order/create/form.phtml" name="giftcard.credit" />
+        </reference>
+    </adminhtml_sales_order_create_index>
+    <adminhtml_sales_order_create_load_block_items>
+        <reference name="giftcard">
+            <block type="giftcardcredit/adminhtml_order_create_form" template="magegiant/giftcardcredit/order/create/form.phtml" name="giftcard.credit" />
+        </reference>
+    </adminhtml_sales_order_create_load_block_items>
+    <adminhtml_sales_order_create_load_block_data>
+        <reference name="giftcard">
+            <block type="giftcardcredit/adminhtml_order_create_form" template="magegiant/giftcardcredit/order/create/form.phtml" name="giftcard.credit" />
+        </reference>
+    </adminhtml_sales_order_create_load_block_data>
+</layout>

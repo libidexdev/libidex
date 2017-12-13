@@ -1,0 +1,27 @@
+<div class="content-header">
+    <h3 class="icon-head"><?php echo $this->getHeader() ?></h3>
+    <p class="content-buttons form-buttons"><?php echo $this->getBackButtonHtml() ?>
+        <?php echo $this->getCancelButtonHtml() ?>
+        <?php echo $this->getSaveButtonHtml() ?>
+    </p>
+</div>
+<form action="<?php echo $this->getSaveUrl() ?>" method="post" id="os_malaysia_invoice_edit_form" enctype="multipart/form-data">
+    <?php echo $this->getBlockHtml('formkey')?>
+    <div style="display:none"></div>
+</form>
+<script type="text/javascript">
+//<![CDATA[
+    var invoiceForm = new varienForm('os_malaysia_invoice_edit_form');
+
+Event.observe(window, 'load', function() {
+    var objName = '<?php echo $this->getSelectedTabId() ?>';
+    if (objName) {
+        obj = $(objName);
+        //IE fix (bubbling event model)
+        product_info_tabsJsTabs.setSkipDisplayFirstTab();
+        product_info_tabsJsTabs.showTabContent(obj);
+    }
+    Product.AttributesBridge.setTabsObject(product_info_tabsJsTabs);
+});
+//]]>
+</script>

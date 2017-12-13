@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <inventorymenu module="lexel_inventoryreport">
+            <title>Inventory</title>
+            <sort_order>9999</sort_order>
+            <children>
+                <inventoryreport module="lexel_inventoryreport" translate="title">
+                    <title>Inventory Report</title>
+                    <sort_order>1</sort_order>
+                    <action>adminhtml/inventoryreport</action>
+                </inventoryreport>
+            </children>
+        </inventorymenu>
+    </menu>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <index translate="title" module="lexel_inventoryreport">
+                        <title>Inventory Report</title>
+                        <sort_order>200</sort_order>
+                    </index>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

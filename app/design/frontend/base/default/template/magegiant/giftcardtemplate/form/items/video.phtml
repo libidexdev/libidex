@@ -1,0 +1,65 @@
+<?php
+/**
+ * MageGiant
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageGiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    MageGiant
+ * @package     MageGiant_GiftCardTemplate
+ * @copyright   Copyright (c) 2014 MageGiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+
+/**
+ * Giftcardtemplate template
+ *
+ * @see Magegiant_GiftCardTemplate_Block_Giftcardtemplate
+ */
+?>
+<div class="form-custom-video">
+    <div class="video-url col-mg mg-6">
+        <form id="giftcard_video_form">
+            <div class="input-box">
+                <label for="giftcard_video_url"><?php echo $this->__('Your video url (Youtube)') ?></label>
+                <input type="text" id="giftcard_video_url"
+                       class="input-text validate-url" value="">
+            </div>
+            <img class="video-loading" id="video_loading" style="display: none"
+                 src="<?php echo $this->getSkinUrl('css/magegiant/giftcardtemplate/images/loading_small.gif') ?>"
+                />
+
+            <div class="embed-video-button">
+                <button id="embed_video_btn" type="button" class="button">
+                <span>
+                    <?php echo $this->__('Embed') ?>
+                </span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="mg-clear"></div>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            var form_video_config = {
+                videoForm: 'giftcard_video_form',
+                videoFrame: '.product-img-box .product-image-gallery .template-img iframe',
+                videoInput: '#giftcard_video_url',
+                videoButton: '#embed_video_btn',
+                loadingEl: '#video_loading',
+                processEmbedUrl: '<?php echo $this->getEmbedVideoUrl();?>'
+            }
+            GifCardTemplate.form.video.initialize(form_video_config);
+        });
+    })(jQuery);
+</script>

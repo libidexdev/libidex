@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_malaysiabulkupdate_index>
+        <reference name="content">
+            <block type="core/template"
+                   name="lexel.malaysiabulkupdate"
+                   template="lexel/malaysiabulkupdate/index.phtml"
+                   after="-"/>
+        </reference>
+    </adminhtml_malaysiabulkupdate_index>
+</layout>

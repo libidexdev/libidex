@@ -1,0 +1,8 @@
+<config>
+  <modules>
+    <ObjectSource_Carttransfer>
+      <active>true</active>
+      <codePool>local</codePool>
+    </ObjectSource_Carttransfer>
+  </modules>
+</config>

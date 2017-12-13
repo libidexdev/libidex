@@ -1,0 +1,36 @@
+<config>
+    <modules>
+        <ObjectSource_Carttransfer>
+            <version>0.0.1</version>
+        </ObjectSource_Carttransfer>
+    </modules>
+    <global>
+    
+        <blocks>
+            <oscarttransfer>
+                <class>ObjectSource_Carttransfer_Block</class>
+            </oscarttransfer>
+        </blocks>
+        
+    </global>
+    <frontend>
+        <routers>
+            <oscarttransfer>
+                <use>standard</use>
+                <args>
+                    <module>ObjectSource_Carttransfer</module>
+                    <frontName>oscarttransfer</frontName>
+                </args>
+            </oscarttransfer>
+        </routers>
+        
+        <layout>
+            <updates>
+                <oscarttransfer>
+                    <file>oscarttransfer.xml</file>
+                </oscarttransfer>
+            </updates>
+        </layout>
+        
+    </frontend>
+</config>

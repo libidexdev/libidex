@@ -1,0 +1,27 @@
+<?php
+$_cartQty = $this->getSummaryCount();
+$_items = $this->getRecentItems();
+$_cartQty = Mage::helper('os_rapidservice')->checkCartQuantity($_items, $_cartQty);
+?>
+<?php if ($_cartQty==0): ?><?php $_cartQty = 0;?><?php endif; ?>
+<a href="<?php echo $this->getUrl('checkout/cart') ?>"><i class="fa fa-basket"></i> <span><?php echo $_cartQty;?></span></a>
+<ul>
+    <?php if ($_cartQty==0): ?>
+        <li><?php echo $this->__('You have no items in your shopping bag.') ?></li>
+    <?php elseif ($_cartQty==1): ?>
+        <li class="title"><?php echo $this->__('<a href="%s">1 item in your shopping bag.</a>', $this->getUrl('checkout/cart')) ?></li>
+    <?php else: ?>
+        <li class="title"><?php echo $this->__('<a href="%s">%s items in your shopping bag.</a>', $this->getUrl('checkout/cart'), $_cartQty) ?></li>
+    <?php endif; ?>
+    <?php if ($_cartQty>0): ?>
+        <li>
+            <?php if(count($_items)): ?>
+                <?php foreach($_items as $_item): ?>
+                    <?php echo $this->getItemHtml($_item) ?>
+                <?php endforeach; ?>
+            <?php endif ?>
+            <a class="button secondary-cta" href="<?php echo $this->getUrl('checkout/cart') ?>">View shopping bag</a>
+            <a class="button primary-cta" href="<?php echo Mage::helper('checkout/url')->getCheckoutUrl();?>">Proceed to Checkout</a>
+        </li>
+    <?php endif ?>
+</ul>

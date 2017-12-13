@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_sales_order_create_index>
+        <reference name="items_grid">
+            <block type="objectsource_orderoptions/adminhtml_sales_items_column_orderOptions" name="sales.order.create.options" as="create_options" template="sales/order/create/options.phtml"/>
+        </reference>
+    </adminhtml_sales_order_create_index>
+
+    <adminhtml_sales_order_create_load_block_items>
+        <reference name="items_grid">
+            <block type="objectsource_orderoptions/adminhtml_sales_items_column_orderOptions" name="sales.order.create.options" as="create_options" template="sales/order/create/options.phtml"/>
+        </reference>
+    </adminhtml_sales_order_create_load_block_items>
+</layout>

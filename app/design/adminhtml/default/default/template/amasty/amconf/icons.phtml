@@ -1,0 +1,243 @@
+<?php echo $this->getBlockHtml('formkey')?> 
+
+<div class="entity-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('amconf')->__('Swatches Size Settings') ?></h4>
+        
+    </div>
+    <div class="box">
+        <div class="notice-msg" style="padding-left: 50px; height: 30px; padding-top: 8px; margin-bottom: 14px;">
+            <div>
+                <input type="checkbox" value="1" name="amconf_useimages" <?php if ($this->getConfAttr()->getUseImage()): ?>checked="checked" <?php endif; ?>/>
+                <input type="hidden" value="<?php echo Mage::registry('entity_attribute')->getId()?>>" name="entity_attribute"/>
+                <?php echo $this->__('Use images for selection of configurable product options'); ?>
+            </div>
+        </div>
+        <table width="100%">
+        <tr>
+        <td>
+            <div>
+                <span style="font-size: 16px; font-weight: bold; color: black;"><?php echo $this->__('Product View Page'); ?></span>
+                <div style="border: 0; padding: 10px;">
+                 <table class="form-list">
+                 <tr>
+                    <td class="label"> <?php echo $this->__('Width, (px)'); ?></td>
+                    <td class="value"><input style="width: 94px;" class="input-text" type="text" <?php if ($this->getConfAttr()->getSmallWidth()): ?>value="<?php echo $this->getConfAttr()->getSmallWidth(); ?>" <?php endif; ?>  name="small_width" />
+                </td>
+                 </tr>  
+                 <tr>
+                    <td class="label"> <?php echo $this->__('Height, (px)'); ?></td>
+                    <td class="value"><input style="width: 94px;" class="input-text" type="text" <?php if ($this->getConfAttr()->getSmallHeight()): ?>value="<?php echo $this->getConfAttr()->getSmallHeight(); ?>" <?php endif; ?>  name="small_height"/></td>
+                 </tr>  
+                 <tr>
+                    <td class="label"> <?php echo $this->__('Use tooltip'); ?></td>
+                    <td class="value">
+                    <?php $_selectedOption = $this->getConfAttr()->getUseTooltip(); ?>
+                    <select name="amconf_usetooltip" id="am-tooltip-select" style="width: 100px;">
+                        <option value="0">No tooltip</option>
+                        <option value="1" <?php if ("1" === $_selectedOption): ?> selected="selected"<?php endif; ?>>Only Title</option>
+                        <option value="2" <?php if ("2" === $_selectedOption): ?> selected="selected"<?php endif; ?>>Only Image</option>
+                        <option value="3" <?php if ("3" === $_selectedOption): ?> selected="selected"<?php endif; ?>>Title & Image</option>
+                    </select>   
+                    </td>
+                 </tr>
+                </table>
+                <div id="am-big-image-container">
+                <span style="font-size: 14px; font-weight: bold; color: black;"><?php echo $this->__('Tooltip image'); ?></span>
+                <br/>  
+                <table class="form-list">
+                  <tr>
+                    <td class="label"> <?php echo $this->__('Width, (px)'); ?></td>
+                    <td class="value"><input style="width: 94px;" class="input-text" type="text" <?php if ($this->getConfAttr()->getBigWidth()): ?>value="<?php echo $this->getConfAttr()->getBigWidth(); ?>" <?php endif; ?>  name="big_width" />
+                 </td>
+                 </tr>
+                  <tr>
+                    <td class="label"> <?php echo $this->__('Height, (px)'); ?></td>
+                    <td class="value"><input style="width: 94px;" class="input-text" type="text" <?php if ($this->getConfAttr()->getBigHeight()): ?>value="<?php echo $this->getConfAttr()->getBigHeight(); ?>" <?php endif; ?>  name="big_height"/> 
+                </td>
+                 </tr>  
+                 </table>         
+                 </div>
+                 <span style="font-size: 14px; font-weight: bold; color: black;"><?php echo $this->__('Title'); ?></span> 
+                  <table class="form-list">
+                 <tr>
+                    <td class="label"> <?php echo $this->__('Display Attribute Titles Under Swatch Images'); ?></td>
+                    <td class="value">
+                     <?php $_selectedOptionTitle = $this->getConfAttr()->getUseTitle(); ?>
+                 <select name="amconf_show_title" style="width: 100px;">
+                        <option value="0">No</option>
+                        <option value="1" <?php if ("1" === $_selectedOptionTitle): ?> selected="selected"<?php endif; ?>>Yes</option>
+                    </select>  
+                </td>
+                 </tr>                  
+                </table>   
+                </div>                               
+            </div>
+            </td>
+            
+            
+                <td>
+                    <div>
+                <span style="font-size: 16px; font-weight: bold; color: black;"><?php echo $this->__('Category View Page'); ?></span>
+                <div style="border: 0; padding: 10px;">
+                 <table class="form-list">
+                 <tr>
+                    <td class="label"> <?php echo $this->__('Width, (px)'); ?></td>
+                    <td class="value"><input style="width: 94px;" class="input-text" type="text" 
+                    <?php if ($this->getConfAttr()->getCatSmallWidth()): ?>value="<?php echo $this->getConfAttr()->getCatSmallWidth(); ?>" <?php endif; ?>  name="cat_small_width" />
+                </td>
+                 </tr>  
+                 <tr>
+                    <td class="label"> <?php echo $this->__('Height, (px)'); ?></td>
+                    <td class="value"><input style="width: 94px;" class="input-text" type="text" 
+                    <?php if ($this->getConfAttr()->getCatSmallHeight()): ?>value="<?php echo $this->getConfAttr()->getCatSmallHeight(); ?>" <?php endif; ?>  name="cat_small_height"/></td>
+                 </tr>  
+                 <tr>
+                    <td class="label"> <?php echo $this->__('Use tooltip'); ?></td>
+                    <td class="value">
+                    <?php $_selectedOptionCat = $this->getConfAttr()->getCatUseTooltip(); ?>
+                    <select name="amconf_use_cat_tooltip" id="am-cat-tooltip-select" style="width: 100px;">
+                        <option value="0">No tooltip</option>
+                        <option value="1" <?php if ("1" === $_selectedOptionCat): ?> selected="selected"<?php endif; ?>>Only Title</option>
+                        <option value="2" <?php if ("2" === $_selectedOptionCat): ?> selected="selected"<?php endif; ?>>Only Image</option>
+                        <option value="3" <?php if ("3" === $_selectedOptionCat): ?> selected="selected"<?php endif; ?>>Title & Image</option>
+                    </select>   
+                    </td>
+                 </tr>
+                </table>
+                <div id="am-cat-big-image-container">
+                <span style="font-size: 14px; font-weight: bold; color: black;"><?php echo $this->__('Tooltip image'); ?></span>
+                <br/>  
+                <table class="form-list">
+                  <tr>
+                    <td class="label"> <?php echo $this->__('Width, (px)'); ?></td>
+                    <td class="value"><input style="width: 94px;" class="input-text" type="text" <?php if ($this->getConfAttr()->getCatBigWidth()): ?>value="<?php echo $this->getConfAttr()->getCatBigWidth(); ?>" <?php endif; ?>  name="cat_big_width" />
+                 </td>
+                 </tr>
+                  <tr>
+                    <td class="label"> <?php echo $this->__('Height, (px)'); ?></td>
+                    <td class="value"><input style="width: 94px;" class="input-text" type="text" <?php if ($this->getConfAttr()->getCatBigHeight()): ?>value="<?php echo $this->getConfAttr()->getCatBigHeight(); ?>" <?php endif; ?>  name="cat_big_height"/>
+                </td>
+                 </tr>  
+                 </table>         
+                 </div>
+                </div>                               
+            </div>
+                </td>
+            </tr>
+        </table>
+        
+        <br><br>
+        
+</div></div>        
+ <div class="entity-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('amconf')->__('Attribute Images') ?></h4>
+        
+    </div>
+    <div class="box">       
+        <div class="hor-scroll">
+            <table cellspacing="5">
+                <tr>
+                    <th width="200"><?php echo Mage::helper('amconf')->__('Status Label') ?></th>
+                    <th width="10"></th>
+                    <th><?php echo Mage::helper('amconf')->__('Upload image') ?></th>
+                    <th width="10"></th>
+                    <th><?php echo Mage::helper('amconf')->__('Preview') ?></th>
+                    <th width="10"></th>
+                    <th><?php echo Mage::helper('amconf')->__('Delete') ?></th>
+                </tr>
+                
+                <?php foreach ($this->getOptionsCollection() as $option): ?>
+                <tr>
+                    <td style="vertical-align: middle;"><?php echo $option->getData('value'); ?></td>
+                    <td></td>
+                    <?php
+                        $iconUrl = $this->getIcon($option);
+                        $iconBigUrl = $this->getBigIcon($option);
+                    ?>
+                    <td style="vertical-align: middle;"><input type="file" <?php if ($iconUrl) echo "disabled"?> name="amconf_icon[<?php echo $option->getData('option_id'); ?>]"></td>
+                    <td></td>
+                    <td style="vertical-align: middle;" align="center">
+                        <?php
+                        if ($iconUrl):
+                        ?>
+                            <img class="tooltipster" name="<?php echo $option->getData('value'); ?>" src="<?php echo $iconUrl; ?>" bigicon="<?php echo $iconBigUrl; ?>" alt="">
+                        <?php else: ?>
+                            <?php echo Mage::helper('amconf')->__('[none]') ?>
+                        <?php endif; ?>
+                    </td>
+                    <td></td>
+                    <td style="vertical-align: middle;" align="center"><input type="checkbox" value="1" name="amconf_icon_delete[<?php echo $option->getData('option_id'); ?>]"></td>
+                </tr>
+                <?php endforeach; ?>
+                
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$("am-tooltip-select").observe('change', function(me){
+    element = Event.element(me);
+    if(element.value == "0" || element.value == "1"){
+        $('am-big-image-container').hide();
+    }
+    else{
+        $('am-big-image-container').show();
+    }
+});
+
+$("am-cat-tooltip-select").observe('change', function(me){
+    element = Event.element(me);
+    if(element.value == "0" || element.value == "1"){
+        $('am-cat-big-image-container').hide();
+    }
+    else{
+        $('am-cat-big-image-container').show();
+    }
+});
+
+document.observe("dom:loaded", function() {
+    document.getElementById("edit_form").enctype="multipart/form-data";
+    element = $("am-tooltip-select");
+    if(element.value == "0" || element.value == "1"){
+        $('am-big-image-container').hide();
+    }
+    else{
+        $('am-big-image-container').show();
+    }  
+    
+    element = $("am-cat-tooltip-select");
+    if(element.value == "0" || element.value == "1"){
+        $('am-cat-big-image-container').hide();
+    }
+    else{
+        $('am-cat-big-image-container').show();
+    } 
+    
+    $$(".tooltipster").each(function(image){
+        if($('am-tooltip-select').selectedIndex != 0 && 'undefined' != typeof(jQuery)){
+            var amcontent = "";
+            switch ($('am-tooltip-select').selectedIndex) {
+                case 1:
+                    amcontent = '<div class="amtooltip-label">' + image.readAttribute('name') + '</div>';
+                break;
+                case 2:
+                    amcontent = '<div class="amtooltip-img"><img src="' + image.readAttribute('bigicon') + '"/></div>';
+                break;
+                case 3:
+                    amcontent = '<div class="amtooltip-img"><img src="' + image.readAttribute('bigicon') + '"/></div><div class="amtooltip-label">' + image.readAttribute('name') + '</div>';
+                break;                            
+            }
+            jQuery(image).tooltipster({
+                content: jQuery(amcontent),
+                theme: 'tooltipster-light',
+                animation: 'grow',
+                touchDevices: false,
+                position: "top"
+            });      
+        }
+    });
+});
+</script>

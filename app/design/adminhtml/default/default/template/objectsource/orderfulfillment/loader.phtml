@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+</head>
+<body>
+<form id="loaderForm" action="<?php echo $this->getProcessUrl()?>" method="POST" target="_blank" style="display:none;">
+	<input type="hidden" name="form_key" value="<?php echo $this->getFormKey()?>"/>
+	<textarea id="order_ids" name="order_ids">
+		
+	</textarea>
+</form>
+<button id="back" style="display: none">Return to Orders</button>
+<script type="text/javascript">
+
+$(document).ready(function(){
+	$('#back').click(function(){
+		window.location.href = "<?php echo $this->getRedirectUrl()?>";
+	});
+	
+	$('#order_ids').val(JSON.stringify(<?php echo json_encode($this->getOrderIds()) ?>));
+	$('#loaderForm').submit();
+	$('#back').show();
+});
+</script>
+</body>
+</html>

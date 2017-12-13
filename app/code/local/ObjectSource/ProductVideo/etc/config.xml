@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <ObjectSource_ProductVideo>
+            <version>0.1.0</version>
+        </ObjectSource_ProductVideo>
+    </modules>
+    <global>
+        <resources>
+            <productvideo_setup>
+                <setup>
+                    <module>ObjectSource_ProductVideo</module>
+                    <class>Mage_Catalog_Model_Resource_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </productvideo_setup>
+            <productvideo_setup>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </productvideo_setup>
+            <productvideo_setup>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </productvideo_setup>
+        </resources>
+    </global>
+</config>

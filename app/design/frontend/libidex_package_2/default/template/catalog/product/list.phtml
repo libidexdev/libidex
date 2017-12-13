@@ -1,0 +1,67 @@
+<?php $_productCollection=$this->getLoadedProductCollection();?>
+<?php $_helper = $this->helper('catalog/output');?>
+<?php $category  = Mage::registry('current_category'); ?>
+<?php $discountClass = ''; ?>
+<?php if ($category) {
+    $category = Mage::getModel('catalog/category')->load($category->getId());
+    $_customAttribute = $category->getCustomCornerImage();
+    if ($category->getData('discount_active')) {
+        $discountClass = 'discounted';
+    }
+}
+?>
+
+<?php if(!$_productCollection->count()): ?>
+    <p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
+<?php else: ?>
+    <div class="category-products">
+        <div class="toolbar-top"><?php echo $this->getToolbarHtml() ?></div>
+        <?php $_collectionSize = $_productCollection->count() ?>
+        <?php $_columnCount = $this->getColumnCount(); ?>
+        <ul class="products-grid <?php echo $discountClass; ?>">
+            <?php $i=0; foreach ($_productCollection as $_product): $i++ ?>
+                <?php $_product = Mage::getModel('catalog/product')->load($_product->getId()) ?>
+                <li class="item">
+                    <?php $specialprice = $_product->getSpecialPrice(); ?>
+                    <?php if ($specialprice):?><span class="special-badge"></span><?php endif; ?>
+
+                    <div class="product-image">
+                        <?php if ($category): ?>
+                        <div class="corner-flash">
+                            <img src="<?php echo(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)); ?>catalog/category/<?php echo $_helper->categoryAttribute($category, $_customAttribute, 'custom_corner_image') ?>">
+                        </div>
+                        <?php endif; ?>
+                        <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>">
+                            <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->constrainOnly(TRUE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize(576,null)?>" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" />
+                        </a>
+
+                        <div class="hover-cta"><a href="<?php echo $_product->getProductUrl() ?>"><span>+</span> View Item</a> <a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>"><i class="fa fa-heart"></i></a></div>
+                        <div class="product-grid-badge">
+                            <?php $badge = $this->getLayout()->createBlock('cms/block')->setBlockId('product_grid_badge')->toHtml() ?>
+                            <?php if ($badge): ?>
+                                <a href="<?php echo $_product->getProductUrl() ?>"><?php echo $badge; ?></a>
+                            <?php endif;?>
+                        </div>
+
+                        <?php if ($_product->getPromoFlashLeft() && $_product->getPromoFlashLeft() != 'no_selection'): ?>
+                            <div class="flash-left"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'image', $_product->getPromoFlashLeft()) ?>" alt="<?php echo $this->__('Promo') ?>" /></div>
+                        <?php endif; ?>
+
+                        <?php if ($_product->getPromoFlashRight() && $_product->getPromoFlashRight() != 'no_selection'): ?>
+                            <div class="flash-right"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'image', $_product->getPromoFlashRight()) ?>" alt="<?php echo $this->__('Promo') ?>" /></div>
+                        <?php endif; ?>
+
+                    </div>
+                    <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h2>
+                    <?php echo $this->getPriceHtml($_product, true) ?>
+                </li>
+                <?php if($i%2 == 0):?><li class="grid-break two"></li><?php endif;?>
+                <?php if($i%3 == 0):?><li class="grid-break three"></li><?php endif;?>
+                <?php if($i%4 == 0):?><li class="grid-break four"></li><?php endif; ?>
+                <?php /* if($i%5 ==0):?><li class="main-five-grid-break"></li><?php endif; */ ?>
+            <?php endforeach ?>
+        </ul>
+        <div class="toolbar-bottom"><?php echo $this->getToolbarHtml() ?></div>
+        <li class="pull-right"><a href="?limit=all">View All</a></li>
+    </div>
+<?php endif; ?>

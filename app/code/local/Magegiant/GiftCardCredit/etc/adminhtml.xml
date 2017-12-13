@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magegiant
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the magegiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category    Magegiant
+ * @package     Magegiant_GiftCardCredit
+ * @copyright   Copyright (c) 2014 Magegiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+-->
+<config>
+    <menu>
+        <giftcard>
+            <children>
+                <credit module="giftcardcredit" translate="title">
+                    <title>Customer Credit</title>
+                    <sort_order>7</sort_order>
+                    <action>adminhtml/giftcard_credit</action>
+                </credit>
+            </children>
+        </giftcard>
+    </menu>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <giftcard>
+                        <children>
+                            <credit module="giftcardcredit" translate="title">
+                                <title>Customer Credit</title>
+                                <sort_order>15</sort_order>
+                            </credit>
+                        </children>
+                    </giftcard>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

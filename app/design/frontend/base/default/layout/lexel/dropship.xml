@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<layout>
+    <onestepcheckout_index_index>
+        <reference name="onestepcheckout.checkout">
+            <action method="unsetChild">
+                <name>choose-shipping-method</name>
+            </action>
+            <block type="dropship/checkout_onepage_shipping_method_available"
+                   name="checkout.onepage.shipping_method.available"
+                   as="choose-shipping-method" template="lexel/dropship/checkout/onestepcheckout/shipping_method/available.phtml" />
+        </reference>
+    </onestepcheckout_index_index>
+    <onestepcheckout_ajax_save_billing>
+        <reference name="billing">
+            <action method="unsetChild">
+                <name>choose-shipping-method</name>
+            </action>
+            <block type="dropship/checkout_onepage_shipping_method_available"
+                   name="checkout.onepage.shipping_method.available"
+                   as="choose-shipping-method" template="lexel/dropship/checkout/onestepcheckout/shipping_method/available.phtml"/>
+        </reference>
+    </onestepcheckout_ajax_save_billing>
+</layout>

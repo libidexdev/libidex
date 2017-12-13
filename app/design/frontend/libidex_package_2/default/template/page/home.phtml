@@ -1,0 +1,39 @@
+<?php echo $this->getLayout()->createBlock('ibanners/view')->setGroupCode('home_hero_slider')->setTemplate('ibanners/home_hero_slider.phtml')->toHtml(); ?>
+<br>
+<?php $home_top_promo = $this->getLayout()->createBlock('cms/block')->setBlockId('home_top_promo')->toHtml() ?>
+<?php if ($home_top_promo): ?>
+	<div class="home-top-promo">
+		<?php echo $home_top_promo;?>
+	</div>
+<?php endif;?>
+<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('show_on_homepage')->toHtml() ?>
+
+<?php $home_welcome_text = $this->getLayout()->createBlock('cms/block')->setBlockId('home_welcome_text')->toHtml() ?>
+<?php if ($home_welcome_text): ?>
+	<div class="home-section welcome-to">
+		<div class="inner">
+			<?php echo $home_welcome_text;?>
+		</div>
+	</div>
+<?php endif;?>
+
+<?php $home_promo_text = $this->getLayout()->createBlock('cms/block')->setBlockId('home_promo_text')->toHtml() ?>
+<?php if ($home_promo_text): ?>
+	<div class="home-section home-notice">
+		<div class="inner"><?php echo $home_promo_text;?></div>
+	</div>
+<?php endif;?>
+
+<br>
+<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('home_liberation')->toHtml(); ?>
+<br>
+
+	<div class="home-section home-blog">
+		<div class="inner">
+			<?php echo $this->getLayout()->createBlock('wordpress/sidebar_widget_posts')->setTitle('Latest News')->setPostCount('2')->setCategoryId('2')->setTemplate('wordpress/sidebar/widget/home-posts.phtml')->toHtml(); ?>
+
+			<?php echo $this->getLayout()->createBlock('wordpress/sidebar_widget_posts')->setTitle('Latest Events')->setPostCount('2')->setCategoryId('3')->setTemplate('wordpress/sidebar/widget/home-posts.phtml')->toHtml(); ?>
+		</div>
+	</div>
+
+<?php echo $this->getChildHtml('recently_products') ?>

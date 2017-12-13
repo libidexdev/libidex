@@ -1,0 +1,50 @@
+<?php $helper = $this->helper('catalog/category') ?>
+<?php $categories = $this->getStoreCategories() ?>
+<?php if (count($categories) > 0): ?>
+<?php foreach($categories as $category): ?>
+	<?php $category = Mage::getModel('catalog/category')->load($category->getId());?>
+	<?php $subcategories = $category->getChildrenCategories() ?>
+	<?php $cat_id = $category->getId();?>			
+	<?php $cat_thumb = $category->getThumbnail();?>
+	<?php if(!empty($cat_thumb)):?>
+		<?php $thum_url = '/media/catalog/category/'.$cat_thumb;?>			
+	<?php else:?>
+		<?php $thum_url = $this->getSkinUrl('images/placeholders/exp-menu.png', array('_secure'=>true));?>
+	<?php endif; ?>
+	
+	<?php if ($cat_id == 33):?>
+		<li class="latex-express-item">
+			<a class="level-top level0" href="JavaScript:void(0);"><?php echo $this->escapeHtml($category->getName()) ?><i class="fa fa-angle-right"></i></a>
+				<div class="sf-mega">
+				<div class="sf-mega-left">
+					<p>Take a look at our off-the-peg latex range, LatexEXPRESS – currently at <?php echo Mage::getModel('core/variable')->loadByCode('latex_express_percentage')->getValue('html'); ?> off our made-to-order prices. LatexEXPRESS offers a wide selection of our most popular items in a choice of sizes and colours available for delivery direct from stock – so you can take the wait out of wanting your latex! Any items on the Libidex site which are stocked at LatexEXPRESS have a menu where you can check availability before visiting the LatexEXPRESS site. New stock is arriving at LatexEXPRESS all the time, so keep checking for updates!</p>
+					<p><a class="button purchase-cta" href="http://latexexpress.com" target="_blank">Visit LatexExpress</a></p>
+		
+				</div>
+				<div class="sf-mega-right"><a class="category-thumbnail" href="JavaScript:void(0);"><img src="<?php echo $thum_url;?>" alt=""/></a></div>				
+				</div>
+		</li>
+
+	
+<?php else:?>	
+	
+	<li <?php if ($this->isCategoryActive($category)): ?> class="is-active"<?php endif;?>>
+		<a class="level-top level0" href="<?php echo $category->getUrl() ?>"><?php echo $this->escapeHtml($category->getName()) ?><i class="fa fa-angle-right"></i></a>
+		<?php if (count($subcategories) > 0 && $cat_id != 33): ?>		
+			<div class="sf-mega">
+				<div class="sf-mega-left">
+					<h4 class="priority-1-heading white">Shop by Category</h4>
+					<ul>
+						<li><a href="<?php echo $category->getUrl() ?>">View All <?php echo $this->escapeHtml($category->getName()) ?><i class="fa fa-angle-right"></i></a></li>
+						<?php foreach($subcategories as $sub_category): ?>
+							<li><a href="<?php echo $this->escapeHtml($sub_category->getUrl()) ?>"><?php echo $this->escapeHtml($sub_category->getName()) ?><i class="fa fa-angle-right"></i></a></li>
+						<?php endforeach; ?>
+					</ul>
+				</div>
+				<div class="sf-mega-right"><a class="category-thumbnail" href="<?php echo $category->getUrl() ?>"><img src="<?php echo $thum_url;?>" alt=""/></a></div>
+			</div>
+		<?php endif; ?>
+	</li>
+<?php endif;?>
+<?php endforeach; ?>
+<?php endif; ?>

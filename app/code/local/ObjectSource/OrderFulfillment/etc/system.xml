@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <sections>
+        <orderfulfillment translate="label" module="orderfulfillment">
+            <label>Selling Report Options</label>
+            <tab>objectsource</tab>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <orderfulfillment_group translate="label" module="orderfulfillment">
+                    <label>Selling Report Options</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1000</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <popular_threshold translate="label">
+                            <label>Qty Products Sold</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>19</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </popular_threshold>
+                        <popular_from translate="label">
+                            <label>In days</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>19</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </popular_from>
+                    </fields>
+                </orderfulfillment_group>
+            </groups>
+        </orderfulfillment>
+    </sections>
+</config>

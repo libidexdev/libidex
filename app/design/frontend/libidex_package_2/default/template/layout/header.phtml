@@ -1,0 +1,34 @@
+<?php
+/**
+ * CheckItOut extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement for EcomDev Premium Extensions.
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.ecomdev.org/license-agreement
+ *
+ * @category   EcomDev
+ * @package    EcomDev_CheckItOut
+ * @copyright  Copyright (c) 2013 EcomDev BV (http://www.ecomdev.org)
+ * @license    http://www.ecomdev.org/license-agreement  End User License Agreement for EcomDev Premium Extensions.
+ * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
+ */
+/**
+ * Checkout layout step template
+ */
+/* @var $this EcomDev_CheckItOut_Block_Layout_Step_Abstract */
+?>
+<?php if ($this->isVisible()): // If Children Visible?>
+<div class="<?php echo $this->escapeHtml($this->getClassName());?> <?php if ($this->getPositionCode()): ?><?php echo $this->escapeHtml($this->getPositionCode());?><?php endif;?>">
+    <div class="page-title">
+        <h1><?php echo $this->helper('checkout')->__('Checkout') ?></h1>
+        <?php echo $this->getStepContent(); ?>
+    </div>
+</div>
+<?php else:?>
+<div class="page-title">
+    <h1><?php echo $this->helper('checkout')->__('Checkout') ?></h1>
+</div>
+<?php endif;?>

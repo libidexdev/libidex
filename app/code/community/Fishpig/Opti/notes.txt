@@ -1,0 +1,77 @@
+/**
+ * @category	Fishpig
+ * @package		Fishpig_Opti
+ * @license		http://fishpig.co.uk/license.txt
+ * @author		Ben Tideswell <help@fishpig.co.uk>
+ */
+
+CHANGELOG
+
+- 1.5.2.7
+- Improved CSS minification
+- 1.5.2.6
+- Removed merging feature
+
+- 1.5.2.5
+- Removed a few bytes from merged JS files
+
+- 1.5.2.4
+- Added Mage_Newsletter to cacheable modules list
+
+- 1.5.2.3
+- Added store ID to merged JS filenames
+
+- 1.5.2.2
+- Fixed bug that triggered log entry when JS content was empty
+
+- 1.5.2.1
+- Fixed a bug that broke some URLs when minifying CSS files
+
+- 1.5.2.0
+- Added custom JS merging system to Admin
+
+- 1.5.0.0
+- Added clever JS merging
+- Improved file structure
+- Improved HTML minification time
+
+- 1.4.8.0
+- skin_js fix
+
+- 1.4.7.0
+- Fixed issue that stops minification when compiler is enabled
+
+- 1.4.6.0
+- Fixed broken JS issue when filename has a '?' in it
+
+- 1.4.5.0
+- Added compression of skin JS files
+
+- 1.4.4.0
+- Added better error checking for extremely broken JS
+
+- 1.4.3.0
+- Fixed mobile theme CSS bug
+
+- 1.4.2.0
+- Fixed issue that sometimes stopped CDATA tags being added when required
+
+- 1.4.1.0
+- Moved secure CSS files to css_secure directory
+- Added Cdata tags into inline JS files that require it
+
+- 1.4.0.1
+- Added ?___refresh=opti functionality back in
+
+- 1.4.0.0
+- Added minification library files
+
+- 1.3.3.1
+- Fixed issue when bg images in CSS files started with /
+
+- 1.3.3.0
+- Added protection to textarea's
+- Simplified module selector
+
+- 1.3.2.0
+- Stopped compressing non-html responses

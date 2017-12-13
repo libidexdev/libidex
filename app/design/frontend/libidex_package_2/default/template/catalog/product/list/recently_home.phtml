@@ -1,0 +1,24 @@
+<?php if ($_products = $this->getRecentlyViewedProducts()): ?>
+<section class="home-section recently-products">
+<div class="inner">
+<h4 class="priority-1-heading white"><?php echo $this->__('Recently Viewed') ?></h4>
+	<div class="owl-product-max-six owl-carousel products-grid"> 
+		<?php foreach ($_products as $_recent_item): ?>
+            <div class="item">
+				<?php $specialprice = Mage::getModel('catalog/product')->load($_recent_item->getId())->getSpecialPrice(); ?>
+				<?php if ($specialprice):?><span class="special-badge"></span><?php endif; ?>
+                <div class="product">
+	                <div class="product-image">
+                    <a  href="<?php echo $_recent_item->getProductUrl() ?>" title="<?php echo $this->escapeHtml($_recent_item->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($_recent_item, 'thumbnail')->resize() ?>" alt="<?php echo $this->escapeHtml($_recent_item->getName()) ?>" /></a>
+							<div class="hover-cta"><a href="<?php echo $_recent_item->getProductUrl() ?>"><span>+</span> View Item</a> <a href="<?php echo $this->helper('wishlist')->getAddUrl($_recent_item) ?>"><i class="fa fa-heart"></i></a></div>
+
+	                </div>
+					<h2><a href="<?php echo $_recent_item->getProductUrl() ?>"><?php echo $_recent_item->getName() ?></a></h2>
+    				<?php echo $this->getPriceHtml($_recent_item, true) ?>
+                </div>
+            </div>
+        <?php endforeach ?>
+	</div>
+</div>
+</section>
+<?php endif; ?>

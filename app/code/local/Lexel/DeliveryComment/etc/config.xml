@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Lexel_DeliveryComment>
+            <version>0.1.0</version>
+        </Lexel_DeliveryComment>
+    </modules>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <lexeldelivery before="Mage_Adminhtml">Lexel_DeliveryComment_Adminhtml</lexeldelivery>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <global>
+        <models>
+            <lexel_deliverycomment>
+                <class>Lexel_DeliveryComment_Model</class>
+                <resourceModel>lexel_deliverycomment_resource</resourceModel>
+            </lexel_deliverycomment>
+            <lexel_deliverycomment_resource>
+                <class>Lexel_DeliveryComment_Model_Resource</class>
+            </lexel_deliverycomment_resource>
+        </models>
+        <blocks>
+            <lexel_deliverycomment>
+                <class>Lexel_DeliveryComment_Block</class>
+            </lexel_deliverycomment>
+        </blocks>
+        <helpers>
+            <lexel_deliverycomment>
+                <class>Lexel_DeliveryComment_Helper</class>
+            </lexel_deliverycomment>
+        </helpers>
+        <resources>
+            <lexel_deliverycomment_setup>
+                <setup>
+                    <module>Lexel_DeliveryComment</module>
+                </setup>
+            </lexel_deliverycomment_setup>
+        </resources>
+    </global>
+</config>

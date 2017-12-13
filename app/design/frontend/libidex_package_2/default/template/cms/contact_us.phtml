@@ -1,0 +1,89 @@
+	<div class="col2-set cf">
+		<div class="col-1">
+			<div class="webform">
+		<?php echo $this->getLayout()->createBlock('webforms/webforms', 'my_webform_block', array('webform_id' => 1,'template' => 'webforms/default.phtml',))->toHtml(); ?></div>
+		</div>
+		<div class="col-2">
+			<div id="contactTabs" class="cms-tabs contact-tabs">
+				<ul>
+					<li><a class="libidex-tab" href="#tab1"></a></li>
+					<li><a class="liberation-tab" href="#tab2"></a></li>
+				</ul>
+				<div id="tab1">
+					<p>Workshop, Studio & Offices.</p>
+					<ul class="contact-us-key-details left">
+					<li><i class="fa fa-map-marker"></i>3 St Alban’s Place, Islington, London N1 0NX</li>
+					<li><i class="fa fa-phone"></i>0203 411 7522</li>
+					<li><i class="fa fa-envelope"></i>Order Queries: sales@libidex.co.uk <i class="fa fa-info-circle tooltip" title="If you’ve already placed an order and have any questions about it, email us on this address."></i></li>
+					<li><i class="fa fa-envelope"></i>Product Queries: service@libidex.co.uk <i class="fa fa-info-circle tooltip" title="If you’re thinking of placing an order and want to know more about our products or anything else about us, email us on this address."></i></li>
+					<li><i class="fa fa-clock-o"></i>Monday - Friday 09:30 - 17:30</li>
+					<li><i class="fa fa-clock-o"></i>Closed public holidays</li>
+					</ul>
+					
+					<ul class="contact-us-key-details right">
+					<li><i class="fa fa-walk"></i> Libidex’s offices and design studio (and the Radical Rubber trade counter) are situated at 3 St Alban’s Place, Islington, London N1 0NX, behind Cafe Nero in Upper St, directly opposite Islington Green. Please note we do NOT have a showroom at this address - all our stock may be seen at our shop Liberation in Covent Garden. If you wish to visit our studio for a consultation or fitting, or to discuss any particular requirements you may have, please phone to make an appointment on 0203 411 7522.</li>
+					<li><i class="fa fa-subway"></i>The closest stations are Angel (Northern Line) or Essex Road (National Rail).</li>
+					<li><i class="fa fa-bus"></i>You can also reach us by <strong>bus</strong> -Nos.4, 19, 30, 38, 43 56, 73, 341, 476 and 812 all stop at Islington Green or Upper St.</li>
+					<li><i class="fa fa-car"></i> If you're coming by <strong>car</strong>, there is a 24-hour car park nearby in the Business Design Centre, and limited pay & display parking in nearby side streets. It is not possible to park in St Alban’s Place. Fortunately you don’t have to pay the Congestion Charge!</li>
+					</ul>
+				</div>
+				<div id="tab2">
+					<p>The Libidex flagship store.</p>
+					<ul class="contact-us-key-details left">
+					<li><i class="fa fa-map-marker"></i>49 Shelton Street, Covent Garden, London. WC2H 9HE. UK</li>
+					<li><i class="fa fa-phone"></i>0207 836 5894</li>
+					<li><i class="fa fa-clock-o"></i>Monday - Saturday 11:00 - 19:00</li>
+					<li><i class="fa fa-clock-o"></i>Closed public holidays</li>
+					</ul>
+					
+					<ul class="contact-us-key-details right">
+					<li><i class="fa fa-walk"></i>You'll find us just past the corner with Endell Street. We are a minute's walk from Covent Garden tube (Piccadilly Line), and five minutes from Charing Cross main line station.</li>
+					<li><i class="fa fa-bus"></i>We can also be reached by <strong>bus</strong>. The nearest stops are Holborn (Kingsway), Strand (Southampton St) or New Oxford St (Bloomsbury Way). </li>
+					<li><i class="fa fa-car"></i>Parking is not easy, but there is an underground car park nearly opposite us, where spaces are sometimes available. And please remember to pay the Congestion Charge on Mondays to Fridays (no charge after 6.30pm).</li>
+					</ul>
+				</div>			
+			</div><!-- END #tabs -->
+			<script src="<?php echo $this->getSkinUrl('plugins/jquery-ui-1.11.2/jquery-ui.min.js') ?>"></script>	
+		</div>
+	</div>
+</div><!-- END col2-set -->
+</div><!-- End STD early -->
+
+<div id="mapTabs">
+    <ul style="display:none">
+        <li><a href="#map-tab-1">map tab 1</a></li>
+		<li><a href="#map-tab-2">map tab 1</a></li>
+    </ul>
+	<div id="map-tab-1">   
+		<div class="location-map">
+		<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2481.729029141028!2d-0.10355779496765136!3d51.53652967617077!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48761b678da7b479%3A0xe06f302aac310327!2s3+St+Alban&#39;s+Pl%2C+London+N1!5e0!3m2!1sen!2suk!4v1442823098307" width="100%" height="300" frameborder="0" style="border:0"></iframe>
+		</div>
+	</div>
+	
+	<div id="map-tab-2">   
+		<div class="location-map">
+			<iframe class="googlemap1" src="#" width="100%" height="300" frameborder="0" style="border:0"></iframe>
+
+		</div>
+	</div>
+</div>
+	<script>
+		jQuery( "#contactTabs" ).tabs();
+		jQuery( "#mapTabs" ).tabs();
+		jQuery(function($) {
+			$('#contactTabs').tabs({
+			    activate: function(event, ui){$("#mapTabs").tabs("option","active", ui.newTab.index());}
+			});
+		});
+	</script>
+	<!-- Change the SRC of the iframe to get around google maps not loading in hidden div -->
+	<script type="text/javascript">
+	jQuery(function($){
+	var map1 ="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2482.934535976975!2d-0.1241340000000285!3d51.51441699999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487604ccb03747b7%3A0xa64c4589802470a2!2sLiberation!5e0!3m2!1sen!2suk!4v1429879631667";
+	
+	$(".liberation-tab").click(function() {
+		$(".googlemap1").attr("src", map1);});
+	});
+	</script>
+<div class="std"><!-- Begin std again -->
+<div class="wrapper"><!-- Begin Wrapper again -->

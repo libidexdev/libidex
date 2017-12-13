@@ -1,0 +1,12 @@
+<h5>Subscribe to our newsletter:</h5>
+<div class="subscribe-wrapper">
+<form action="<?php echo $this->getFormActionUrl() ?>" method="post" id="newsletter-validate-detail">
+<input type="text" name="email" id="newsletter" placeholder="Enter your email address" title="<?php echo $this->__('Sign up for our newsletter') ?>" class="input-text required-entry validate-email" />
+<button type="submit" title="<?php echo $this->__('Go') ?>"><?php echo $this->__('Go') ?></button>
+</form>
+<script type="text/javascript">
+//<![CDATA[
+    var newsletterSubscriberFormDetail = new VarienForm('newsletter-validate-detail');
+//]]>
+</script>
+</div>

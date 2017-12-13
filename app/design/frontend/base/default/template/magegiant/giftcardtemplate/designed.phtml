@@ -1,0 +1,99 @@
+<?php
+/**
+ * MageGiant
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageGiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    MageGiant
+ * @package     MageGiant_GiftCardTemplate
+ * @copyright   Copyright (c) 2014 MageGiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+
+/**
+ * Giftcardtemplate template
+ *
+ * @see Magegiant_GiftCardTemplate_Block_Giftcardtemplate
+ */
+?>
+
+<?php $_card = $this->getCard() ?>
+<?php if ($_card && $_card->getId() && $_card->getSelectedItem()): ?>
+    <link rel="stylesheet" type="text/css"
+          href="<?php echo $this->getSkinUrl('css/magegiant/giftcardtemplate/grid-magegiant.css') ?>">
+    <link rel="stylesheet" type="text/css"
+          href="<?php echo $this->getSkinUrl('css/magegiant/giftcardtemplate/email/style.css') ?>">
+    <?php $_store = Mage::app()->getStore($_card->getStoreId()) ?>
+    <?php $_item = Mage::getModel('giftcardtemplate/design_items')->load($_card->getSelectedItem()) ?>
+    <div class="giftcard-template-container" id="giftcard_template_container">
+        <div class="template-img">
+            <?php if ($_item->getFormatId() == Magegiant_GiftCardTemplate_Model_Format_Options::FORMAT_ANIMATED) : ?>
+                <?php if ($videoUrl = $_card->getVideoUrl()) : ?>
+                    <iframe width="100%" height="480"
+                            src="<?php echo $videoUrl; ?>?autoplay=0"
+                            allowfullscreen
+                        >
+                    </iframe>
+                <?php else: ?>
+                    <iframe width="100%" height="480"
+                            src="<?php echo $this->getEmbedVideoByUrl($_item->getVideoUrl()) ?>?autoplay=0"
+                            allowfullscreen
+                        >
+                    </iframe>
+                <?php endif; ?>
+            <?php else: ?>
+                <img alt="<?php echo $_item->getName() ?>"
+                     src="<?php echo Mage::helper('giftcardtemplate/upload')->getBaseImageUrl('images/' . $_item->getSourceFile()) ?>"
+                    />
+                <?php if ($uploadedHtml = $_card->getUploadedHtml()): ?>
+                    <div class="custom-upload">
+                        <div class="uploaded">
+                            <?php echo $uploadedHtml ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            <?php
+            endif;
+            ?>
+        </div>
+        <?php if ($_card->getMessageBox()): ?>
+            <div class="gift-message-box">
+                <div class="detail-message">
+                    <?php echo $_card->getMessage() ?>
+                </div>
+            </div>
+        <?php endif; ?>
+        <?php if ($_card->getPriceBox()): ?>
+            <div class="gift-price-box">
+                <div class="code-box col-mg mg-6">
+                <span class="price-box">
+                 <?php echo Mage::helper('core')->currencyByStore($_card->getAmount(), $_store) ?>
+                </span>
+
+                    <div class="mg-clear"></div>
+                    <span class="gift-box"><?php echo $_card->getCode(); ?></span>
+                </div>
+                <div class="logo-box col-mg mg-6">
+                    <img
+                        src="<?php echo $this->getSkinUrl(Mage::getStoreConfig('design/header/logo_src', $_store)) ?>"/>
+                </div>
+            </div>
+        <?php endif; ?>
+        <div class="mg-clear"></div>
+    </div>
+    <div class="printer">
+        <a title="<?php echo $this->__('Print Now') ?>" target="_blank"
+           href="<?php echo $this->getUrl('giftcardtemplate/processor/print', array('id' => $_card->getId())) ?>">
+            <span><?php echo $this->__('Print Now') ?></span>
+        </a>
+    </div>
+<?php endif; ?>

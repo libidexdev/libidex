@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <ObjectSource_ProductPageStep>
+            <version>0.1.0</version>
+        </ObjectSource_ProductPageStep>
+    </modules>
+
+    <global>
+        <models>
+            <productpagestep>
+                <class>ObjectSource_ProductPageStep_Model</class>
+                <resourceModel>productpagestep_mysql4</resourceModel>
+            </productpagestep>
+            <productpagestep_mysql4>
+                <class>ObjectSource_ProductPageStep_Model_Mysql4</class>
+                <entities>
+                    <attribute>
+                        <table>os_productpagestep_attribute</table>
+                    </attribute>
+                </entities>
+            </productpagestep_mysql4>
+        </models>
+        <helpers>
+            <productpagestep>
+                <class>ObjectSource_ProductPageStep_Helper</class>
+            </productpagestep>
+        </helpers>
+        <blocks>
+            <productpagestep>
+                <class>ObjectSource_ProductPageStep_Block</class>
+            </productpagestep>
+        </blocks>
+        <resources>
+            <productpagestep_setup>
+                <setup>
+                    <module>ObjectSource_ProductPageStep</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </productpagestep_setup>
+            <productpagestep_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </productpagestep_write>
+            <productpagestep_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </productpagestep_read>
+        </resources>
+    </global>
+
+    <frontend>
+        <layout>
+            <updates>
+                <dailydeal module="ObjectSource_ProductPageStep">
+                    <file>objectsource/productpagestep.xml</file>
+                </dailydeal>
+            </updates>
+        </layout>
+    </frontend>
+
+    <admin>
+        <routers>
+            <adminhtml_productpagestep>
+                <use>admin</use>
+                <args>
+                    <module>ObjectSource_ProductPageStep</module>
+                    <frontName>productpagestep</frontName>
+                </args>
+            </adminhtml_productpagestep>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <menu>
+            <catalog>
+                <children>
+                    <attributes>
+                        <children>
+                            <productpagestep translate="title" module="productpagestep">
+                                <title>Product Wizard Attributes</title>
+                                <sort_order>10</sort_order>
+                                <action>productpagestep/adminhtml_attribute/index/</action>
+                            </productpagestep>
+                        </children>
+                    </attributes>
+                </children>
+            </catalog>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <catalog>
+                            <children>
+                                <attributes>
+                                    <children>
+                                        <productpagestep>
+                                            <title>Product Wizard Attributes</title>
+                                        </productpagestep>
+                                    </children>
+                                </attributes>
+                            </children>
+                        </catalog>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+</config>

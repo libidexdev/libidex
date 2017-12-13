@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Lexel_OrderGrid>
+            <version>0.1.0</version>
+        </Lexel_OrderGrid>
+    </modules>
+    <global>
+        <models>
+            <sales_resource>
+                <rewrite>
+                    <order_grid_collection>Lexel_OrderGrid_Model_Resource_Sales_Order_Grid_Collection</order_grid_collection>
+                </rewrite>
+            </sales_resource>
+        </models>
+        <blocks>
+            <lexel_ordergrid>
+                <class>Lexel_OrderGrid_Block</class>
+            </lexel_ordergrid>
+            <adminhtml>
+                <rewrite>
+                    <sales_order_grid>Lexel_OrderGrid_Block_Adminhtml_Sales_Order_Grid</sales_order_grid>s
+                </rewrite>
+            </adminhtml>
+        </blocks>
+        <helpers>
+            <lexel_ordergrid>
+                <class>Lexel_OrderGrid_Helper</class>
+            </lexel_ordergrid>
+        </helpers>
+    </global>
+</config>

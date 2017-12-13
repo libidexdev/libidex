@@ -1,0 +1,40 @@
+<footer>
+	<div class="inner">			
+		<ul class="first">
+			<li class="title priority-1-heading white">About <?php echo Mage::app()->getStore()->getName();?></li>
+			<li><img src="<?php echo $this->getSkinUrl('images/logo-footer.png') ?>" alt=""/><p>Libidex are couturiers to the latex fashion world, the leading designers and makers of fetish fashion garments.</p></li>
+			<?php /* ?><li><a href="<?php echo $this->getUrl('our-story') ?>">Our Story <i class="fa fa-angle-right"></i></a></li><?php */ ?>
+			<?php /* ?><li><a href="<?php echo $this->getUrl('all-about-latex') ?>">All About Latex Clothing<i class="fa fa-angle-right"></i></a></li><?php */ ?>
+			<li><a href="<?php echo $this->getUrl('news-events') ?>">News & Events<i class="fa fa-angle-right"></i></a></li>
+			<li><a class="fancybox" href="#subscribe">Subscribe to our Newsletter<i class="fa fa-angle-right"></i></a></li>
+			<li><a href="<?php echo $this->getUrl('contact-us') ?>">Contact Us<i class="fa fa-angle-right"></i></a></li>
+			<li><a href="<?php echo $this->getUrl('colour-chart') ?>">Colour Chart<i class="fa fa-angle-right"></i></a></li>
+			<li><a href="<?php echo $this->getUrl('size-chart') ?>">Size Chart<i class="fa fa-angle-right"></i></a></li>
+		</ul>
+		<ul>
+			<li class="title priority-1-heading white">Online Shopping</li>
+			<li><a href="<?php echo $this->getUrl('faqs') ?>">FAQS<i class="fa fa-angle-right"></i></a></li>
+			<li><a href="<?php echo $this->getUrl('orders-delivery-returns') ?>">Delivery & Returns<i class="fa fa-angle-right"></i></a></li>
+			<li><a href="<?php echo $this->getUrl('terms-conditions') ?>">Terms & Conditions<i class="fa fa-angle-right"></i></a></li>
+			<li><a href="<?php echo $this->getUrl('copyright-information') ?>">Copyright Information<i class="fa fa-angle-right"></i></a></li>
+			<li><a href="<?php echo $this->getUrl('press') ?>">Press<i class="fa fa-angle-right"></i></a></li>
+		</ul>
+		<ul class="last">
+			<li class="title priority-1-heading white">Follow Us</li>
+			<li class="footer-social">
+				<a href="https://www.facebook.com/pages/Libidex-Ltd/195911363755106"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-facebook fa-stack-1x"></i></span></a>
+				<a target="_blank" href="https://twitter.com/libidexltd"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-twitter fa-stack-1x"></i></span></a>
+				<a target="_blank" href="http://instagram.com/libidex"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-instagram fa-stack-1x"></i></span></a>
+			</li>
+			<li class="subscribe"><?php echo $this->getChildHtml('footerNewsletter'); ?></li>
+		</ul>	
+	</div>
+</footer>
+<div class="copyright">
+	<div class="inner">
+		<small><?php echo $this->getCopyright() ?></small> 
+		<div class="scroll-top"><i class="fa fa-long-arrow-up"></i></div>
+	</div>
+</div>
+<?php echo $this->getChildHtml('popupNewsletter'); ?>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/site-foot.js') ?>"></script>

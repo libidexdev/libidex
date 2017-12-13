@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <BingDigital_Migrations>
+            <version>0.1.0</version>
+        </BingDigital_Migrations>
+    </modules>
+
+    <global>
+        <resources>
+            <migrations_setup>
+                <setup>
+                    <module>BingDigital_Migrations</module>
+                </setup>
+            </migrations_setup>
+        </resources>
+    </global>
+</config>

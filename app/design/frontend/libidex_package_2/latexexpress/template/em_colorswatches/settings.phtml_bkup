@@ -1,0 +1,419 @@
+<?php 
+$swatches = $this->get_option_swatches();
+$optionClass = Mage::getModel('productpagestep/attribute')->getOptionClassArray();
+?>
+<!-- GALATHEMES: COLOR SWATCHES -->
+<script type="text/javascript">
+	document.observe('dom:loaded', function() {
+		try {
+Element.prototype.triggerEvent = function(eventName)
+{
+    if (document.createEvent)
+    {
+        var evt = document.createEvent('HTMLEvents');
+        evt.initEvent(eventName, true, true);
+
+        return this.dispatchEvent(evt);
+    }
+
+    if (this.fireEvent)
+        return this.fireEvent('on' + eventName);
+}
+
+function after_swatches_created()
+{
+            jQuery('.product-custom-option,.super-attribute-select').each(function(i,el) {
+                switch(el.tagName)
+                {
+                    case 'SELECT':
+                        jQuery(el).change(function(e) { update_preview(e.currentTarget); });
+			if (el.selectedIndex)
+			{
+				update_preview(el);
+				// select a swatch
+				if ($(el).up().down().hasClassName('swatches-container'))
+				{
+					$(el).up().down().select('img').each( function(i) {
+						if (trim(i.title) == el.selectedOptions[0].label)
+						{
+							i.addClassName('current');
+						}
+					});
+					$(el).up().down().select('a').each( function(i) {
+						if (trim(i.innerText) == el.selectedOptions[0].label)
+						{
+							i.addClassName('current');
+						}
+					});
+				}
+				$(el).triggerEvent('change');
+				$(el).up().down('.current').triggerEvent('click'); 
+                  
+			}
+                        break;
+                    case 'INPUT':
+                        jQuery(el).change(function(e) { update_preview(e.currentTarget); });
+			if (el.checked)
+			{
+				update_preview(el);
+				$(el).triggerEvent('change');
+			}
+                        break;
+                }
+            });
+}
+            function update_preview(el) {
+                var preview = jQuery(el).closest('dd').find('.swatchPreview');
+		var previewSrc = '';
+                if (preview)
+                {
+                    if (el.tagName === 'SELECT')
+                    {
+                        if (jQuery(el.up().down('.swatches-container')).hasClass("Colour"))
+                        {
+                            previewSrc = '/media/swatches/colour/preview/' + el.options[el.selectedIndex].text.replace(' ','-').toLowerCase() + '-swatch.jpg';
+                            placeHolderSrc = '/media/swatches/preview/select-colour-new.jpg';
+                        }
+                        else if (jQuery(el.up().down('.swatches-container')).hasClass("size"))
+                        {
+                            previewSrc = '/media/swatches/preview/' + el.options[el.selectedindex].text.replace(' ','-').toLowerCase() + '.jpg';
+                            placeHolderSrc = '/media/swatches/preview/select-size.jpg';
+                        }
+                        else
+                        {
+                            previewSrc = '/media/swatches/preview/' + el.options[el.selectedIndex].text.replace(' ','-').toLowerCase() + '.jpg';
+                            placeHolderSrc = '/media/swatches/preview/select-style.jpg';
+                        }
+                    }
+                    else
+                    {
+                        previewSrc = '/media/swatches/preview/' + jQuery(el).next().find('label').clone().children().remove().end().text().trim().replace(/ /g,'-').toLowerCase() + '.jpg';
+                        placeHolderSrc = '/media/swatches/preview/select-option.png';
+
+                    }
+
+                    new Ajax.Request(previewSrc,
+                        {
+                            onSuccess: function(response) {
+                                $(preview[0]).down('img').writeAttribute('src', previewSrc);
+                            },
+                            onFailure: function(response) {
+                                $(preview[0]).down('img').writeAttribute('src', placeHolderSrc);
+                            }
+                        }
+                    );
+
+                }
+            }
+
+			var swatches = <?php echo Mage::helper('core')->jsonEncode($swatches); ?>;
+			var optionClass = <?php echo Mage::helper('core')->jsonEncode($optionClass); ?>;
+
+			function find_swatch(key, value) {
+
+                var className = optionClass[key];
+				for (var i in swatches) {
+					if (swatches[i].key == className && swatches[i].value == value)
+						return swatches[i];
+				}
+				return null;
+			}
+		
+			function has_swatch_key(key) {
+                var className = optionClass[key];
+				for (var i in swatches) {
+					if (swatches[i].key == className)
+						return true;
+				}
+				return false;
+			}
+		
+			function create_swatches(label, select) {
+				// create swatches div, and append below the <select>
+				var sw = new Element('div', {'class': 'swatches-container '+label});
+// Add the available and not-available containers
+var swa = new Element('div', {'class': 'swatches-container-available'});
+var title = new Element('div', {'style': 'clear: both'});
+title.innerText = "Available for your selection";
+swa.insert(title);
+var swna = new Element('div', {'class': 'swatches-container-not-available'});
+var title = new Element('div', {'style': 'clear: both'});
+title.innerText = "Not available for your selection";
+swna.insert(title);
+sw.insert(swa);
+sw.insert(swna);
+				select.up().insertBefore(sw, select);
+			
+				// store these element to use later for recreate swatches
+				select.swatchLabel = label;
+				select.swatchElement = sw;
+			
+				// hide select
+                if (label.indexOf('Colour') < 0)
+                {
+                    select.setStyle({position: 'absolute', top: '-9999px'})
+                }
+
+				$A(select.options).each(function(opt, i) {
+					if (opt.getAttribute('value')) {
+						var elm;
+						var key = trim(opt.innerHTML);
+					
+						// remove price
+						if (opt.getAttribute('price')) key = trim(key.replace(/\+([^+]+)$/, ''));
+					
+						var item = find_swatch(label, key);
+                        //console.log(item);
+						if (item) {
+							elm = new Element('img', {
+								src: '<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA); ?>swatches/'+item.img.replace(/\s+/g, '-'),
+								alt: opt.innerHTML, 
+								title: opt.innerHTML, 
+								'class': 'swatch-img'});
+
+                        }
+						else {
+							//console.debug(label, key, swatches);
+							elm = new Element('a', {'class': 'swatch-span swatch-span-'+key.replace(/[^a-z0-9]|\s+|\r?\n|\r/gmi,'')});
+							elm.update(opt.innerHTML);
+						}
+if (opt.hasClassName('disabled-option'))
+{
+    elm.addClassName('disabled-option');
+}
+elm.setAttribute('data-value', opt.value);
+						elm.observe('click', function(event) {
+if (spConfig.origState)
+{
+    spConfig.state = spConfig.origState;
+}
+spConfig.origState = spConfig.state;
+							select.selectedIndex = i;
+							fireEvent(select, 'change');
+							var cur = sw.down('.current');
+							if (cur) cur.removeClassName('current');
+							elm.addClassName('current');
+// Reset all the selects and then sets back to state
+recreate_swatches_recursive(spConfig.settings[0]);
+otherOptionReset = false;
+spConfig.settings.each(function (s) { 
+     spConfig.fillSelect(s);
+     if (s.id == select.id)
+     {
+         s.selectedIndex = i;
+         swatchesTemp = $$('.swatch-img');
+         for(z = 0; z < swatchesTemp.length; z++)
+         {
+             swatchValue = swatchesTemp[z].getAttribute('data-value');
+             if (swatchValue == s[i].value)
+             {
+                  swatchesTemp[z].addClassName('current');
+             }
+         } 
+         swatchesTemp = $$('.swatch-span');
+         for(z = 0; z < swatchesTemp.length; z++)
+         {
+             swatchValue = swatchesTemp[z].getAttribute('data-value');
+             if (swatchValue == s[i].value)
+             {
+                  swatchesTemp[z].addClassName('current');
+             }
+         } 
+     }
+     else
+     {
+        selectId = s.id.replace(/[a-z]+/, '');
+        if (spConfig.state[selectId])
+        {
+            for(z = 0; z < s.options.length; z++)
+            {
+                if (s.options[z].value == spConfig.state[selectId] && !s.options[z].hasClassName('disabled-option'))
+                {
+                    s.selectedIndex = z;
+                    break;
+                }
+            }
+        }
+     }
+     if (s.selectedIndex && s.swatchElement != undefined)
+     {
+         for(x = 0; x < s.swatchElement.children.length; x++)
+         {
+             c = s.swatchElement.children[x];
+             switch(c.tagName)
+             {
+                 case 'A':
+                     if (c.innerText == s.options[s.selectedIndex].label) c.addClassName('current');   
+                     break;
+                 case 'IMG':
+                     if (c.title == s.options[s.selectedIndex].label) c.addClassName('current');   
+                     break;
+             } 
+         }
+     }
+     else
+     {
+         otherOptionReset = false;
+     }
+     fireEvent(s, 'change');
+     s.disabled = false;
+});
+// Loop through the settings and set the next button accordingly
+bothSelectSet = true;
+spConfig.settings.each(function(s) {
+    if (s.selectedIndex < 1)
+    {
+        bothSelectSet = false;
+    }
+});
+currentSelect = 0;
+spConfig.settings.each(function(s) {
+    if (bothSelectSet)
+    {
+        // Close all accordions
+        s.up('.ui-accordion').down('.product-chooser-next').onclick = function() { gotoAccordionTab(2,0); return false; };
+    }
+    else
+    {
+       // Set to go to the other accordion
+       if (currentSelect == 0)
+       {
+           s.up('.ui-accordion-content').down('.product-chooser-next').onclick = function() { 
+               gotoAccordionTab(1,0); return false; 
+           };
+       }
+       else
+       {
+           s.up('.ui-accordion-content').down('.product-chooser-next').onclick = function() { gotoAccordionTab(0,0); return false; };
+       }
+    }
+    currentSelect++;
+});
+
+                            
+                            var preview;
+                            if (elm.up('dd'))
+                            {
+                                preview = elm.up('dd').down('.swatchPreview');
+                            }
+                            if (preview === undefined) { return; }
+                            if (elm.tagName === 'IMG')
+                            {
+                                var src = elm.readAttribute('src');
+                                var previewSrc = src.substring(0, src.lastIndexOf("/"));
+                                previewSrc += '/preview' + src.substring(src.lastIndexOf("/"));
+                                placeHolderSrc = '/media/swatches/preview/select-colour-new.jpg';
+                            }
+                            else
+                            {
+                                if (jQuery(elm.up()).hasClass("Size"))
+                                {
+                                    var src = elm.innerText;
+                                    var previewSrc = src.replace(' ', '-').toLowerCase();
+                                    previewSrc = '/media/swatches/preview/' + previewSrc + '.jpg';
+                                    placeHolderSrc = '/media/swatches/preview/select-size.jpg';
+                                }
+                                else
+                                {
+                                    var src = elm.innerText;
+                                    var previewSrc = src.replace(' ', '-').toLowerCase();
+                                    previewSrc = '/media/swatches/preview/' + previewSrc + '.jpg';
+                                    placeHolderSrc = '/media/swatches/preview/select-style.jpg';
+                                }
+                            }
+
+                            new Ajax.Request(previewSrc,
+                                {
+                                    onSuccess: function(response) {
+                                        preview.down('img').writeAttribute('src', previewSrc);
+                                    },
+                                    onFailure: function(response) {
+                                        preview.down('img').writeAttribute('src', placeHolderSrc);
+                                    }
+                                }
+                            );
+						});
+if (elm.hasClassName('disabled-option'))
+{
+swna.appendChild(elm);
+}
+else
+{
+swa.appendChild(elm);
+}
+swa.appendChild(elm);
+					}
+				});
+			}
+		
+			function recreate_swatches_recursive(select) {
+				// remove the old swatches
+				if (select.swatchElement) {
+					select.up().removeChild(select.swatchElement);
+					select.swatchElement = null;
+				}
+			
+				// create again
+				if (!select.disabled)
+					create_swatches(select.swatchLabel, select);
+			
+				// recursively recreate swatches for the next select
+				if (select.nextSetting)
+					recreate_swatches_recursive(select.nextSetting);
+			}
+		
+			function fireEvent(element,event){
+				if (document.createEventObject){
+					// dispatch for IE
+					var evt = document.createEventObject();
+					return element.fireEvent('on'+event,evt)
+				}
+				else{
+					// dispatch for firefox + others
+					var evt = document.createEvent("HTMLEvents");
+					evt.initEvent(event, true, true ); // event type,bubbling,cancelable
+					return !element.dispatchEvent(evt);
+				}
+			}
+		
+			function trim(str) {
+				return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+			}
+		
+		
+			$$('#product-options-wrapper dt').each(function(dt) {
+			
+				// get custom option's label
+				var label = '';
+				/*$A(dt.down('label').childNodes).each(function(node) {
+					if (node.nodeType == 3) label += node.nodeValue;
+				});*/
+                label = dt.down('.realOptionTitle').innerHTML;
+				label = trim(label);
+			
+				var dd = dt.next();
+				var select = dd.down('select');
+				if (select && has_swatch_key(label)) {
+					create_swatches(label, select);
+				
+					// if configurable products, recreate swatches of the next select when the current select change
+					if (select.hasClassName('super-attribute-select')) {
+						select.observe('change', function() {
+							setTimeout(function() {
+								//recreate_swatches_recursive(select.nextSetting);
+							}, 100);
+						});
+					}
+				}
+                else {
+                }
+			});
+after_swatches_created();
+		}
+		catch(e) {
+			//alert("Color Swatches javascript error. Please report this error to support@galathemes.com. Error:" + e.message);
+			console.log("Color Swatches javascript error. Please report this error to support@galathemes.com. Error:" + e.message);
+		}
+
+	});
+</script>

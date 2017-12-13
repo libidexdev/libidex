@@ -1,0 +1,23 @@
+<?php
+$_product    = $this->getProduct();
+$_attributes = Mage::helper('core')->decorateArray($this->getAllowAttributes());
+?>
+<?php if ($_product->isSaleable() && count($_attributes)):?>
+    <dl id="configurable-container-<?php echo $_product->getId() ?>">
+    <?php foreach($_attributes as $_attribute): ?>
+        <div class="option-wrapper">
+            <dt class="title-wrap"><label class="required"><?php echo $_attribute->getLabel() ?></label></dt>
+            <dd class="option-wrap">
+                <div class="input-box">
+                    <select name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]" id="attribute<?php echo $_attribute->getAttributeId() ?>" class="super-attribute-select required-entry">
+                        <option><?php echo $this->__('Choose an Option...') ?></option>
+                    </select>
+                </div>
+            </dd>
+        </div>
+    <?php endforeach; ?>
+    </dl>
+    <script type="text/javascript">
+        var spConfig_<?php echo $_product->getId() ?> = new Product.Config(<?php echo $this->getJsonConfig() ?>);
+    </script>
+<?php endif;?>

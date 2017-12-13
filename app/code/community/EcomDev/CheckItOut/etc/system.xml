@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * CheckItOut extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement for EcomDev Premium Extensions.
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.ecomdev.org/license-agreement
+ *
+ * @category   EcomDev
+ * @package    EcomDev_CheckItOut
+ * @copyright  Copyright (c) 2013 EcomDev BV (http://www.ecomdev.org)
+ * @license    http://www.ecomdev.org/license-agreement  End User License Agreement for EcomDev Premium Extensions.
+ * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
+ */
+-->
+<config>
+    <sections>
+        <ecomdev_checkitout module="ecomdev_checkitout" translate="label">
+            <label>CheckItOut! Extension</label>
+            <header_css>ecomdev-checkitout</header_css>
+            <class>ecomdev-checkitout</class>
+            <sort_order>200</sort_order>
+            <tab>sales</tab>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <settings translate="label">
+                    <label>Main Settings</label>
+                    <sort_order>100</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label comment">
+                            <label>Enabled</label>
+                            <comment><![CDATA[Replaces standard checkout functionality with <strong>CheckItOut!</strong> extension]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <compatability_template translate="label comment">
+                            <label>Templates Compatibility</label>
+                            <comment><![CDATA[If you have <strong>Magento CE1.5/EE1.10</strong> and higher but still using checkout templates from <strong>CE1.4/EE1.7-EE1.9</strong>, then please check this configuration value to <strong>"Yes"</strong>]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </compatability_template>
+                        <stored_addresses translate="label comment">
+                            <label>Stored Addresses</label>
+                            <comment>Enable this feature if you want allow not logged in users go back to cart/reload page and not loose entered address details.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>17</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </stored_addresses>
+                        <shopping_cart_redirect translate="label comment">
+                            <label>Shopping Cart Redirect</label>
+                            <comment>Instead of opening a cart page, customer will be redirected to checkout page.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>18</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </shopping_cart_redirect>
+                        <customer_comment translate="label comment">
+                            <label>Show Comment Field</label>
+                            <comment>This field allows customer to leave a comment for his order</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </customer_comment>
+                        <change_item_qty translate="label comment">
+                            <label>Allow Product Qty Change</label>
+                            <comment>If you want allow customer to change product quantity during the checkout, then enable this functionality. Sometimes required for passing store certification.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </change_item_qty>
+                        <remove_item translate="label comment">
+                            <label>Allow Product Removal</label>
+                            <comment>If you want allow customer to remove product during the checkout, then enable this functionality. Sometimes required for passing store certification.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </remove_item>
+                        <confirm_type translate="label comment">
+                            <label>Confirmation Type</label>
+                            <comment>Show confirmation checkbox or popup for confirming that customer checked all the items in the order. Sometimes required for passing store certification.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>ecomdev_checkitout/source_confirm_type</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </confirm_type>
+                        <confirm_text translate="label comment">
+                            <label>Confirmation Text</label>
+                            <comment>Text that will be displayed besides confirmation checkbox or on the confirmation button in popup</comment>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </confirm_text>
+                        <newsletter_checkbox translate="label comment">
+                            <label>Show Newsletter Checkbox</label>
+                            <comment>Enables customer newsletter subscribtion functionality on checkout review step.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </newsletter_checkbox>
+                        <newsletter_checkbox_checked translate="label">
+                            <label>Newsletter Checkbox Checked By Default</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </newsletter_checkbox_checked>
+                        <custom_router>
+                            <label>Custom Url Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <comment><![CDATA[Allows specifying of custom url in your configuration!]]></comment>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <config_path>ecomdev_checkitout/router/active</config_path>
+                        </custom_router>
+                        <custom_router_path>
+                            <label>Custom Url Path</label>
+                            <frontend_type>text</frontend_type>
+                            <comment><![CDATA[URL path, that will be matched for detecting of checkout page]]></comment>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <config_path>ecomdev_checkitout/router/path</config_path>
+                            <depends>
+                                <custom_router>1</custom_router>
+                            </depends>
+                        </custom_router_path>
+                    </fields>
+                </settings>
+                <hidden translate="label">
+                    <label>Step Visibility Configuration</label>
+                    <sort_order>200</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <shipping_method translate="label comment">
+                            <label>Shipping Method Step Hidden</label>
+                            <comment>If your shipping method is preselected, then shipping method selection block will be hidden.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </shipping_method>
+                        <payment_method translate="label comment">
+                            <label>Payment Method Step Hidden</label>
+                            <comment>If your payment method is preselected, then payment method selection block will be hidden. Please note that customer will be able to enter payment details on Magento side, he will be redirected right to payment gateway after "Place Order" button click.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </payment_method>
+                        <coupon_code translate="label comment">
+                            <label>Coupon Code Step Hidden</label>
+                            <comment>If you want allow entering of coupon code just select "No" for prevent hiding of it.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </coupon_code>
+                    </fields>
+                </hidden>
+                <geoip translate="label">
+                    <label>GeoIP AutoComplete</label>
+                    <sort_order>250</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <type translate="label comment">
+                            <label>Type</label>
+                            <comment>Select one of the types of GeoIP AutoComplete functionality.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>ecomdev_checkitout/source_geoip_type</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </type>
+                        <country translate="label comment">
+                            <label>GeoIP Country CSV File</label>
+                            <comment><![CDATA[Please upload GeoIP Country database file (CSV format) from <a href="http://www.maxmind.com/app/geolite">http://www.maxmind.com/app/geolite</a>.]]></comment>
+                            <frontend_type>import</frontend_type>
+                            <backend_model>ecomdev_checkitout/backend_geoip</backend_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <type>country</type>
+                            </depends>
+                        </country>
+                        <location translate="label comment">
+                            <label>GeoIP City Location CSV File</label>
+                            <comment><![CDATA[Please upload GeoIP City Location file (CSV format) from <a href="http://www.maxmind.com/app/geolite">http://www.maxmind.com/app/geolite</a>.]]></comment>
+                            <frontend_type>import</frontend_type>
+                            <backend_model>ecomdev_checkitout/backend_geoip</backend_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <type>location</type>
+                            </depends>
+                        </location>
+                        <location_block translate="label comment">
+                            <label>GeoIP City Blocks CSV File</label>
+                            <comment><![CDATA[Please upload GeoIP City Blocks file (CSV format) from <a href="http://www.maxmind.com/app/geolite">http://www.maxmind.com/app/geolite</a>.]]></comment>
+                            <frontend_type>import</frontend_type>
+                            <backend_model>ecomdev_checkitout/backend_geoip</backend_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <type>location</type>
+                            </depends>
+                        </location_block>
+                        <use_region translate="label comment">
+                            <label>Apply to State/Province Field</label>
+                            <comment>Select "Yes" to apply data into "State/Province" field of the address.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <type>location</type>
+                            </depends>
+                        </use_region>
+                        <use_postcode translate="label comment">
+                            <label>Apply to Zip/Postcode Field</label>
+                            <comment>Select "Yes" to apply data into "Zip/Postcode" field of the address.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <type>location</type>
+                            </depends>
+                        </use_postcode>
+
+                        <use_city translate="label comment">
+                            <label>Apply to City Field</label>
+                            <comment>Select "Yes" to apply data into "City" field of the address.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <type>location</type>
+                            </depends>
+                        </use_city>
+                    </fields>
+                </geoip>
+                <default translate="label">
+                    <label>Default Values Configuration</label>
+                    <sort_order>300</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <shipping_method translate="label comment">
+                            <label>Default Shipping Method</label>
+                            <comment>This shipping method will be preselected if customer has not choose different.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>ecomdev_checkitout/source_shipping_methods</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </shipping_method>
+                        <payment_method translate="label comment">
+                            <label>Default Payment Method</label>
+                            <comment>This payment method will be preselected if customer has not choose different.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>ecomdev_checkitout/source_payment_methods</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </payment_method>
+
+                        <same_as_billing translate="label comment">
+                            <label>Use Same Address For Shipping By Default</label>
+                            <comment>Turn this feature to enable set by default "Use Same Address for Shipping" option.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </same_as_billing>
+
+                        <country_id translate="label comment">
+                            <label>Default Country</label>
+                            <comment>An alias for configuration of the default country for the website. By modifying this value you also modify "General / Country / Default" option in configuration.</comment>
+                            <config_path>general/country/default</config_path>
+                            <frontend_type>select</frontend_type>
+                            <frontend_class>countries</frontend_class>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </country_id>
+
+                        <region_id translate="label comment">
+                            <label>Default Region/State</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </region_id>
+
+                        <postcode translate="label">
+                            <label>Default ZIP/Postal Code</label>
+                            <comment>This value will be pre-filled in for customer's billing address during checkout.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </postcode>
+
+                        <city translate="label">
+                            <label>Default City</label>
+                            <comment>This value will be pre-filled in for customer's billing address during checkout.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </city>
+                    </fields>
+                </default>
+                <design translate="label">
+                    <label>New Visual Layout Configuration</label>
+                    <sort_order>400</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label comment">
+                            <label>Enabled</label>
+                            <comment><![CDATA[<strong style="color:red">Please Note!</strong> As soon as you turn this feature on all your customizations to old <strong>CheckItOut!</strong> version will be lost.]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <layout translate="label comment">
+                            <label>Layout</label>
+                            <comment>Choose one of available layout depending on your web-shop need</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>ecomdev_checkitout/source_design_layout</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </layout>
+                        <css translate="label comment">
+                            <label>Color Scheme</label>
+                            <comment>Choose one of available color schemes or enter your CSS file name in current theme</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>ecomdev_checkitout/source_design_css</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </css>
+                        <custom_css translate="label comment">
+                            <label>Custom CSS</label>
+                            <comment>Please enter custom css file name that is placed in your skin directory and it will be applied on the frontend.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                                <css>custom</css>
+                            </depends>
+                        </custom_css>
+                    </fields>
+                </design>
+            </groups>
+        </ecomdev_checkitout>
+    </sections>
+</config>

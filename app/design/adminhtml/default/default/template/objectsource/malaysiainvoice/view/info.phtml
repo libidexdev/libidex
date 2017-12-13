@@ -1,0 +1,14 @@
+<style type="text/css">
+    table.invoice-items-table, table.invoice-items-table th, table.invoice-items-table td {
+        border: 1px solid #999;
+        margin: 0;
+        padding: 0;
+        border-spacing: 0;
+    }
+
+    table.invoice-items-table th, table.invoice-items-table td {
+        padding: 5px 10px;
+    }
+</style>
+<?php echo $this->getChildHtml('invoice_header') ?>
+<?php echo $this->getChildHtml('invoice_items') ?>

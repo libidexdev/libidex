@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <ObjectSource_RapidOrder>
+            <version>0.1.0</version>
+        </ObjectSource_RapidOrder>
+    </modules>
+
+    <global>
+        <blocks>
+            <rapidorder>
+                <class>ObjectSource_RapidOrder_Block</class>
+            </rapidorder>
+        </blocks>
+        <models>
+            <rapidorder>
+                <class>ObjectSource_RapidOrder_Model</class>
+            </rapidorder>
+        </models>
+        <helpers>
+            <rapidorder>
+                <class>ObjectSource_RapidOrder_Helper</class>
+            </rapidorder>
+        </helpers>
+        <resources>
+            <rapidorder_setup>
+                <setup>
+                    <module>ObjectSource_RapidOrder</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </rapidorder_setup>
+            <rapidorder_setup>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </rapidorder_setup>
+            <rapidorder_setup>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </rapidorder_setup>
+        </resources>
+    </global>
+
+    <frontend>
+        <layout>
+            <updates>
+                <rapidorder module="ObjectSource_RapidOrder">
+                    <file>objectsource/rapidorder.xml</file>
+                </rapidorder>
+            </updates>
+        </layout>
+
+        <routers>
+            <rapidorder>
+                <use>standard</use>
+                <args>
+                    <module>ObjectSource_RapidOrder</module>
+                    <frontName>rapidorder</frontName>
+                </args>
+            </rapidorder>
+        </routers>
+    </frontend>
+    <adminhtml>
+        <layout>
+            <updates>
+                <objectsource_rapidorder>
+                    <file>objectsource/rapidorder.xml</file>
+                </objectsource_rapidorder>
+            </updates>
+        </layout>
+        <events>
+            <sales_order_grid_collection_load_before>
+                <observers>
+                    <objectsource_rapidorder>
+                        <type>disabled</type>
+                        <class>rapidorder/observer</class>
+                        <method>salesOrderGridCollectionLoadBefore</method>
+                    </objectsource_rapidorder>
+                </observers>
+            </sales_order_grid_collection_load_before>
+        </events>
+    </adminhtml>
+</config>

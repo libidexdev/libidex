@@ -1,0 +1,44 @@
+<?php
+/**
+ * Magegiant
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the magegiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magegiant
+ * @package     Magegiant_GiftCard
+ * @copyright   Copyright (c) 2014 Magegiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+
+$creditBalance = $this->getCreditBalance();
+$amount = $this->getUsedCreditAmount();
+if($creditBalance):
+?>
+
+<dl style="margin-top: 10px;">
+	<dt>
+		<input type="checkbox" name="use_giftcard_credit" id="use_giftcard_credit" onchange="expandDetails(this, '.giftcard_use_credit'); if($F('credit_amount')) { order.applyGiftcard('credit_amount', !this.checked); }" />
+		<label for="use_giftcard_credit"><?php echo $this->__('Use Gift Card Credit (%s)', Mage::helper('core')->formatPrice($creditBalance)) ?></label>
+	</dt>
+	<dd class="giftcard_use_credit" style="display: none; margin-top: 5px;">
+		<input type="text" class="input-text" id="credit_amount" value="<?php echo $amount ?>" name="credit_amount" style="width:200px" />&nbsp;
+		<?php echo $this->getButtonHtml(Mage::helper('sales')->__('Apply'), 'order.applyGiftcard(\'credit_amount\')') ?>
+	</dd>
+</dl>
+<?php if($this->getUseCredit()): ?>
+	<script type="text/javascript">
+		var inputEl = $('use_giftcard_credit');
+		inputEl.checked = 'checked';
+		expandDetails(inputEl, '.giftcard_use_credit');
+	</script>
+<?php endif; ?>
+<?php endif; ?>

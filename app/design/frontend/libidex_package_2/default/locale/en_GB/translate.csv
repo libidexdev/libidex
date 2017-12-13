@@ -1,0 +1,7 @@
+"%s was successfully added to your shopping cart.","%s was successfully added to your shopping bag."
+"%s was added to your shopping cart.","%s was added to your shopping bag."
+"My Cart","My bag"
+"You have no items in your shopping cart.","You have no items in your shopping bag."
+"Shopping Cart is Empty","Shopping bag is empty"
+"There are <a href=""%s""><strong>%s items</strong></a> in your cart.","There are <a href=""%s""><strong>%s items</strong></a> in your bag."
+"There is <a href=""%s""><strong>1 item</strong></a> in your cart.","There is <a href=""%s""><strong>1 item</strong></a> in your bag."

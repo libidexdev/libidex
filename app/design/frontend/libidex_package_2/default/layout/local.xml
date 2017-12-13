@@ -1,0 +1,193 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">							
+	<default>
+		<reference name="head">
+			<action method="removeItem"><type>skin_css</type><name>css/styles.css</name></action>
+	
+			<action method="addCss"><stylesheet>css/normalize.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/styles.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/branding.css</stylesheet></action>
+			<action method="addCss"><stylesheet>plugins/font-awesome/css/font-awesome.min.css</stylesheet></action>
+			<!--custom css - lexel-->
+			<action method="addItem"><type>skin_css</type><name>css/custom.css</name></action>
+
+			<action method="addItem"><type>skin_js</type><name>js/jquery-1.10.2.min.js</name></action>
+			<action method="addItem"><type>skin_js</type><name>js/site-head.js</name></action>
+
+			<action method="addItem"><type>skin_js</type><name>less-than-ie9/html5shiv.js</name><params/><if>lt IE 9</if></action>
+			<action method="addItem"><type>skin_js</type><name>less-than-ie9/selectivizr.min.js</name><params/><if>lt IE 9</if></action>
+			<action method="addItem"><type>skin_js</type><name>less-than-ie9/placeholder.js</name><params/><if>lt IE 9</if></action>
+			
+			<action method="removeItem"><type>skin_css</type><name>css/widgets.css</name></action>
+			<action method="removeItem"><type>skin_css</type><name>css/print.css</name></action>
+			<action method="removeItem"><type>skin_css</type><name>css/styles-ie.css</name><params/><if>lt IE 8</if></action>
+			<action method="removeItem"><type>js</type><name>lib/ds-sleight.js</name><params/><if>lt IE 7</if></action>
+			<action method="removeItem"><type>skin_js</type><name>js/ie6.js</name><params/><if>lt IE 7</if></action>
+		</reference>				
+			
+		<reference name="header">
+			<block type="checkout/cart_sidebar" name="topCart" as="topCart" template="checkout/cart/header_cart.phtml"/>
+			<block type="core/template" name="currency_apply" as="currency_apply" template="page/html/currency_apply.phtml"/>
+			<block type="wishlist/customer_sidebar" name="topWishlist" as="topWishlist" template="wishlist/header_wishlist.phtml" />
+		</reference>
+				
+		<reference name="left">
+			<remove name="left.newsletter"/>
+			<remove name="left.permanent.callout"/>
+			<action method="unsetChild"><name>right.newsletter</name></action>
+			<action method="unsetChild"><name>currency</name></action>
+		</reference>
+		 
+		<reference name="right">
+			<remove name="right.permanent.callout"/>
+			<remove name="catalog.compare.sidebar"/>
+			<remove name="left.reports.product.viewed"/>
+			<action method="unsetChild"><name>sale.reorder.sidebar</name></action>
+			<action method="unsetChild"><name>wishlist_sidebar</name></action>
+			<action method="unsetChild"><name>right.reports.product.viewed</name></action>
+			<remove name="cart_sidebar"/>
+		</reference>
+		
+		<reference name="footer">
+			<block type="newsletter/subscribe" name="footerNewsletter" template="newsletter/subscribe.phtml"/>
+			<block type="newsletter/subscribe" name="popupNewsletter" template="newsletter/subscribe_popup.phtml"/>
+		</reference>
+	</default>
+ 
+ 
+	<catalog_category_default>
+		<reference name="root"><action method="setTemplate"><template>page/1column.phtml</template></action></reference>
+		<reference name="left">
+			<action method="unsetChild"><name>currency</name></action>
+			<block type="cms/block" name="Promo"><action method="setBlockId"><block_id>promos_left</block_id></action></block> 
+		</reference>
+	</catalog_category_default>
+
+
+	<catalog_category_layered>
+		<reference name="root"><action method="setTemplate"><template>page/2columns-left.phtml</template></action></reference>
+		<reference name="root"><block type="core/template" name="newReferenceBlock" template="catalog/category/category-top-layout.phtml"/></reference>
+		<reference name="left">
+			<action method="unsetChild"><name>currency</name></action>
+			<block type="cms/block" name="Promo"><action method="setBlockId"><block_id>promos_left</block_id></action></block> 
+		</reference>
+	</catalog_category_layered>
+
+
+	<catalogsearch_result_index>
+		<reference name="root">
+			<action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+			<action method="addBodyClass"><className>catalog-category-view</className></action>
+		</reference>
+		<reference name="left">
+			<action method="unsetChild"><name>currency</name></action>
+		<block type="cms/block" name="Promo"><action method="setBlockId"><block_id>promos_left</block_id></action></block> 
+		</reference>
+	</catalogsearch_result_index>
+
+
+	<catalog_product_view>
+		<reference name="root"><action method="setTemplate"><template>page/1column.phtml</template></action></reference>
+		<reference name="head">
+			<action method="addItem"><type>skin_js</type><name>plugins/owl-carousel/owl.carousel.min.js</name></action> 
+		</reference>
+		
+		<reference name="content">
+			<block type="catalog/product_list_related" name="catalog.product.related" as="related_products" template="catalog/product/list/related.phtml" />
+			<block type="reports/product_viewed" name="product.recently.viewed" as="recently_products" template="catalog/product/list/recently.phtml" />
+			
+			<reference name="product.info">
+				<block type="review/form" name="product.review.form" as="review_form"></block>
+			</reference>
+
+			<block type="core/template" name="catalog.product.view.options.additional_information.colour" template="catalog/product/view/options/additional_information.phtml">
+				<action method="setData"><key>title</key><value>Colours</value></action>
+				<action method="setData"><key>id</key><value>colour</value></action>
+				<action method="setData"><key>cms_block</key><value>product_page_lightbox_colour</value></action>
+			</block>
+
+			<block type="core/template" name="catalog.product.view.options.additional_information.size" template="catalog/product/view/options/additional_information.phtml">
+				<action method="setData"><key>title</key><value>Size</value></action>
+				<action method="setData"><key>id</key><value>size</value></action>
+				<action method="setData"><key>cms_block</key><value>product_page_lightbox_size</value></action>
+			</block>
+		</reference>
+	</catalog_product_view>
+	
+	<checkout_onepage_success>
+		<reference name="root"><action method="setTemplate"><template>page/1column.phtml</template></action></reference>
+	</checkout_onepage_success>
+	
+	<checkout_onepage_failure>
+		<reference name="root"><action method="setTemplate"><template>page/1column.phtml</template></action></reference>
+	</checkout_onepage_failure>	
+	
+	<cms_index_index>
+		<reference name="head">
+			<action method="addItem"><type>skin_js</type><name>plugins/owl-carousel/owl.carousel.min.js</name></action>
+			<action method="addCss"><stylesheet>plugins/owl-carousel/owl.carousel.css</stylesheet></action>
+		</reference>
+		
+		<reference name="content">
+		    <block type="reports/product_viewed" as="recently_products" template="catalog/product/list/recently_home.phtml" />
+		</reference>    
+	</cms_index_index>
+	
+	<customer_account_login>
+		<reference name="root">
+	        <block type="core/template" name="full_width_title" as="full_width_title2" template="customer/account/account-heading.phtml"/>
+		</reference>
+	    <reference name="content">
+			<block type="customer/form_register" name="customer_form_register" as="registerPopup" template="persistent/customer/form/register-popup.phtml"/>
+			<block type="customer/account_forgotpassword" name="forgotPasswordPopup" as="forgotPasswordPopup" template="customer/form/forgotpassword-popup.phtml" />
+	    </reference>
+	</customer_account_login>
+
+	<wordpress_page_view>
+		<remove name="breadcrumbs" />
+	</wordpress_page_view>
+
+	<customer_account_index>
+		<reference name="root"><block type="core/template" name="full_width_title" template="customer/account/account-heading.phtml"/></reference>
+	</customer_account_index>
+	
+	<customer_address_index>
+		<reference name="root"><block type="core/template" name="full_width_title" template="customer/account/account-heading.phtml"/></reference>	
+	</customer_address_index>
+	
+	<customer_address_form>
+		<reference name="root"><block type="core/template" name="full_width_title" template="customer/account/account-heading.phtml"/></reference>	
+	</customer_address_form>
+	
+	<customer_account_edit>
+		<reference name="root"><block type="core/template" name="full_width_title" template="customer/account/account-heading.phtml"/></reference>	
+	</customer_account_edit>
+	
+	<sales_order_history>
+		<reference name="root"><block type="core/template" name="full_width_title" template="customer/account/account-heading.phtml"/></reference>	
+	</sales_order_history>
+	
+	<sales_order_view>
+		<reference name="root"><block type="core/template" name="full_width_title" template="customer/account/account-heading.phtml"/></reference>	
+	</sales_order_view>
+	
+	<newsletter_manage_index>
+		<reference name="root"><block type="core/template" name="full_width_title" template="customer/account/account-heading.phtml"/></reference>	
+	</newsletter_manage_index>
+	
+	<wishlist_index_index>
+		<reference name="root"><block type="core/template" name="full_width_title" template="customer/account/account-heading.phtml"/></reference>
+	</wishlist_index_index>
+	
+	<downloadable_customer_products>
+		<reference name="root"><block type="core/template" name="full_width_title" template="customer/account/account-heading.phtml"/></reference>
+	</downloadable_customer_products>
+	
+	<review_customer_index>
+		<reference name="root"><block type="core/template" name="full_width_title" template="customer/account/account-heading.phtml"/></reference>
+	</review_customer_index>
+	
+	<monkey_customer_account_index>
+		<reference name="root"><block type="core/template" name="full_width_title" template="customer/account/account-heading.phtml"/></reference>
+	</monkey_customer_account_index>
+</layout>

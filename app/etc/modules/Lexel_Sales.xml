@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Lexel_Sales>
+            <codePool>local</codePool>
+            <active>true</active>
+            <depends>
+                <Mage_Sales />
+            </depends>
+        </Lexel_Sales>
+    </modules>
+</config>

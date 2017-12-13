@@ -1,0 +1,230 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * MageGiant
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the http://magegiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category    MageGiant
+ * @package     MageGiant_GiftCard
+ * @copyright   Copyright (c) 2014 MageGiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_giftcard_codes_index>
+        <reference name="head">
+            <action method="addJs"><file>magegiant/giftcard/adminhtml/grid.js</file></action>
+        </reference>
+        <reference name="content">
+            <block type="giftcard/adminhtml_giftcard" name="magegiant.giftcard"/>
+        </reference>
+    </adminhtml_giftcard_codes_index>
+    <adminhtml_giftcard_codes_import>
+        <reference name="content">
+            <block type="giftcard/adminhtml_import_edit" name="magegiant.giftcard.import"/>
+        </reference>
+    </adminhtml_giftcard_codes_import>
+    <adminhtml_giftcard_codes_grid>
+        <block type="core/text_list" name="root">
+            <block type="giftcard/adminhtml_giftcard_grid" name="magegiant.giftcard.grid"/>
+        </block>
+    </adminhtml_giftcard_codes_grid>
+    <adminhtml_giftcard_codes_historygrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="giftcard/adminhtml_giftcard_edit_tab_history" name="magegiant.giftcard.history.grid"/>
+        </block>
+    </adminhtml_giftcard_codes_historygrid>
+    <adminhtml_giftcard_codes_edit>
+        <reference name="head">
+            <action method="setCanLoadExtJs">
+                <flag>1</flag>
+            </action>
+            <action method="setCanLoadRulesJs">
+                <flag>1</flag>
+            </action>
+        </reference>
+        <reference name="left">
+            <block type="giftcard/adminhtml_giftcard_edit_tabs" name="giftcard_edit_tabs">
+                <action method="addTab">
+                    <name>main_section</name>
+                    <block>giftcard/adminhtml_giftcard_edit_tab_main</block>
+                </action>
+                <action method="addTab">
+                    <name>conditions_section</name>
+                    <block>giftcard/adminhtml_giftcard_edit_tab_conditions</block>
+                </action>
+                <action method="addTab">
+                    <name>actions_section</name>
+                    <block>giftcard/adminhtml_giftcard_edit_tab_actions</block>
+                </action>
+                <action method="addTab">
+                    <name>send_section</name>
+                    <block>giftcard/adminhtml_giftcard_edit_tab_send</block>
+                </action>
+                <action method="addTab">
+                    <name>history_session</name>
+                    <block>giftcard/adminhtml_giftcard_edit_tab_history</block>
+                </action>
+            </block>
+        </reference>
+        <reference name="content">
+            <block type="giftcard/adminhtml_giftcard_edit" name="adminhtml_giftcard_edit"/>
+        </reference>
+    </adminhtml_giftcard_codes_edit>
+
+    <adminhtml_giftcard_history_index>
+        <reference name="content">
+            <block type="giftcard/adminhtml_history" name="magegiant.giftcard.history"/>
+        </reference>
+    </adminhtml_giftcard_history_index>
+    <adminhtml_giftcard_history_grid>
+        <block type="core/text_list" name="root">
+            <block type="giftcard/adminhtml_history_grid" name="magegiant.giftcard.history.grid"/>
+        </block>
+    </adminhtml_giftcard_history_grid>
+
+    <!-- Order Totals -->
+    <adminhtml_sales_order_view>
+        <reference name="order_totals">
+            <block type="giftcard/totals_order" name="giftcard.total.discount" template="magegiant/giftcard/order/total.phtml"/>
+        </reference>
+        <reference name="order_items">
+            <action method="addColumnRender">
+                <column>name</column>
+                <block>giftcard/adminhtml_order_item_renderer</block>
+                <template>sales/items/column/name.phtml</template>
+                <type>giantcard</type>
+            </action>
+        </reference>
+    </adminhtml_sales_order_view>
+
+    <adminhtml_sales_order_invoice_new>
+        <reference name="invoice_totals">
+            <block type="giftcard/totals" name="giftcard.total.discount" />
+        </reference>
+        <reference name="order_items">
+            <action method="addColumnRender">
+                <column>name</column>
+                <block>giftcard/adminhtml_order_item_renderer</block>
+                <template>sales/items/column/name.phtml</template>
+                <type>giantcard</type>
+            </action>
+        </reference>
+    </adminhtml_sales_order_invoice_new>
+    <adminhtml_sales_order_invoice_updateqty>
+        <reference name="invoice_totals">
+            <block type="giftcard/totals" name="giftcard.total.discount" />
+        </reference>
+        <reference name="order_items">
+            <action method="addColumnRender">
+                <column>name</column>
+                <block>giftcard/adminhtml_order_item_renderer</block>
+                <template>sales/items/column/name.phtml</template>
+                <type>giantcard</type>
+            </action>
+        </reference>
+    </adminhtml_sales_order_invoice_updateqty>
+    <adminhtml_sales_order_invoice_view>
+        <reference name="invoice_totals">
+            <block type="giftcard/totals" name="giftcard.total.discount" />
+        </reference>
+        <reference name="order_items">
+            <action method="addColumnRender">
+                <column>name</column>
+                <block>giftcard/adminhtml_order_item_renderer</block>
+                <template>sales/items/column/name.phtml</template>
+                <type>giantcard</type>
+            </action>
+        </reference>
+    </adminhtml_sales_order_invoice_view>
+
+    <adminhtml_sales_order_creditmemo_new>
+        <reference name="creditmemo_totals">
+            <block type="giftcard/totals" name="giftcard.total.discount" />
+        </reference>
+        <reference name="order_items">
+            <action method="addColumnRender">
+                <column>name</column>
+                <block>giftcard/adminhtml_order_item_renderer</block>
+                <template>sales/items/column/name.phtml</template>
+                <type>giantcard</type>
+            </action>
+        </reference>
+    </adminhtml_sales_order_creditmemo_new>
+    <adminhtml_sales_order_creditmemo_updateqty>
+        <reference name="creditmemo_totals">
+            <block type="giftcard/totals" name="giftcard.total.discount" />
+        </reference>
+        <reference name="order_items">
+            <action method="addColumnRender">
+                <column>name</column>
+                <block>giftcard/adminhtml_order_item_renderer</block>
+                <template>sales/items/column/name.phtml</template>
+                <type>giantcard</type>
+            </action>
+        </reference>
+    </adminhtml_sales_order_creditmemo_updateqty>
+    <adminhtml_sales_order_creditmemo_view>
+        <reference name="creditmemo_totals">
+            <block type="giftcard/totals" name="giftcard.total.discount" />
+        </reference>
+        <reference name="order_items">
+            <action method="addColumnRender">
+                <column>name</column>
+                <block>giftcard/adminhtml_order_item_renderer</block>
+                <template>sales/items/column/name.phtml</template>
+                <type>giantcard</type>
+            </action>
+        </reference>
+    </adminhtml_sales_order_creditmemo_view>
+
+    <PRODUCT_TYPE_giantcard translate="label" module="giftcard">
+        <reference name="product.composite.fieldset">
+            <remove name="product.composite.fieldset.qty"/>
+            <block type="giftcard/adminhtml_catalog_product_composite_giftcard" name="product.composite.giftcard" before="-" template="magegiant/giftcard/catalog/product/composite/giftcard.phtml" >
+                <block type="core/text_list" name="giftcard.composite.fieldset.options.js" as="options_js"/>
+            </block>
+        </reference>
+    </PRODUCT_TYPE_giantcard>
+    <adminhtml_sales_order_create_index>
+        <reference name="head">
+            <reference name="head">
+                <action method="addJs"><file>magegiant/giftcard/product.js</file></action>
+            </reference>
+        </reference>
+        <reference name="items_grid">
+            <block type="giftcard/adminhtml_order_create_form" template="magegiant/giftcard/order/create/form.phtml" name="giftcard" />
+        </reference>
+    </adminhtml_sales_order_create_index>
+    <adminhtml_sales_order_create_load_block_items>
+        <reference name="items_grid">
+            <block type="giftcard/adminhtml_order_create_form" template="magegiant/giftcard/order/create/form.phtml" name="giftcard" />
+        </reference>
+    </adminhtml_sales_order_create_load_block_items>
+    <adminhtml_sales_order_create_load_block_data>
+        <reference name="items_grid">
+            <block type="giftcard/adminhtml_order_create_form" template="magegiant/giftcard/order/create/form.phtml" name="giftcard" />
+        </reference>
+    </adminhtml_sales_order_create_load_block_data>
+
+    <adminhtml_sales_order_creditmemo_new>
+        <reference name="submit_before">
+            <block type="giftcard/adminhtml_order_creditmemo_refund" template="magegiant/giftcard/order/creditmemo/refund.phtml" name="giftcard" />
+        </reference>
+    </adminhtml_sales_order_creditmemo_new>
+    <adminhtml_sales_order_creditmemo_updateqty>
+        <reference name="submit_before">
+            <block type="giftcard/adminhtml_order_creditmemo_refund" template="magegiant/giftcard/order/creditmemo/refund.phtml" name="giftcard" />
+        </reference>
+    </adminhtml_sales_order_creditmemo_updateqty>
+</layout>

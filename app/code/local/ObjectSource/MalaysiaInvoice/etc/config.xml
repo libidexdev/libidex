@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <ObjectSource_MalaysiaInvoice>
+            <version>0.0.1</version>
+        </ObjectSource_MalaysiaInvoice>
+    </modules>
+    <global>
+        <blocks>
+            <os_malaysia_invoice>
+                <class>ObjectSource_MalaysiaInvoice_Block</class>
+            </os_malaysia_invoice>
+            <os_malaysia_invoice_adminhtml>
+                <class>ObjectSource_MalaysiaInvoice_Block_Adminhtml</class>
+            </os_malaysia_invoice_adminhtml>
+        </blocks>
+        <helpers>
+            <os_malaysia_invoice>
+                <class>ObjectSource_MalaysiaInvoice_Helper</class>
+            </os_malaysia_invoice>
+        </helpers>
+        <models>
+            <os_malaysia_invoice>
+                <class>ObjectSource_MalaysiaInvoice_Model</class>
+                <resourceModel>os_malaysia_invoice_resource</resourceModel>
+            </os_malaysia_invoice>
+            <os_malaysia_invoice_resource>
+                <class>ObjectSource_MalaysiaInvoice_Model_Resource</class>
+                <entities>
+                    <invoice>
+                        <table>os_malaysia_invoice</table>
+                    </invoice>
+                    <invoice_item>
+                        <table>os_malaysia_invoice_item</table>
+                    </invoice_item>
+                </entities>
+            </os_malaysia_invoice_resource>
+        </models>
+        <resources>
+            <malaysia_invoice_setup>
+                <setup>
+                    <module>ObjectSource_MalaysiaInvoice</module>
+                    <class>ObjectSource_MalaysiaInvoice_Model_Resource_Setup</class>
+                </setup>
+            </malaysia_invoice_setup>
+        </resources>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <os_malaysia_invoice before="Mage_Adminhtml">ObjectSource_MalaysiaInvoice_Adminhtml</os_malaysia_invoice>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <os_malaysia_invoice>
+                    <file>objectsource/malaysiainvoice.xml</file>
+                </os_malaysia_invoice>
+            </updates>
+        </layout>
+        <events>
+            <core_block_abstract_prepare_layout_before>
+                <observers>
+                    <os_malaysia_invoice>
+                        <class>ObjectSource_MalaysiaInvoice_Model_Observer</class>
+                        <method>addMalaysiaInvoiceMassAction</method>
+                    </os_malaysia_invoice>
+                </observers>
+            </core_block_abstract_prepare_layout_before>
+        </events>
+        <menu>
+            <sales>
+                <children>
+                    <malaysia_invoice translate="title" module="os_malaysia_invoice">
+                        <title>Malaysia Invoices</title>
+                        <sort_order>30</sort_order>
+                        <action>adminhtml/malaysiainvoice</action>
+                    </malaysia_invoice>
+                </children>
+            </sales>
+        </menu>
+        <!--<acl>-->
+            <!--<resources>-->
+                <!--<all>-->
+                    <!--<title>Allow Everything</title>-->
+                <!--</all>-->
+                <!--<admin>-->
+                    <!--<children>-->
+                        <!--<system>-->
+                            <!--<objectsource>-->
+                                <!--<config>-->
+                                <!--&lt;!&ndash;<title>objectsource</title>&ndash;&gt;-->
+                                    <!--<children>-->
+                                        <!--<malaysia_invoice>-->
+                                            <!---->
+                                        <!--</malaysia_invoice>-->
+                                    <!--</children>-->
+                                <!--</config>-->
+                            <!--</objectsource>-->
+                        <!--</system>-->
+                    <!--</children>-->
+                <!--</admin>-->
+            <!--</resources>-->
+        <!--</acl>-->
+    </adminhtml>
+    <default>
+        <general>
+            <malaysia_invoice>
+                <company_name>SDN BHD</company_name>
+                <company_registration_text>Company registered in Malaysia No: 841463-H</company_registration_text>
+                <company_address>12 Jalan Hilir, Taman Gembira, Klang 41100, Selangor, Malaysia</company_address>
+                <company_telephone_number>Tel: 03 3372 2839</company_telephone_number>
+                <company_fax_number>Fax: 033372 2835</company_fax_number>
+                <gst_registration_text>GST REG NO: 001721335808</gst_registration_text>
+                <libidex_address><![CDATA[Libidex Ltd
+3 St Albans Place, Islington,
+LONDON, N1 0NX, UK.
+Attn: Simon Rose]]></libidex_address>
+                <libidex_bank_detail>HSBC BANK ACCOUNT IN MALAYSIA A/C NO: 203-392261-101</libidex_bank_detail>
+                <operation_manager_name>Tan Choo Cheng</operation_manager_name>
+                <operation_manager_position>Operations Manager</operation_manager_position>
+            </malaysia_invoice>
+        </general>
+    </default>
+</config>

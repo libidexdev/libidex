@@ -1,0 +1,20 @@
+<?php $_attribute = $this->getOption(); ?>
+<dt>
+    <label class="required">
+        <span class="realOptionTitle"><?php echo  $this->escapeHtml($_attribute->getLabel()) ?></span>
+    </label>
+</dt>
+<dd<?php if ($_attribute->decoratedIsLast){?> class="last"<?php }?>>
+    <div class="input-box">
+        <select name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]" id="attribute<?php echo $_attribute->getAttributeId() ?>" class="required-entry super-attribute-select">
+            <option><?php echo $this->__('Choose an Option...') ?></option>
+        </select>
+    </div>
+    <?php switch (Mage::registry('productpagestep_class')):
+    case 'swatch_color_main': ?>
+        <div class="swatchPreview">
+            <img src="<?php echo Mage::helper('productpagestep')->getSelectASwatchImageUrl()?>" />
+        </div>
+        <?php break;?>
+    <?php endswitch; ?>
+</dd>

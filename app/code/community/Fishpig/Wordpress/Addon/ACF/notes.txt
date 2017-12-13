@@ -1,0 +1,18 @@
+##
+# Custom Post Types / WordPress Integration
+#
+# Author:			    	 FishPig Limited (Ben Tideswell)
+# URL:	 					 http://fishpig.co.uk/magento/wordpress-integration/advanced-custom-fields/
+##
+
+20/08/2014 - v1.2.5.1
+- Added support for repeater fields in options pages
+
+29/06/2014 - v1.2.5.0
+- Improved the field integration
+
+27/06/2014 - v1.2.4.0
+- Added better support for the Flexible Content field
+
+10/03/2014 - v1.2.3.0
+- Bug fix for repeater fields embedded in repeater fields

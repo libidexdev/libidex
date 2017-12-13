@@ -1,0 +1,433 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * MageGiant
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the http://magegiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category    MageGiant
+ * @package     MageGiant_GiftCard
+ * @copyright   Copyright (c) 2014 MageGiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+-->
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/magegiant/giftcard/default.js</name>
+            </action>
+        </reference>
+        <reference name="catalog_product_price_template">
+            <action method="addPriceBlockType">
+                <type>giantcard</type>
+                <block>giftcard/catalog_product_price</block>
+                <template>magegiant/giftcard/catalog/product/price.phtml</template>
+            </action>
+        </reference>
+    </default>
+
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="giftcard" ifconfig="giftcard/general/is_enable">
+                <name>giftcard</name>
+                <path>giftcard</path>
+                <label>Gift Card</label>
+            </action>
+        </reference>
+    </customer_account>
+
+    <giftcard_index_index>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="giftcard/account_giftcard" name="giftcard.account" template="magegiant/giftcard/account/giftcard.phtml">
+                <action method="addButton" translate="label" module="giftcard">
+                    <name>add</name>
+                    <path>giftcard/index/add</path>
+                    <label>Add Gift Card</label>
+                    <type>submit</type>
+                    <position>10</position>
+                </action>
+                <action method="addButton" translate="label" module="giftcard">
+                    <name>check</name>
+                    <path>giftcard/checkout/checkPost</path>
+                    <label>Check Status and Balance</label>
+                    <type>ajax</type>
+                    <position>20</position>
+                </action>
+
+                <block type="core/text_list" name="giftcard.extra" as="gc.extra" translate="label">
+                    <block type="giftcard/account_giftcard_list" name="giftcard.account.list" as="gc.list" template="magegiant/giftcard/account/giftcard/list.phtml"/>
+                </block>
+            </block>
+        </reference>
+    </giftcard_index_index>
+
+    <giftcard_index_view>
+        <update handle="customer_account"/>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>css/magegiant/giftcard/style.css</stylesheet>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="giftcard/account_giftcard_view" name="giftcard.account.view" template="magegiant/giftcard/account/giftcard/view.phtml">
+                <block type="giftcard/account_giftcard_view_history" name="giftcard.account.view.history" as="giftcard.view.history" template="magegiant/giftcard/account/giftcard/view/history.phtml"/>
+            </block>
+        </reference>
+    </giftcard_index_view>
+
+    <!-- Order view -->
+    <sales_order_view>
+        <reference name="order_totals">
+            <block type="giftcard/totals_order" name="giftcard.total.view" template="magegiant/giftcard/order/total.phtml"/>
+        </reference>
+    </sales_order_view>
+    <sales_order_print>
+        <reference name="order_totals">
+            <block type="giftcard/totals" name="giftcard.total"/>
+        </reference>
+    </sales_order_print>
+    <sales_email_order_items>
+        <reference name="order_totals">
+            <block type="giftcard/totals" name="giftcard.total"/>
+        </reference>
+    </sales_email_order_items>
+
+    <sales_order_invoice>
+        <reference name="invoice_totals">
+            <block type="giftcard/totals" name="giftcard.total"/>
+        </reference>
+    </sales_order_invoice>
+    <sales_order_printinvoice>
+        <reference name="invoice_totals">
+            <block type="giftcard/totals" name="giftcard.total"/>
+        </reference>
+    </sales_order_printinvoice>
+    <sales_email_order_invoice_items>
+        <reference name="invoice_totals">
+            <block type="giftcard/totals" name="giftcard.total"/>
+        </reference>
+    </sales_email_order_invoice_items>
+
+    <sales_order_creditmemo>
+        <reference name="creditmemo_totals">
+            <block type="giftcard/totals" name="giftcard.total"/>
+        </reference>
+    </sales_order_creditmemo>
+    <sales_order_printcreditmemo>
+        <reference name="creditmemo_totals">
+            <block type="giftcard/totals" name="giftcard.total"/>
+        </reference>
+    </sales_order_printcreditmemo>
+    <sales_email_order_creditmemo_items>
+        <reference name="creditmemo_totals">
+            <block type="giftcard/totals" name="giftcard.total"/>
+        </reference>
+    </sales_email_order_creditmemo_items>
+
+    <!-- Product type giantcard -->
+    <PRODUCT_TYPE_giantcard translate="label" module="giftcard">
+        <label>Catalog Product View (Gift Card)</label>
+        <reference name="product.info">
+            <block type="giftcard/catalog_product_view" name="product.info.giftcard" as="product_type_data" template="magegiant/giftcard/catalog/product/view.phtml">
+                <block type="giftcard/catalog_product_view" name="product.info.giftcard.default" as="product_type_data_default" template="magegiant/giftcard/catalog/product/view/price.phtml"/>
+                <block type="core/text_list" name="giftcard.extra" as="giftcard_data_extra" translate="label">
+                    <label>Gift card Extra Info</label>
+                </block>
+                <block type="core/text_list" name="product.info.giftcard.extra" as="product_type_data_extra" translate="label">
+                    <label>Product Extra Info</label>
+                </block>
+            </block>
+        </reference>
+    </PRODUCT_TYPE_giantcard>
+    <catalog_product_view>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>css/magegiant/giftcard/style.css</stylesheet>
+            </action>
+            <action method="addJs">
+                <script>magegiant/giftcard/product.js</script>
+            </action>
+        </reference>
+    </catalog_product_view>
+
+    <giftcard_email_template>
+        <block type="giftcard/email_template" name="giftcard.email" template="magegiant/giftcard/email/template.phtml">
+            <block type="core/text_list" name="giftcard.email.extra"/>
+        </block>
+    </giftcard_email_template>
+    <giftcard_email_template_reminder>
+        <block type="giftcard/email_template" name="giftcard.email.reminder" template="magegiant/giftcard/email/reminder.phtml">
+            <block type="core/text_list" name="giftcard.email.reminder.extra"/>
+        </block>
+    </giftcard_email_template_reminder>
+    <giftcard_email_template_purchaser>
+        <block type="giftcard/email_template" name="giftcard.email.purchaser" template="magegiant/giftcard/email/purchaser.phtml">
+            <block type="core/text_list" name="giftcard.email.purchaser.extra"/>
+        </block>
+    </giftcard_email_template_purchaser>
+    <checkout_cart_index>
+        <reference name="checkout.cart">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_renderer</block>
+                <template>checkout/cart/item/default.phtml</template>
+            </action>
+        </reference>
+    </checkout_cart_index>
+    <checkout_onepage_review>
+        <reference name="root">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_renderer</block>
+                <template>checkout/onepage/review/item.phtml</template>
+            </action>
+        </reference>
+    </checkout_onepage_review>
+    <checkout_multishipping_addresses>
+        <reference name="checkout_addresses">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_renderer</block>
+                <template>checkout/multishipping/item/default.phtml</template>
+            </action>
+        </reference>
+    </checkout_multishipping_addresses>
+    <checkout_multishipping_shipping>
+        <reference name="checkout_shipping">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_renderer</block>
+                <template>checkout/multishipping/item/default.phtml</template>
+            </action>
+        </reference>
+        <reference name="checkout_billing_items">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_renderer</block>
+                <template>checkout/multishipping/item/default.phtml</template>
+            </action>
+        </reference>
+    </checkout_multishipping_shipping>
+    <checkout_multishipping_overview>
+        <reference name="checkout_overview">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_renderer</block>
+                <template>checkout/multishipping/item/default.phtml</template>
+            </action>
+        </reference>
+    </checkout_multishipping_overview>
+    <paypal_express_review>
+        <reference name="paypal.express.review.details">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_renderer</block>
+                <template>checkout/onepage/review/item.phtml</template>
+            </action>
+        </reference>
+    </paypal_express_review>
+    <paypal_express_review_details>
+        <reference name="root">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_renderer</block>
+                <template>checkout/onepage/review/item.phtml</template>
+            </action>
+        </reference>
+    </paypal_express_review_details>
+    <sales_order_view>
+        <reference name="order_items">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_order_renderer</block>
+                <template>sales/order/items/renderer/default.phtml</template>
+            </action>
+        </reference>
+    </sales_order_view>
+    <sales_order_invoice>
+        <reference name="invoice_items">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_order_renderer</block>
+                <template>sales/order/invoice/items/renderer/default.phtml</template>
+            </action>
+        </reference>
+    </sales_order_invoice>
+    <sales_order_shipment>
+        <reference name="shipment_items">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_order_renderer</block>
+                <template>sales/order/shipment/items/renderer/default.phtml</template>
+            </action>
+        </reference>
+    </sales_order_shipment>
+    <sales_order_creditmemo>
+        <reference name="creditmemo_items">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_order_renderer</block>
+                <template>sales/order/creditmemo/items/renderer/default.phtml</template>
+            </action>
+        </reference>
+    </sales_order_creditmemo>
+    <sales_order_print>
+        <reference name="sales.order.print">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_order_renderer</block>
+                <template>sales/order/items/renderer/default.phtml</template>
+            </action>
+        </reference>
+    </sales_order_print>
+    <sales_order_printinvoice>
+        <reference name="sales.order.print.invoice">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_order_renderer</block>
+                <template>sales/order/invoice/items/renderer/default.phtml</template>
+            </action>
+        </reference>
+    </sales_order_printinvoice>
+    <sales_order_printshipment>
+        <reference name="sales.order.print.shipment">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_order_renderer</block>
+                <template>sales/order/shipment/items/renderer/default.phtml</template>
+            </action>
+        </reference>
+    </sales_order_printshipment>
+    <sales_order_printcreditmemo>
+        <reference name="sales.order.print.creditmemo">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_order_renderer</block>
+                <template>sales/order/creditmemo/items/renderer/default.phtml</template>
+            </action>
+        </reference>
+    </sales_order_printcreditmemo>
+
+    <!-- For guests -->
+    <sales_guest_view>
+        <reference name="order_items">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_order_renderer</block>
+                <template>sales/order/items/renderer/default.phtml</template>
+            </action>
+        </reference>
+    </sales_guest_view>
+
+    <sales_guest_invoice>
+        <reference name="invoice_items">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_order_renderer</block>
+                <template>sales/order/invoice/items/renderer/default.phtml</template>
+            </action>
+        </reference>
+    </sales_guest_invoice>
+    <sales_guest_shipment>
+        <reference name="shipment_items">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_order_renderer</block>
+                <template>sales/order/shipment/items/renderer/default.phtml</template>
+            </action>
+        </reference>
+    </sales_guest_shipment>
+    <sales_guest_creditmemo>
+        <reference name="creditmemo_items">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_order_renderer</block>
+                <template>sales/order/creditmemo/items/renderer/default.phtml</template>
+            </action>
+        </reference>
+    </sales_guest_creditmemo>
+    <sales_guest_print>
+        <reference name="sales.order.print">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_order_renderer</block>
+                <template>sales/order/items/renderer/default.phtml</template>
+            </action>
+        </reference>
+    </sales_guest_print>
+    <sales_guest_printinvoice>
+        <reference name="sales.order.print.invoice">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_order_renderer</block>
+                <template>sales/order/invoice/items/renderer/default.phtml</template>
+            </action>
+        </reference>
+    </sales_guest_printinvoice>
+    <sales_guest_printshipment>
+        <reference name="sales.order.print.shipment">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_order_renderer</block>
+                <template>sales/order/shipment/items/renderer/default.phtml</template>
+            </action>
+        </reference>
+    </sales_guest_printshipment>
+    <sales_guest_printcreditmemo>
+        <reference name="sales.order.print.creditmemo">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_order_renderer</block>
+                <template>sales/order/creditmemo/items/renderer/default.phtml</template>
+            </action>
+        </reference>
+    </sales_guest_printcreditmemo>
+    <sales_email_order_items>
+        <reference name="items">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_order_renderer</block>
+                <template>email/order/items/order/default.phtml</template>
+            </action>
+        </reference>
+    </sales_email_order_items>
+    <sales_email_order_invoice_items>
+        <reference name="items">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_order_renderer</block>
+                <template>email/order/items/invoice/default.phtml</template>
+            </action>
+        </reference>
+    </sales_email_order_invoice_items>
+    <sales_email_order_shipment_items>
+        <reference name="items">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_order_renderer</block>
+                <template>email/order/items/shipment/default.phtml</template>
+            </action>
+        </reference>
+    </sales_email_order_shipment_items>
+    <sales_email_order_creditmemo_items>
+        <reference name="items">
+            <action method="addItemRender">
+                <type>giantcard</type>
+                <block>giftcard/checkout_cart_item_order_renderer</block>
+                <template>email/order/items/creditmemo/default.phtml</template>
+            </action>
+        </reference>
+    </sales_email_order_creditmemo_items>
+</layout>

@@ -1,0 +1,247 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ *
+ * <?php if ($_rate->getErrorMessage()): ?>
+<ul class="messages"><li class="error-msg"><ul><li><?php echo $_rate->getErrorMessage() ?></li></ul></li></ul>
+<?php else: ?>
+ */
+?>
+<?php if ($this->helper('dropship')->isMergedCheckout() || !Mage::helper('dropcommon')->isActive()): ?>
+	<?php if (!($_shippingRateGroups = $this->getShippingRates())): ?>
+		<strong><?php echo $this->__('Sorry, no quotes are available for this order at this time.') ?></strong>
+	<?php else: ?>
+		<dl class="shipment-methods">
+			<?php if ($this->showItemDescription()) :?>
+				<?php $_warehouseItemDetails = $this->getSingleWhItemDetails(); ?>
+
+				<?php if (!empty($_warehouseItemDetails)): ?>
+					<?php $_warehouse = $_warehouseItemDetails[0]['warehouse']; ?>
+					<?php $_itemDetailHtmlTextArr = $_warehouseItemDetails[0]['item_list']; ?>
+                    <dt><strong><?php echo $this->__('Your order is') ?>:</strong></dt>
+                    <ul class="order-item-list">
+						<?php foreach ($_itemDetailHtmlTextArr as $_formattedItemDetail): ?>
+                            <li>
+								<?php echo $_formattedItemDetail; ?>
+                            </li>
+						<?php endforeach; ?>
+                    </ul>
+				<?php endif; ?>
+			<?php endif; ?>
+			<?php $_sole = count($_shippingRateGroups) == 1; foreach ($_shippingRateGroups as $code => $_rates): ?>
+				<dt><?php echo $this->getCarrierName($code) ?></dt>
+				<dd>
+					<ul>
+						<?php
+						$_sole = $_sole && count($_rates) == 1;
+						if(stripos($_rates[0]->getMethodTitle(), 'Liberation') !== false) {
+							$liberation = $_rates[0];
+							$count = count($_rates);
+							unset($_rates[0]);
+							$_rates[$count] = $liberation;
+						}
+						foreach ($_rates as $_rate): ?>
+							<li>
+								<?php if ($_rate->getErrorMessage()): ?>
+									<ul class="messages"><li class="error-msg"><ul><li><?php echo $_rate->getErrorMessage() ?></li></ul></li></ul>
+								<?php else: ?>
+									<?php if ($_sole) : ?>
+										<span class="no-display"><input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>" checked="checked" /></span>
+									<?php else: ?>
+										<input name="shipping_method" type="radio" class="validate-one-required-by-name" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?> />
+									<?php endif ?>
+									<label for="s_method_<?php echo $_rate->getCode() ?>"><?php echo $_rate->getMethodTitle() ?>
+										<strong>
+											<?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
+											<?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
+
+											<?php echo $_excl; ?>
+											<?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
+												(<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+											<?php endif; ?>
+										</strong>
+									</label>
+								<?php endif ?>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+				</dd>
+			<?php endforeach; ?>
+                <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('shipping-method-disclaimer')->toHtml() ?>
+            <?php if ($this->isCourierOnlyMethodAvailable()): ?>
+                <?php echo $this->__('Your order weighs over 2 kg therefore we will send it by courier. 
+(You will be charged no more than our standard Royal Mail postage prices.)<br/>
+We use UPS, FexEx and DHL depending on your location. If this is not convenient for you then please inform us.'); ?>
+            <?php endif; ?>
+		</dl>
+		<?php if ($this->showExtraInfo()): ?>
+			<div class="field">
+				<label for="dropship_date_input"><?php echo $this->__("Please Select a Delivery Date") ?></label>
+				<div class="input-box">
+					<input type='text' name='dropship_date_input' id="dropship_date_input" class="input-text" value="<?php $this->getExtraDeliveryInfo() ?>"/>
+				</div>
+			</div>
+			<div class="dropship-additional-info">
+				<label for="dropship_extrainfo_input"><?php echo $this->__("Extra Delivery Information") ?></label>
+				<div class="input-box">
+					<input type='text' name='dropship_extrainfo_input' id="dropship_extrainfo_input" class="input-text" />
+				</div>
+			</div>
+		<?php endif; ?>
+	<?php endif; ?>
+<?php else: ?>
+	<?php if (!($_warehouseRateGroups = $this->getWarehouseRates())): ?>
+		<strong><?php echo $this->__('Sorry, no quotes are available for this order at this time.') ?></strong>
+	<?php else: ?>
+		<?php foreach ($_warehouseRateGroups as $_warehouse => $_shippingRateGroups): ?>
+			<input type=hidden id="warehouse_id" value='<?php echo $_warehouse ?>' />
+			<?php $_sole = count($_shippingRateGroups['shipping']) == 1; ?>
+			<dt><strong><?php echo $this->__('Your order is'); ?>:</strong></dt>
+			<ul>
+				<?php foreach ($_shippingRateGroups['item_list'] as $_formattedItemDetail): ?>
+					<li>
+						<?php echo $_formattedItemDetail ?>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+			<dl class="shipment-methods">
+				<?php foreach ($_shippingRateGroups['shipping'] as $code => $_rates): ?>
+					<dt><br><strong><?php echo $this->getCarrierName($code) ?></strong></dt>
+					<dd>
+						<ul>
+							<?php  $_sole = $_sole && count($_rates) == 1; foreach ($_rates as $_rate): ?>
+								<li>
+									<?php if ($_rate->getErrorMessage()): ?>
+										<ul class="messages"><li class="error-msg"><ul><li><?php echo $_rate->getErrorMessage() ?></li></ul></li></ul>
+									<?php else: ?>
+										<?php if ($_sole) : ?>
+											<span class="no-display"><input name="shipping_method_<?php echo $_warehouse ?>" type="radio" class="validate-one-required-by-name" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_warehouse ?>_<?php echo $_rate->getCode() ?>" checked="checked" /></span>
+										<?php else: ?>
+											<input name="shipping_method_<?php echo $_warehouse ?>" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_warehouse ?>_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getWarehouseAddressShippingMethod($_warehouse)) echo ' checked="checked"' ?> />
+										<?php endif ?>
+										<label for="s_method_<?php echo $_warehouse ?>_<?php echo $_rate->getCode() ?>"><?php echo $_rate->getMethodTitle() ?>
+											<strong>
+												<?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
+												<?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
+
+												<?php echo $_excl; ?>
+												<?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
+													(<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+												<?php endif; ?>
+											</strong>
+										</label>
+
+									<?php endif ?>
+								</li>
+
+							<?php endforeach; ?>
+						</ul>
+						<?php if(Mage::helper('wsacommon')->isModuleEnabled('Webshopapps_Wsastorepickup', 'carriers/wsastorepickup/active')) :?>
+							<?php if(Mage::helper('wsastorepickup')->getOurCarrierCode() == $code) :?>
+								<?php echo $this->getStorepickupHtml($_warehouse) ?>
+							<?php endif ?>
+						<?php endif ?>
+					</dd>
+				<?php endforeach; ?>
+			</dl>
+		<?php endforeach; ?>
+		<div class="dropship-text">
+			<?php echo $this->getExplanationText(); ?>
+		</div>
+		<?php if ($this->showExtraInfo()): ?>
+			<div class="field">
+				<label for="dropship_date_input"><?php echo $this->__("Please Select a Delivery Date") ?></label>
+				<div class="input-box">
+					<input type='text' name='dropship_date_input' id="dropship_date_input" class="input-text" value="<?php $this->getExta() ?>"/>
+				</div>
+			</div>
+			<div class="dropship-additional-info">
+				<label for="dropship_extrainfo_input"><?php echo $this->__("Extra Delivery Information") ?></label>
+				<div class="input-box">
+					<input type='text' name='dropship_extrainfo_input' id="dropship_extrainfo_input" class="input-text" />
+				</div>
+			</div>
+		<?php endif; ?>
+	<?php endif; ?>
+<?php endif; ?>
+
+
+<script type="text/javascript">
+    //<![CDATA[
+	<?php if ($this->showExtraInfo()): ?>
+    Calendar.setup({
+        inputField : 'dropship_date_input',
+        ifFormat : '%m/%e/%y',
+        align : 'Bl',
+        singleClick : true
+    });
+	<?php endif; ?>
+
+	<?php if (Mage::helper('wsacommon')->isModuleEnabled('Webshopapps_Insurance', 'shipping/insurance/active')): ?>
+
+	<?php if (Mage::helper('insurance')->isCheckBoxRequired()): ?>
+    if (!$('insurance_reqd')){
+        var insuranceInfo =
+            '<div class="insurance_options"> ' +
+            '<h3><?php echo Mage::helper('insurance')->getHeaderText()?></h3>' +
+            '<input type="checkbox" name="insurance_reqd" id="insurance_reqd" class="checkbox"' +
+            'value="0" onchange="insuranceListener()" <?php if (Mage::helper('insurance')->insuranceReqd()):?> echo checked="checked"<?php endif;?> />' +
+            '<label for="insurance_reqd" class="normal"><?php echo Mage::helper('insurance')->getCheckboxDisplayText() ?></label>' +
+            '<br /> <br />' +
+            '</div>'
+
+        $("onepage-checkout-shipping-method-additional-load").insert({before:insuranceInfo});
+    }
+	<?php endif; ?>
+
+    insuranceListener();
+	<?php endif; ?>
+
+    //]]>
+</script>
+<?php $weight = (int) Mage::getSingleton('checkout/session')->getQuote()->getShippingAddress()->getWeight(); ?>
+
+<script type="text/javascript">
+    $$('#checkout-shipping-method-load .sp-methods').each(function(dl) {
+        var hasValueSelected = false;
+        var royalMailRadio = false;
+
+        dl.select('li').each(function(li) {
+            var labelHtml = li.down('label').innerHTML;
+            var radio = li.down('input[type=radio]');
+
+            if (radio.getAttribute('checked')) {
+                hasValueSelected = true;
+            }
+
+            if (labelHtml.indexOf("Royal Mail") > -1) {
+                royalMailRadio = radio;
+            }
+        });
+
+        if (royalMailRadio && !hasValueSelected) {
+            royalMailRadio.click();
+        }
+    });
+</script>

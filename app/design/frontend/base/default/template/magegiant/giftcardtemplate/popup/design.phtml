@@ -1,0 +1,75 @@
+<?php
+/**
+ * MageGiant
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageGiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    MageGiant
+ * @package     MageGiant_GiftCardTemplate
+ * @copyright   Copyright (c) 2014 MageGiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+?>
+<?php $_designs = $this->getAllDesign(); ?>
+
+<div class="giftcard-template-header">
+    <h2>
+        <?php echo $this->__('Topics') ?>
+    </h2>
+</div>
+<div class="design-type">
+    <ul id="giftcard_template_design_type">
+        <?php if (count($_designs) == 1): ?>
+            <?php foreach ($_designs as $design): ?>
+                <li>
+                    <input type="radio" name="template_design_type" id="template_design_<?php echo $design->getId(); ?>"
+                           value="<?php echo $design->getId(); ?>"
+                           checked
+                        />
+                    <label
+                        for="template_design_<?php echo $design->getId(); ?>"><?php echo $design->getName(); ?></label>
+                </li>
+            <?php endforeach; ?>
+        <?php else: ?>
+			<li>
+				<input type="radio" name="template_design_type" id="template_design_all"
+					   value="0"
+					   checked=""
+					/>
+				<label for="template_design_all"><?php echo $this->__('All') ?></label>
+			</li>
+			<?php foreach ($_designs as $design): ?>
+				<li>
+					<input type="radio" name="template_design_type" id="template_design_<?php echo $design->getId(); ?>"
+						   value="<?php echo $design->getId(); ?>"
+						<?php echo $design->getId() == $this->getDesignType() ? 'checked' : '' ?>
+						/>
+					<label
+						for="template_design_<?php echo $design->getId(); ?>"><?php echo $design->getName(); ?></label>
+				</li>
+			<?php endforeach; ?>
+		<?php endif; ?>
+    </ul>
+</div>
+<script>
+	(function ($) {
+		$(document).ready(function () {
+			var design_config = {
+				changeDesignUrl: '<?php echo $this->getChangeDesignUrl()?>',
+				designEls: '#giftcard_template_design_type input',
+				currentDesign: '#current_design'
+			}
+			GifCardTemplate.design.initialize(design_config);
+		})
+	})
+	(jQuery)
+</script>

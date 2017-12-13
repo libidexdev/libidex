@@ -1,0 +1,28 @@
+<config>
+    <modules>
+        <ObjectSource_Configupsell>
+            <version>0.0.1</version>
+        </ObjectSource_Configupsell>
+    </modules>
+    <global>
+        <blocks>
+            <osconfigupsell>
+              <class>ObjectSource_Configupsell_Block</class>
+            </osconfigupsell>
+        </blocks>
+        <helpers>
+            <osconfigupsell>
+              <class>ObjectSource_Configupsell_Helper</class>
+            </osconfigupsell>
+        </helpers>
+    </global>
+    <frontend>
+        <layout>
+            <updates>
+                <osconfigupsell>
+                    <file>osconfigupsell.xml</file>
+                </osconfigupsell>
+            </updates>
+        </layout>
+    </frontend>
+</config>

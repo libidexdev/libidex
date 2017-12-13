@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <ObjectSource_IbannersFix>
+            <version>0.0.1</version>
+        </ObjectSource_IbannersFix>
+    </modules>
+    <global>
+        <resources>
+            <ibanners_fix_setup>
+                <setup>
+                    <module>ObjectSource_IbannersFix</module>
+                    <class>core/resource_setup</class>
+                </setup>
+            </ibanners_fix_setup>
+        </resources>
+    </global>
+</config>

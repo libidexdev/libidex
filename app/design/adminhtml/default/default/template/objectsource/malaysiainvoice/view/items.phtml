@@ -1,0 +1,110 @@
+<h2 style="text-transform: uppercase; text-decoration: underline"><?php echo $this->getDocumentTitle() ?></h2>
+<table width="90%" class="invoice-items-table">
+    <thead>
+        <tr>
+            <td style="text-align: center; vertical-align: middle"><?php echo $this->__('Item') ?></td>
+            <td style="text-align: center; vertical-align: middle"><?php echo $this->__('Comment') ?></td>
+            <td style="text-align: center; vertical-align: middle"><?php echo $this->__('Outgoing date via Courier') ?></td>
+            <td style="text-align: center; vertical-align: middle"><?php echo $this->__('remark') ?></td>
+            <td style="text-align: center; width: 55px; vertical-align: middle"><?php echo $this->__('XS') ?></td>
+            <td style="text-align: center; width: 55px; vertical-align: middle"><?php echo $this->__('S') ?></td>
+            <td style="text-align: center; width: 55px; vertical-align: middle"><?php echo $this->__('M') ?></td>
+            <td style="text-align: center; width: 55px; vertical-align: middle"><?php echo $this->__('L') ?></td>
+            <td style="text-align: center; width: 55px; vertical-align: middle"><?php echo $this->__('XL') ?></td>
+            <td style="text-align: center; width: 55px; vertical-align: middle"><?php echo $this->__('XXL') ?></td>
+            <?php if ($this->isPackingList()) : ?>
+                <td style="text-align: center; width: 30px; vertical-align: middle" colspan="2">
+                    <?php echo $this->__('total pcs') ?>
+                </td>
+            <?php else: ?>
+                <td style="text-align: center; width: 30px; vertical-align: middle"><?php echo $this->__('total pcs') ?></td>
+                <td style="text-align: center; vertical-align: middle"><?php echo $this->__('Price in £GBP') ?></td>
+            <?php endif; ?>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="font-weight: bold"><?php echo $this->__('Box 1 of 1') ?></td>
+            <td></td>
+            <td style="text-align: center; width: 90px"><?php echo date('d-M-y', strtotime($this->getInvoice()->getCreatedAt())) ?></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <?php if ($this->isPackingList()) : ?>
+                <td style="text-align: center" colspan="2"></td>
+            <?php else: ?>
+                <td style="text-align: center"></td>
+                <td style="text-align: center"></td>
+            <?php endif; ?>
+        </tr>
+        <tr>
+            <td colspan="12" style="font-weight: bold; background-color: #fff79b; text-align: center; padding: 10px">
+                <?php echo $this->__('LIBIDEX') ?>
+            </td>
+        </tr>
+
+        <?php
+			$totalPrice = 0;
+			foreach ($this->getInvoice()->getItems() as $_item): 
+		?>
+        <tr>
+            <td><?php echo $_item->getProductName() ?></td>
+            <td><?php echo $_item->getComment() ?></td>
+            <td style="text-align: center"><?php echo $_item->getIncrementOrderId() ?></td>
+            <td><?php echo $_item->getColor() ?></td>
+            <td style="text-align: center"><?php echo $_item->getSize() == 'XS' ? 1 : 0 ?></td>
+            <td style="text-align: center"><?php echo $_item->getSize() == 'S' ? 1 : 0 ?></td>
+            <td style="text-align: center"><?php echo $_item->getSize() == 'M' ? 1 : 0 ?></td>
+            <td style="text-align: center"><?php echo $_item->getSize() == 'L' ? 1 : 0 ?></td>
+            <td style="text-align: center"><?php echo $_item->getSize() == 'XL' ? 1 : 0 ?></td>
+            <td style="text-align: center"><?php echo $_item->getSize() == 'XXL' ? 1 : 0 ?></td>
+            <?php if ($this->isPackingList()) : ?>
+                <td colspan="2" style="text-align: center">1</td>
+            <?php else: ?>
+                <td style="text-align: center">1</td>
+                <td style="text-align: right">
+                    <?php
+						if ($_item->getMalaysiaPrice() != 0.0) {
+							$totalPrice += $_item->getMalaysiaPrice();
+							echo '£' . number_format($_item->getMalaysiaPrice() * $this->getInvoice()->getExchangeRateGbpUsd(), 2);
+						}
+						?>
+                </td>
+            <?php endif; ?>
+        </tr>
+        <?php endforeach; ?>
+        <tr>
+            <td colspan="3" style="font-weight: bold"><?php echo $this->getInvoice()->getAwbNumber() ?></td>
+            <td><?php echo $this->__('TOTAL:') ?></td>
+            <td colspan="<?php echo $this->isPackingList() ? 6 : 7  ?>" style="background: #999"></td>
+            <td style="font-weight: bold; text-align: center">
+				<?php
+					echo '£' . number_format($totalPrice, 2);
+				?>
+			</td>
+    </tbody>
+</table>
+<p style="margin: 10px 0"><?php echo $this->__('Note: Custom Declared Value US$%0.2f (Currency exchange rate of £1 equivalent to US$%0.2f)', $this->getInvoice()->getMalaysiaTotalUsd(), $this->getInvoice()->getExchangeRateGbpUsd()) ?></p>
+<h4><?php echo $this->getInvoice()->getAwbNumber() ?></h4>
+<table width="90%" class="invoice-footer-table">
+    <tr>
+        <td style="width: 150px; font-weight: bold; font-size: 1.1em"><?php echo $this->__('PAY TO:') ?></td>
+        <td style="font-weight: bold; font-size: 1.1em" colspan="2"><?php echo $this->__('LIBIDEX SDN BHD') ?></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td style="font-weight: bold;"><?php echo $this->getLibidexBankDetails() ?></td>
+        <td style="font-weight: bold; width: 150px; text-align: right; padding-right: 10px">
+            <?php echo $this->__('Total: %d pcs', $this->getInvoice()->getItems()->count()) ?>
+        </td>
+    </tr>
+</table>
+<p style="margin-top: 40px; font-weight: bold; font-size: 1.3em"><?php echo $this->__('Libidex Sdn Bhd') ?></p>
+<p style="margin-top: 40px;">
+    <strong><?php echo $this->getOperationManagerName() ?></strong><br />
+    <?php echo $this->getOperationManagerPosition() ?>
+</p>

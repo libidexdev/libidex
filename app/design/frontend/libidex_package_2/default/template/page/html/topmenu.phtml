@@ -1,0 +1,7 @@
+<?php $_menu = $this->getHtml('level-top') ?>
+<?php if($_menu): ?>
+        <ul id="primary-nav" class="sf-menu">
+			<li><a class="home level-top level0" href="<?php echo $this->getUrl('') ?>"><i class="fa fa-home"></i></a></li>
+			<?php echo $_menu ?>
+        </ul>
+<?php endif ?>

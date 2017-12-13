@@ -1,0 +1,46 @@
+<h1>Malaysia Price Export &amp; Bulk Update</h1>
+
+<br />
+
+<div style="border: 1px solid grey; padding: 15px;">
+    <h2>Download Prices</h2>
+    <p>
+        <button onclick="javascript: location.href='<?php echo Mage::helper('adminhtml')->getUrl('adminhtml/malaysiabulkupdate/exportCsv'); ?>'">Download Price CSV</button>
+        This contains the current Malaysia prices of all products on all stores.
+    </p>
+</div>
+
+<br />
+
+<div style="border: 1px solid grey; padding: 15px;">
+    <h2>Update Prices</h2>
+    <?php if (Mage::getStoreConfig('lexel/malaysiabulkupdate/running') == '1'): ?>
+        <strong>A price update job is currently running so settings can not be changed.</strong>
+        <br />
+        <br />
+    <?php endif; ?>
+
+    <form method="post" action="<?php echo Mage::helper('adminhtml')->getUrl('adminhtml/malaysiabulkupdate/update'); ?>">
+        <label for="ready">Status: </label>
+        <select name="ready" <?php echo (Mage::getStoreConfig('lexel/malaysiabulkupdate/running') == '1') ? 'disabled' : '' ?>>
+            <option value="0"<?php echo (Mage::getStoreConfig('lexel/malaysiabulkupdate/ready') == '0') ? '  selected="selected"' : '' ?>>Disabled</option>
+            <option value="1"<?php echo (Mage::getStoreConfig('lexel/malaysiabulkupdate/ready') == '1') ? '  selected="selected"' : '' ?>>Enabled</option>
+
+        </select>
+        <br />
+        <br />
+        <label for="factor">Price Factor: </label>
+        <input name="factor" type="text" <?php echo (Mage::getStoreConfig('lexel/malaysiabulkupdate/running') == '1') ? 'disabled' : '' ?> value="<?php echo Mage::getStoreConfig('lexel/malaysiabulkupdate/factor') ?>">
+        <span>Enter a decimal to multiply existing prices by: e.g. to increase prices by 5% enter 1.05 or to decrease by 10% enter 0.9</span>
+        <br />
+        <br />
+        <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+        <p>
+            We recommend setting the price factor, saving, then checking the price factor is shown as expected, and then enabling the update job.
+            <br />
+            Note: This will not preform the job immediatley as it can take quite a while. A job is scheduled for once an hour, on the hour.
+            You will receive an email when complete.
+        </p>
+        <button <?php echo (Mage::getStoreConfig('lexel/malaysiabulkupdate/running') == '1') ? 'class="disabled"' : ' ' ?>type="submit" <?php echo (Mage::getStoreConfig('lexel/malaysiabulkupdate/running') == 1) ? 'disabled' : '' ?>>Save >>></button>
+    </form>
+</div>

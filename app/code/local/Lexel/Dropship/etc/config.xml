@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<config>
+    <global>
+        <models>
+            <lexel_dropship>
+                <class>Lexel_Dropship_Model</class>
+            </lexel_dropship>
+        </models>
+    </global>
+    <frontend>
+        <events>
+            <controller_action_predispatch_onestepcheckout_ajax_set_methods_separate>
+                <observers>
+                    <webshopapps_dropship>
+                        <class>lexel_dropship/observer</class>
+                        <method>preDispatchShippingMethodSave</method>
+                    </webshopapps_dropship>
+                </observers>
+            </controller_action_predispatch_onestepcheckout_ajax_set_methods_separate>
+        </events>
+        <layout>
+            <updates>
+                <lexel_dropship>
+                    <file>lexel/dropship.xml</file>
+                </lexel_dropship>
+            </updates>
+        </layout>
+        <routers>
+            <onestepcheckout>
+                <args>
+                    <modules>
+                        <lexel_dropship before="Idev_OneStepCheckout">Lexel_Dropship</lexel_dropship>
+                    </modules>
+                </args>
+            </onestepcheckout>
+        </routers>
+    </frontend>
+</config>

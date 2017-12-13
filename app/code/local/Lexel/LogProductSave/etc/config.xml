@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config>
+    <global>
+        <models>
+            <lexel_logproductsave>
+                <class>Lexel_LogProductSave_Model</class>
+            </lexel_logproductsave>
+        </models>
+    </global>
+    <adminhtml>
+        <events>
+            <catalog_product_save_after>
+                <observers>
+                    <lexel_logproductsave_logproduct>
+                        <type>singleton</type>
+                        <class>lexel_logproductsave/observer</class>
+                        <method>logProduct</method>
+                    </lexel_logproductsave_logproduct>
+                </observers>
+            </catalog_product_save_after>
+        </events>
+    </adminhtml>
+</config>

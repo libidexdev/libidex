@@ -1,0 +1,9 @@
+<h1 class="page-subtitle"><span class="inner"><?php echo $this->__('My Account') ?></span></h1>
+<div class="account-subtitle inner">
+	Need help? Call Customer Services on <?php echo $storePhone = Mage::getStoreConfig('general/store_information/phone');?>
+	<ul>
+	<li><a href="<?php echo $this->getUrl('orders-delivery-returns') ?>">Orders & Delivery</a></li>
+	<li><a href="<?php echo $this->getUrl('faqs') ?>">Faqs</a></li>
+	<li><a href="<?php echo $this->getUrl('contact-us') ?>">Contact Us</a></li>
+	</ul>
+</div>

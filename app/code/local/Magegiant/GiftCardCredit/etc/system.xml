@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magegiant
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the magegiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category    Magegiant
+ * @package     Magegiant_GiftCardCredit
+ * @copyright   Copyright (c) 2014 Magegiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+-->
+<config>
+    <sections>
+        <giftcard>
+            <groups>
+                <redeem>
+                    <fields>
+                        <credit translate="label" type="group">
+                            <label>Credit Configuration</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <expanded>1</expanded>
+                            <fields>
+                                <allow_redeem translate="label">
+                                    <label>Allow Redeem Gift Card</label>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>5</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <config_path>giftcard/redeem/credit/allow_redeem</config_path>
+                                </allow_redeem>
+                                <allow_redeem_condition translate="label">
+                                    <label>Allow Redeem Gift Card has Conditions/Actions</label>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>10</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <config_path>giftcard/redeem/credit/allow_redeem_condition</config_path>
+                                    <depends>
+                                        <allow_redeem>1</allow_redeem>
+                                    </depends>
+                                </allow_redeem_condition>
+                                <shipping translate="label">
+                                    <label>Use Credit for shipping fee</label>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>15</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <config_path>giftcard/redeem/credit/shipping</config_path>
+                                </shipping>
+                                <allow_buy_giftcard translate="label">
+                                    <label>Allow Use Credit to Buy Gift Card product</label>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>20</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <config_path>giftcard/redeem/credit/allow_buy_giftcard</config_path>
+                                </allow_buy_giftcard>
+                            </fields>
+                        </credit>
+                    </fields>
+                </redeem>
+            </groups>
+        </giftcard>
+    </sections>
+</config>

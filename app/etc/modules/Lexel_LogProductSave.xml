@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Lexel_LogProductSave>
+            <codePool>local</codePool>
+            <active>true</active>
+        </Lexel_LogProductSave>
+    </modules>
+</config>

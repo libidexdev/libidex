@@ -1,0 +1,141 @@
+<?php
+/**
+ * MageGiant
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageGiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    MageGiant
+ * @package     MageGiant_GiftCardTemplate
+ * @copyright   Copyright (c) 2014 MageGiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+
+/**
+ * Giftcardtemplate template
+ *
+ * @see Magegiant_GiftCardTemplate_Block_Giftcardtemplate
+ */
+?>
+<?php
+$_design      = $this->getCurrentDesign();
+$_product     = $this->getProduct();
+$_helper      = $this->helper('catalog/output');
+$_finalPrice  = $_product->getPriceModel()->getTotalPrices($_product, 'min');
+$_currentItem = $this->getCurrentItem();
+?>
+<div class="product-image product-image-giftcard">
+    <div class="product-image-gallery">
+        <img id="image-main"
+             src="<?php echo $this->helper('catalog/image')->init($_product, 'image') ?>"
+             alt="<?php echo $this->escapeHtml($this->getImageLabel()) ?>"
+             title="<?php echo $this->escapeHtml($this->getImageLabel()); ?>"/>
+    </div>
+    <div class="mg-clear"></div>
+    <?php if ($_product->getGiftcardMessageBox()): ?>
+        <div class="gift-message-box">
+            <div class="detail-message">
+                <?php echo $this->__('Message') ?>
+            </div>
+        </div>
+    <?php endif; ?>
+    <?php if ($_product->getGiftcardPriceBox()): ?>
+        <div class="gift-price-box">
+            <div class="code-box col-mg mg-6">
+                <span class="price-box">
+                 <?php echo Mage::helper('core')->currency($_finalPrice, true, false) ?>
+                </span>
+
+                <div class="mg-clear"></div>
+                <span class="gift-box"><?php echo $this->getPattern(); ?></span>
+            </div>
+            <div class="logo-box col-mg mg-6">
+                <img src="<?php echo $this->getLogoSrc() ?>"/>
+            </div>
+        </div>
+        <div class="mg-clear"></div>
+    <?php endif; ?>
+</div>
+
+<div class="more-views more-views-giftcard">
+    <div id="giftcard_template_container">
+        <input type="hidden" name="current_product_id" id="current_product_id"
+               value="<?php echo $this->getProduct()->getId() ?>"/>
+        <input type="hidden" name="giftcard[message_box]" id="giftcard_message_box"
+               value="<?php echo $this->getProduct()->getData('giftcard_message_box') ?>"/>
+        <input type="hidden" name="giftcard[price_box]" id="giftcard_price_box"
+               value="<?php echo $this->getProduct()->getData('giftcard_price_box') ?>"/>
+        <input type="hidden" name="current_format" id="current_format" value="<?php echo $this->getFormatType() ?>"/>
+        <input type="hidden" name="current_design" id="current_design" value=""/>
+        <input type="hidden" name="current_uploaded" id="current_uploaded" value=""/>
+        <input type="hidden" name="giftcard[uploaded_html]" id="uploaded_html" value=""/>
+        <input type="hidden" name="giftcard[video_url]" id="video_url" value=""/>
+        <input type="hidden" name="giftcard[selected_item]" id="selected_item" value=""/>
+
+        <div class="giftcard-template-wrapper">
+            <ul class="form-list">
+                <li class="fields format-fields" id="form_format_fields">
+                    <ul>
+                        <li class="fields">
+                            <?php echo $this->getChildHtml('form.format'); ?>
+                        </li>
+                    </ul>
+                </li>
+                <li class="fields design-fields">
+                    <ul>
+                        <li class="fields">
+                            <div id="giftcard_template_form_list_items">
+                                <?php echo $this->getChildHtml('form.items'); ?>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <?php echo $this->getChildHtml('template.popup') ?>
+        <?php echo $this->getChildHtml('after'); ?>
+    </div>
+</div>
+
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            /*Processor*/
+            var processor_config = {
+                blockMapping: <?php echo $this->getBlockActions()?>,
+                loadingClass: 'giftcard-template-ajax-loading',
+                blocks: <?php echo $this->getBlockSections()?>,
+                actionPattern: <?php echo $this->getActionPattern()?>
+            };
+            GifCardTemplate.processor.initialize(processor_config);
+
+            var form_config = {
+                changeFormatUrl: '<?php echo $this->getChangeFormatUrl()?>',
+                removeImageUrl: '<?php echo $this->getRemoveImageUrl()?>',
+                formatEls: '#form_format_fields input',
+                productImgEl: '.product-image .product-image-gallery',
+                itemEls: '#giftcard_template_form_list_items .template-img img',
+                currentFormat: '#current_format',
+                currentUploaded: '#current_uploaded',
+                uploadedHtml: '#uploaded_html',
+                currentItem: '#selected_item',
+                giftMessageEl: '#giftcard_message',
+                productMessageEl: '.gift-message-box .detail-message',
+                giftCardAmountEl: '#giftcard_amount',
+                productAmountEl: '.gift-price-box .price-box',
+                productIdEl: '#current_product_id',
+                videoUrlEl: '#video_url'
+            }
+            GifCardTemplate.form.initialize(form_config);
+        });
+    })(jQuery);
+</script>
+

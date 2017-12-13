@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<config>
+    <global>
+        <blocks>
+            <lexel_giftvoucher>
+                <class>Lexel_Giftvoucher_Block</class>
+            </lexel_giftvoucher>
+            <giftvoucher>
+                <rewrite>
+                    <payment_form>Lexel_Giftvoucher_Block_Payment_Form</payment_form>
+                </rewrite>
+            </giftvoucher>
+        </blocks>
+    </global>
+    <frontend>
+        <layout>
+            <updates>
+                <lexel_giftvoucher>
+                    <file>lexel/giftvoucher.xml</file>
+                </lexel_giftvoucher>
+            </updates>
+        </layout>
+    </frontend>
+</config>

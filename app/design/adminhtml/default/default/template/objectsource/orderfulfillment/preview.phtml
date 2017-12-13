@@ -1,0 +1,306 @@
+<?php
+
+# 3-4 Weeks = 14 and 28
+# 4-6 Weeks = 28 and 42
+# 6-8 Weeks = 42 and 56
+$standardMalaysia = 3;
+$standardLondon = 35;
+
+$rapidMalaysia = 5;
+$rapidLondon = 7;
+
+$_orders = $this->getOrders();
+$x = 0; $xt = count($_orders); foreach ($_orders as $_order) : $x++;
+$store = $_order->getOrderStoreBasedOnRoleName();
+    switch($_order->getStoreId()){
+        case 1: $store = 'Libidex'; break;
+        case 2: $store = 'Latex Express'; break;
+        default: $store = 'Admin';
+    }
+
+    $hybrid = false;
+    $supplier = '';
+    foreach($_order->getAllVisibleItems() as $_item){
+        $data = unserialize($_item->getFulfillmentData());
+        if ($supplier == '') {
+            $supplier = $data['supplier'];
+        }
+
+        if ($supplier !== $data['supplier'])
+        {
+            $hybrid = true;
+            break;
+        }
+    }
+
+    $rapid = false;
+    if (strpos($_order->getCouponCode(), 'RAPID') !== false)
+    {
+        $rapid = true;
+    }
+
+    $whss = Mage::helper('dropcommon')->decodeShippingDetails($_order->getWarehouseShippingDetails());
+    $courier = false;
+    foreach($whss as $whs)
+    {
+        if (strpos($whs['methodTitle'], 'Courier') !== false)
+        {
+            $courier = true;
+        }
+    }
+
+    $malaysiaDate = new Zend_Date($_order->getCreatedAt());
+    $londonDate = new Zend_Date($_order->getCreatedAt());
+
+    if ($rapid)
+    {
+        $malaysiaDate->addDay($rapidMalaysia);
+        $londonDate->addDay($rapidLondon);
+    }
+    else
+    {
+        $malaysiaDate->addDay($standardMalaysia);
+        $londonDate->addDay($standardLondon);
+    }
+
+
+    ?>
+<div style="position: relative; text-align: center; height:110px;">
+    <span style="position:absolute;top:10px;left:10px;margin-bottom: 10px;">
+        <?php if ($hybrid): ?>
+            <img src="/media/jobsheets/triangle-incomplete.png" width="100px" />
+        <?php else: ?>
+            <img src="/media/jobsheets/circle-complete.png" width="100px" />
+        <?php endif; ?>
+
+        <?php if ($rapid): ?>
+            <img src="/media/jobsheets/exclamation-rapid.png" width="100px" />
+        <?php endif; ?>
+    </span>
+<img src="<?php echo Mage::getDesign()->setArea('frontend')->setPackageName('libidex_package_2')->setTheme('libidex')->getSkinUrl('images/logo.png')?>" alt="Libidex company logo">
+</div>
+<h2>Job Ticket - #<?php echo $_order->getIncrementId() ?> (<?php echo $store ?>)</h2>
+<p>Order Date: <?php echo Mage::app()->getLocale()->date(strtotime($_order->getCreatedAt()), null, null, false)->toString('dd/MM/yyyy')?></p>
+<p>Malaysia Dispatch: <?php echo Mage::app()->getLocale()->date(strtotime($malaysiaDate->toString('Y-M-d H:m:s')), null, null, false)->toString('dd/MM/yyyy')?></p>
+<p>Customer Dispatch: <?php echo Mage::app()->getLocale()->date(strtotime($londonDate->toString('Y-M-d H:m:s')), null, null, false)->toString('dd/MM/yyyy')?></p>
+
+
+<!-- ADD DELIVERY METHOD DATA -->
+
+<table cellspacing="0" cellpadding="0" border="0" width="650">
+    <thead>
+    <tr>
+        <th align="left" width="325" bgcolor="#EAEAEA" style="font-size:13px; padding:5px 9px 6px 9px; line-height:1em;">Shipping Information:</th>
+        <th width="10"></th>
+        <th align="left" width="325" bgcolor="#EAEAEA" style="font-size:13px; padding:5px 9px 6px 9px; line-height:1em;">Shipping Method:</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td valign="top" style="font-size:12px; padding:7px 9px 9px 9px; border-left:1px solid #EAEAEA; border-bottom:1px solid #EAEAEA; border-right:1px solid #EAEAEA;">
+            <table style="border: none" border="0">
+                <tr>
+                    <td style="font-size:12px; padding:7px 9px 9px 9px;">
+                        <?php echo $_order->getShippingAddress()->format('html')?>
+						<?php echo "<br>E: ". $_order->getCustomerEmail(); ?>
+                    </td>
+                    <td>
+                        <?php if ($courier): ?>
+                            <img src="/media/jobsheets/star-courier.png" width="100px" />
+                        <?php endif; ?>
+                    </td>
+                </tr>
+            </table>
+            &nbsp;
+        </td>
+        <td>&nbsp;</td>
+        <td valign="top" style="font-size:12px; padding:7px 9px 9px 9px; border-left:1px solid #EAEAEA; border-bottom:1px solid #EAEAEA; border-right:1px solid #EAEAEA;">
+            <?php echo $_order->getShippingDescription().'<br /><br />'?>
+            <?php
+            $whss = Mage::helper('dropcommon')->decodeShippingDetails($_order->getWarehouseShippingDetails());
+            foreach($whss as $whs)
+            {
+                echo Mage::helper('dropcommon')->getDescription($whs['warehouse']) . ': ' . $whs['methodTitle'] . '<br />';
+            }
+            ?>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+    <br />
+
+<table cellspacing="0" cellpadding="0" border="1" width="100%" style="border:1px solid #bebcb7; background:#f8f7f5;">
+    <thead>
+    <tr>
+        <th class="a-center" bgcolor="#d9e5ee" style="padding:3px 9px">Qty</th>
+        <th class="a-left" bgcolor="#d9e5ee" style="padding:3px 9px">Item</th>
+        <th class="a-left" bgcolor="#d9e5ee" style="padding:3px 9px">Cut</th>
+		<th class="a-left" bgcolor="#d9e5ee" style="padding:3px 9px">Source</th>
+        <th class="a-left" bgcolor="#d9e5ee" style="padding:3px 9px">Stuck</th>
+        <th class="a-left" bgcolor="#d9e5ee" style="padding:3px 9px">QC</th>
+        <th class="a-right" bgcolor="#d9e5ee" style="padding:3px 9px">Subtotal</th> 
+    </tr>
+    </thead>
+
+    <tbody>
+        <?php $i=0; foreach ($_order->getOrderItemsForOrderType() as $_item): $i++ ?>
+        <?php $_product = Mage::getModel('catalog/product')->load($_item->getProductId());
+        if (Mage::getSingleton('admin/session')->getUser()->getRole()->getRoleName() == $_product->getAttributeText('supplier'))
+            $isPermitted = 1;
+        else
+            $isPermitted = 0;
+        ?>
+    <tr <?php echo $i%2?'bgcolor="#eeeded"':'' ?> style="<?php echo $isPermitted?'':'color:#888888'?>">
+        <td align="center" valign="top" style="padding:3px 9px"><?php echo sprintf('%d', $_item->getQtyOrdered()) ?></td>
+        <td align="left" valign="top" style="padding:3px 9px"><?php echo $_item->getName() ?>
+<?php 
+?>
+<?php 
+$options = $_item->getProductOptions();
+if ($options && array_key_exists('options', $options))
+{
+foreach($options['options'] as $option)
+{
+	echo "<br /><strong>".$option['label'].":</strong> ".$option['value'];
+    if (isset($option['option_price']) && (float)$option['option_price'] != 0) {
+        echo ' (' . Mage::helper('core')->currencyByStore($option['option_price'], $_item->getOrder()->getStoreId()) . ')';
+    }
+}
+}
+if ($options && array_key_exists('attributes_info', $options))
+{
+foreach($options['attributes_info'] as $option)
+{
+	echo "<br /><strong>".$option['label'].":</strong> ".$option['value'];
+}
+}
+?>
+</td>
+        <td align="left" valign="top" style="padding:3px 9px"></td>
+		<td align="left" valign="top" style="padding:3px 9px"><?php echo $_item->getProduct()->getAttributeText('supplier') ?></td>
+        <td align="left" valign="top" style="padding:3px 9px"></td>
+        <td align="left" valign="top" style="padding:3px 9px"></td>
+        <td align="right" valign="top" style="padding:3px 9px">
+            <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+            <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                <span class="label"><?php echo $this->__('Excl. Tax'); ?>:</span>
+                <?php endif; ?>
+            <?php if (Mage::helper('weee')->typeOfDisplay($_item, array(0, 1, 4), 'email', $_order->getStore())): ?>
+                <?php echo $_order->formatPrice($_item->getRowTotal()+$_item->getWeeeTaxAppliedRowAmount()+$_item->getWeeeTaxRowDisposition()); ?>
+                <?php else: ?>
+                <?php echo $_order->formatPrice($_item->getRowTotal()) ?>
+                <?php endif; ?>
+
+            <?php if (Mage::helper('weee')->getApplied($_item)): ?>
+                <br />
+                <?php if (Mage::helper('weee')->typeOfDisplay($_item, 1, 'email', $_order->getStore())): ?>
+                    <small>
+                        <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                        <span class="nobr"><?php echo $tax['title']; ?>: <?php echo $_order->formatPrice($tax['row_amount'],true,true); ?></span><br />
+                        <?php endforeach; ?>
+                    </small>
+                    <?php elseif (Mage::helper('weee')->typeOfDisplay($_item, 2, 'email', $_order->getStore())): ?>
+                    <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                        <span class="nobr"><small><?php echo $tax['title']; ?>: <?php echo $_order->formatPrice($tax['row_amount'],true,true); ?></small></span><br />
+                        <?php endforeach; ?>
+                    <?php elseif (Mage::helper('weee')->typeOfDisplay($_item, 4, 'email', $_order->getStore())): ?>
+                    <small>
+                        <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                        <span class="nobr"><?php echo $tax['title']; ?>: <?php echo $_order->formatPrice($tax['row_amount'],true,true); ?></span><br />
+                        <?php endforeach; ?>
+                    </small>
+                    <?php endif; ?>
+
+                <?php if (Mage::helper('weee')->typeOfDisplay($_item, 2, 'email', $_order->getStore())): ?>
+                    <br />
+                    <span class="nobr"><?php echo Mage::helper('weee')->__('Total'); ?>:<br /> <?php echo $_order->formatPrice($_item->getCalculationPrice()+$_item->getWeeeTaxAppliedRowAmount()+$_item->getWeeeTaxRowDisposition()); ?></span>
+                    <?php endif; ?>
+                <?php endif; ?>
+            <?php endif; ?>
+
+
+            <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+            <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                <br /><span class="label"><?php echo $this->__('Incl. Tax'); ?>:</span>
+                <?php endif; ?>
+            <?php $_incl = $this->helper('checkout')->getSubtotalInclTax($_item); ?>
+            <?php if (Mage::helper('weee')->typeOfDisplay($_item, array(0, 1, 4), 'email', $_order->getStore())): ?>
+                <?php echo $_order->formatPrice($_incl + Mage::helper('weee')->getRowWeeeTaxInclTax($_item)); ?>
+                <?php else: ?>
+                <?php echo $_order->formatPrice($_incl-$_item->getWeeeTaxRowDisposition()) ?>
+                <?php endif; ?>
+            <?php if (Mage::helper('weee')->getApplied($_item)): ?>
+                <br />
+                <?php if (Mage::helper('weee')->typeOfDisplay($_item, 1, 'email', $_order->getStore())): ?>
+                    <small>
+                        <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                        <span class="nobr"><?php echo $tax['title']; ?>: <?php echo $_order->formatPrice($tax['row_amount_incl_tax'], true, true); ?></span><br />
+                        <?php endforeach; ?>
+                    </small>
+                    <?php elseif (Mage::helper('weee')->typeOfDisplay($_item, 2, 'email', $_order->getStore())): ?>
+                    <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                        <span class="nobr"><small><?php echo $tax['title']; ?>: <?php echo $_order->formatPrice($tax['row_amount_incl_tax'], true, true); ?></small></span><br />
+                        <?php endforeach; ?>
+                    <?php elseif (Mage::helper('weee')->typeOfDisplay($_item, 4, 'email', $_order->getStore())): ?>
+                    <small>
+                        <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                        <span class="nobr"><?php echo $tax['title']; ?>: <?php echo $_order->formatPrice($tax['row_amount_incl_tax'], true, true); ?></span><br />
+                        <?php endforeach; ?>
+                    </small>
+                    <?php endif; ?>
+                <?php if (Mage::helper('weee')->typeOfDisplay($_item, 2, 'email', $_order->getStore())): ?>
+                    <span class="nobr"><?php echo Mage::helper('weee')->__('Total incl. tax'); ?>:<br /> <?php echo $_order->formatPrice($_incl + Mage::helper('weee')->getRowWeeeTaxInclTax($_item)); ?></span>
+                    <?php endif; ?>
+                <?php endif; ?>
+            <?php endif; ?>
+        </td>
+    </tr>
+        <?php endforeach ?>
+    </tbody>
+
+    <tfoot>
+        <tr>
+                <td colspan="6" align="right" style="padding:3px 9px"><?php echo Mage::helper('sales')->__('Subtotal') ?></td>
+                <td align="right" style="padding:3px 9px"><?php echo $_order->formatPrice($_order->getSubtotal()) ?></td>
+            </tr>
+                <?php if ($_order->getShippingAmount()): ?>
+                <tr>
+                        <td colspan="6" align="right" style="padding:3px 9px"><?php echo Mage::helper('sales')->__('Shipping Amount') ?></td>
+                        <td align="right" style="padding:3px 9px"><?php echo $_order->formatPrice($_order->getShippingAmount()) ?></td>
+                    </tr>
+                    <?php endif; ?>
+            <?php if ($_order->getRapidserviceAmount()) : ?>
+                <tr>
+                    <td colspan="6" align="right" style="padding:3px 9px"><?php echo Mage::helper('sales')->__('Silver Rapid') ?></td>
+                    <td align="right" style="padding:6px 9px"><?php echo $_order->formatPrice($_order->getRapidserviceAmount()) ?></td>
+                </tr>
+            <?php endif; ?>
+            <tr bgcolor="#DEE5E8">
+                    <td colspan="6" align="right" style="padding:3px 9px"><strong><big><?php echo Mage::helper('sales')->__('Grand Total') ?></big></strong></td>
+                    <td align="right" style="padding:6px 9px"><strong><big><?php echo $_order->formatPrice($_order->getGrandTotal()) ?></big></strong></td>
+                </tr>
+            </tfoot>
+
+</table>
+<h2>Special Notes</h2>
+    <p>
+        <?php echo $_order->getOnestepcheckoutCustomercomment(); ?>
+    </p>
+<?php
+$comments = $_order->getStatusHistoryCollection(true);
+echo "<h2>Comments</h2>";
+foreach($comments as $comment)
+{
+echo "<p>";
+echo $comment->getComment();
+echo "</p>";
+}
+?>
+<?php if ($x < $xt):?>
+<footer style="page-break-after: always;"></footer>
+<?php endif; ?>
+
+<?php // Set as printed for order grid
+$_order->setOrderItemsPrintedForSupplier(Mage::getSingleton('admin/session')->getUser()->getRole()->getRoleName()) ?>
+<?php endforeach // orders ?>

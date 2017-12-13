@@ -1,0 +1,392 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magegiant
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the magegiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category    Magegiant
+ * @package     Magegiant_GiftCard
+ * @copyright   Copyright (c) 2014 Magegiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+-->
+<config>
+    <tabs>
+        <magegiant translate="label">
+            <label>Magegiant Extensions</label>
+            <sort_order>100</sort_order>
+        </magegiant>
+    </tabs>
+    <sections>
+        <giftcard translate="label" module="giftcard">
+            <class>separator-top</class>
+            <label>Gift Card</label>
+            <tab>magegiant</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>300</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label">
+                    <label>General Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <is_enable translate="label">
+                            <label>Enable</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>1</sort_order>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment></comment>
+                        </is_enable>
+                        <expire translate="label">
+                            <label>Gift Code Expire After</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>(days). If empty, no expiration</comment>
+                        </expire>
+                        <use_message translate="label">
+                            <label>Use Gift Message</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </use_message>
+                        <max_message_length translate="label">
+                            <label>Gift Message Maximum Length</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <use_message>1</use_message>
+                            </depends>
+                        </max_message_length>
+                        <schedule_enable translate="label">
+                            <label>Enable scheduling Gift Card delivery</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </schedule_enable>
+                        <order_item_status translate="label">
+                            <label>Generate Gift Card Account when Order Item is</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>giftcard/source_status</source_model>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </order_item_status>
+                    </fields>
+                </general>
+                <gift_code translate="label">
+                    <label>Gift Code Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <pattern translate="label comment">
+                            <label>Gift Code Pattern</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <tooltip><![CDATA[<strong>{8L} : 8 Leter<br/>{4D} : 4 Digit<br/>{6LD} : 6 Letter-Digit<br/>GIFT-{4L}-{6LD} : GIFT-UEKC-CG45J8</strong>]]></tooltip>
+                            <comment>Generate gift codes for Gift Card products. Move your mouse to '?' for more details</comment>
+                        </pattern>
+                        <hidden translate="label">
+                            <label>Enable Hidden Code</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </hidden>
+                        <numprefix translate="label comment">
+                            <label>The number of prefixes shown</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[The number of gift code's prefixes shown in front-end (This is to avoid code-copying). e.g: GIFT-XXXXXXXX]]></comment>
+                            <depends>
+                                <hidden>1</hidden>
+                            </depends>
+                        </numprefix>
+                        <numsuffix translate="label comment">
+                            <label>The number of suffixes shown</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>16</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[The number of gift code's suffixes shown in front-end (This is to avoid code-copying). e.g: XXXXXXXXXX-CODE]]></comment>
+                            <depends>
+                                <hidden>1</hidden>
+                            </depends>
+                        </numsuffix>
+                        <hiddenchar translate="label comment">
+                            <label>Replace hidden characters by</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Hidden characters in gift codes will be replaced by the configured character. X is set as default.]]></comment>
+                            <depends>
+                                <hidden>1</hidden>
+                            </depends>
+                        </hiddenchar>
+                        <item_options translate="label">
+                            <label>Information displayed on item when buying gift card product</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>giftcard/source_options</source_model>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </item_options>
+                    </fields>
+                </gift_code>
+                <redeem translate="label">
+                    <label>Redeem Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>15</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <display translate="label comment" type="group">
+                            <label>Gift Card Box</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <expanded>1</expanded>
+                            <fields>
+                                <box translate="label">
+                                    <label>Use Gift Card on</label>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>giftcard/source_box</source_model>
+                                    <sort_order>5</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <config_path>giftcard/redeem/display/box</config_path>
+                                </box>
+                                <multiple translate="label">
+                                    <label>Allow use multiple Gift Card Code per purchase</label>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>10</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <config_path>giftcard/redeem/display/multiple</config_path>
+                                </multiple>
+                                <check_code translate="label">
+                                    <label>Allow checking gift code</label>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>13</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <config_path>giftcard/redeem/display/check_code</config_path>
+                                    <comment>Adding a Check code button on Shopping cart and Checkout page</comment>
+                                </check_code>
+                                <payment_section translate="label">
+                                    <label>Show Gift Card box in the Payment section</label>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>15</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <config_path>giftcard/redeem/display/payment_section</config_path>
+                                </payment_section>
+                            </fields>
+                        </display>
+                        <calculation translate="label" type="group">
+                            <label>Gift Card Calculation</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <expanded>1</expanded>
+                            <fields>
+                                <shipping translate="label">
+                                    <label>Use Gift Card for shipping fee</label>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>5</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <config_path>giftcard/redeem/calculation/shipping</config_path>
+                                </shipping>
+                                <allow_buy_giftcard translate="label">
+                                    <label>Allow Using Gift Card to Buy Gift Card products</label>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>15</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <config_path>giftcard/redeem/calculation/allow_buy_giftcard</config_path>
+                                </allow_buy_giftcard>
+                                <use_with_coupon translate="label">
+                                    <label>Allow Using Gift Card with Coupon Code</label>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>20</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <config_path>giftcard/redeem/calculation/use_with_coupon</config_path>
+                                </use_with_coupon>
+                                <refund translate="label">
+                                    <label>Refund Gift Card Discount</label>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>giftcard/source_order_refund</source_model>
+                                    <sort_order>25</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <config_path>giftcard/redeem/calculation/refund</config_path>
+                                </refund>
+                            </fields>
+                        </calculation>
+                    </fields>
+                </redeem>
+                <email translate="label">
+                    <label>Email Notification</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>100</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <identity translate="label">
+                            <label>Gift Card Email Sender</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </identity>
+                        <template translate="label">
+                            <label>Gift Card Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </template>
+                        <purchase_email translate="label">
+                            <label>Notify sender when recipient receives Gift Card</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </purchase_email>
+                        <purchase_email_template translate="label">
+                            <label>Send-to-purchaser email template when recipient receives Gift Card</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <purchase_email>1</purchase_email>
+                            </depends>
+                        </purchase_email_template>
+                        <reminder_email translate="label">
+                            <label>Auto-send reminder email before Gift Card expires</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </reminder_email>
+                        <reminder_receive translate="label">
+                            <label>Send Reminder Email to</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>giftcard/source_email_reminder</source_model>
+                            <sort_order>27</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <reminder_email>1</reminder_email>
+                            </depends>
+                        </reminder_receive>
+                        <reminder_day translate="label comment">
+                            <label>Auto-send reminder email before</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>day(s)</comment>
+                            <depends>
+                                <reminder_email>1</reminder_email>
+                            </depends>
+                        </reminder_day>
+                        <reminder_email_template translate="label">
+                            <label>Reminder email template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <reminder_email>1</reminder_email>
+                            </depends>
+                        </reminder_email_template>
+                    </fields>
+                </email>
+            </groups>
+        </giftcard>
+    </sections>
+</config>

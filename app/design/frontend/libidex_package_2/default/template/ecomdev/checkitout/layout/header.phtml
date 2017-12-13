@@ -1,0 +1,54 @@
+<?php
+/**
+ * CheckItOut extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement for EcomDev Premium Extensions.
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.ecomdev.org/license-agreement
+ *
+ * @category   EcomDev
+ * @package    EcomDev_CheckItOut
+ * @copyright  Copyright (c) 2013 EcomDev BV (http://www.ecomdev.org)
+ * @license    http://www.ecomdev.org/license-agreement  End User License Agreement for EcomDev Premium Extensions.
+ * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
+ */
+/**
+ * Checkout layout step template
+ */
+/* @var $this EcomDev_CheckItOut_Block_Layout_Step_Abstract */
+?>
+<?php if ($this->isVisible()): // If Children Visible?>
+<div class="<?php echo $this->escapeHtml($this->getClassName());?> <?php if ($this->getPositionCode()): ?><?php echo $this->escapeHtml($this->getPositionCode());?><?php endif;?>">
+    <div class="page-title">
+        <h1 class="priority-1-heading"><?php echo $this->helper('checkout')->__('Checkout') ?></h1>
+        <?php echo $this->getStepContent(); ?>
+    </div>
+</div>
+<?php else:?>
+<div class="page-title">
+    <h1 class="priority-1-heading"><?php echo $this->helper('checkout')->__('Checkout') ?></h1>
+</div>
+<?php endif;?>
+<?php if (!$this->isCustomerLoggedIn()) : ?>
+    <p class="onestepcheckout-login-link">
+        <a id="onestepcheckout-login-link">
+            <?php echo $this->__('Already registered? Click here to log in.'); ?>
+        </a>
+        <br />
+        <?php echo '(Orders will not be saved in your account unless you log in.)'; ?>
+        <br />
+        <?php echo 'Want an account? Fill in details and click ‘Create Account’ at bottom of page.'; ?>
+        <br />
+        <?php echo 'Or just continue as a guest.'; ?>
+    </p>
+    <script>
+        jQuery(document).ready(function($) {
+           $('#onestepcheckout-login-link').on('click', function() {
+               $('#login-step-popup').css('display', 'inline');
+           });
+        });
+    </script>
+<?php endif; ?>

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <ObjectSource_Paypal>
+            <version>0.1.0</version>
+        </ObjectSource_Paypal>
+    </modules>
+    <global>
+                                <helpers>
+            <objectsource_paypal>
+                <class>ObjectSource_Paypal_Helper</class>
+            </objectsource_paypal>
+        </helpers>
+        <models>
+            <objectsource_paypal>
+                <class>ObjectSource_Paypal_Model</class>
+            </objectsource_paypal>
+        </models>
+    </global>
+    <frontend>
+        <events>
+            <checkout_onepage_controller_success_action>
+                <observers>
+                    <objectsource_paypal>
+                        <class>objectsource_paypal/observer</class>
+                        <method>saveOrderComment</method>
+                    </objectsource_paypal>
+                </observers>
+            </checkout_onepage_controller_success_action>
+        </events>
+        <routers>
+            <sagepaysuite>
+                <args>
+                    <modules>
+                        <objectsource_paypal before="Ebizmarts_SagePaySuite">ObjectSource_Paypal</objectsource_paypal>
+                    </modules>
+                </args>
+            </sagepaysuite>
+        </routers>
+    </frontend>
+</config>

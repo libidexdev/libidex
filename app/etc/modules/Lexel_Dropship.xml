@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Lexel_Dropship>
+            <codePool>local</codePool>
+            <active>true</active>
+            <depends>
+                <Lexel_OneStepCheckout />
+                <Webshopapps_Dropship />
+            </depends>
+        </Lexel_Dropship>
+    </modules>
+</config>

@@ -1,0 +1,7 @@
+<div class="inventory-title">
+    <?php echo $this->__('Total Stock Quantity:'); ?>
+    <?php echo $this->getTotalStockQty() ?>
+    <br />
+    <?php echo $this->__('Total Stock Value:'); ?>
+    <?php echo $this->helper('core')->formatPrice($this->getTotalStockValue(), false); ?>
+</div>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <ObjectSource_IbannersFix>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Fishpig_iBanners />
+            </depends>
+        </ObjectSource_IbannersFix>
+    </modules>
+</config>

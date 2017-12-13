@@ -1,0 +1,25 @@
+<ul id="primary-nav" class="sf-menu">
+	<li class="home"><a class="level-top level0" href="<?php echo $this->getUrl('') ?>"><i class="fa fa-home"></i></a></li>		
+		<li><a class="level-top level0" href="#_">Welcome to Latex Express</a>
+		<div class="sf-mega single">
+			<div class="sf-mega-left">
+			<h4 class="priority-1-heading white">Welcome to Latex Express</h4>
+				<ul>
+					<?php /* ?><li><a href="<?php echo $this->getUrl('our-story') ?>">Our Story <i class="fa fa-angle-right"></i></a></li><?php */ ?>
+					<li><a href="<?php echo $this->getUrl('latexexpress-faqs') ?>">FAQS<i class="fa fa-angle-right"></i></a></li>
+					<li><a href="<?php echo $this->getUrl('latex-express-deliveries-returns') ?>">Delivery & Returns<i class="fa fa-angle-right"></i></a></li>
+					<li><a href="<?php echo $this->getUrl('terms-conditions') ?>">Terms & Conditions<i class="fa fa-angle-right"></i></a></li>
+					<li><a href="<?php echo $this->getUrl('copyright-information') ?>">Copyright Information<i class="fa fa-angle-right"></i></a></li>
+					<li><a href="<?php echo $this->getUrl('press') ?>">Press<i class="fa fa-angle-right"></i></a></li>
+					<?php /* ?><li><a href="<?php echo $this->getUrl('all-about-latex') ?>">All About Latex Clothing<i class="fa fa-angle-right"></i></a></li><?php */ ?>
+					<li><a href="<?php echo $this->getUrl('news-events') ?>">News & Events<i class="fa fa-angle-right"></i></a></li>
+					<li><a class="fancybox" href="#subscribe">Subscribe to our Newsletter<i class="fa fa-angle-right"></i></a></li>
+					<li><a href="<?php echo $this->getUrl('contact-us') ?>">Contact Us<i class="fa fa-angle-right"></i></a></li>
+				</ul>
+			</div>
+		</div>
+	</li>
+		<?php echo $this->getLayout()->createBlock('catalog/navigation')->setTemplate('page/html/exploding_menu.phtml')->toHtml(); ?>
+	<li><a class="level-top level0" href="<?php echo $this->getUrl('latex-express-deliveries-returns') ?>">Delivery & Returns<i class="fa fa-angle-right"></i></a></li>
+	<li><a class="level-top level0" href="<?php echo $this->getUrl('contact-us') ?>">Contact<i class="fa fa-angle-right"></i></a></li>
+</ul>

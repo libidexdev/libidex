@@ -1,0 +1,128 @@
+<?php
+/**
+ * MageGiant
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageGiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    MageGiant
+ * @package     MageGiant_GiftCardTemplate
+ * @copyright   Copyright (c) 2014 MageGiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+?>
+<?php $items = $this->getAllItems(); ?>
+
+<div class="items-wrapper">
+    <div class="template-notice"><?php echo $this->__('%s design(s)', sizeof($items)) ?></div>
+    <input type="hidden" name="current_mode" id="current_mode" value="<?php echo $this->getModeType() ?>"/>
+    <?php if ($this->getModeType() == 'grid'): ?>
+        <!--Grid Mode-->
+        <ul class="grid-items row-mg">
+            <?php foreach ($items as $item): ?>
+                <?php $isDefault = $item->getIsDefault() ?>
+                <li class="item col-mg mg-6 mg-xs-12">
+                    <div class="item-wrapper">
+
+                        <div class="template-img" id="item-<?php echo $item->getItemId() ?>">
+                            <?php if ($this->checkIsVideo($item)) : ?>
+                                <img
+                                    class="video-thumb"
+                                    alt="<?php echo $item->getName() ?>"
+                                    src="<?php echo $item->getThumbFile(); ?>"
+                                    />
+                                <div class="play-icon">
+
+                                </div>
+                                <iframe width="100%" height="480" style="display: none"
+                                        src="<?php echo $this->getEmbedVideoByUrl($item->getVideoUrl()) ?>?autoplay=0"
+                                        allowfullscreen
+                                    >
+                                </iframe>
+                            <?php else: ?>
+                                <?php
+                                $isCustomUpload = $this->checkIsCustomUpload($item);
+                                ?>
+                                <img alt="<?php echo $item->getName() ?>"
+                                     src="<?php echo $this->getImgSrc($item->getThumbFile() ? 'thumbs/' . $item->getThumbFile() : $item->getSourceFile(), $isDefault); ?>"
+                                     source="<?php echo $this->getImgSrc($item->getSourceFile(), $isDefault); ?>"
+                                    <?php echo $isCustomUpload ? 'class="upload"' : '' ?>
+                                    />
+                            <?php endif; ?>
+                        </div>
+                        <div class="template-name">
+                            <span><?php echo $item->getName() ?></span>
+                        </div>
+                    </div>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php else: ?>
+        <ol class="list-items row-mg">
+            <?php foreach ($items as $item): ?>
+                <?php $isDefault = $item->getIsDefault() ?>
+                <li class="item col-mg mg-12">
+                    <div class="item-wrapper">
+                        <div class="template-img" id="item-<?php echo $item->getItemId() ?>">
+                            <?php if ($this->checkIsVideo($item)) : ?>
+                                <img
+                                    class="video-thumb"
+                                    alt="<?php echo $item->getName() ?>"
+                                    src="<?php echo $item->getThumbFile(); ?>"
+                                    />
+                                <div class="play-icon">
+
+                                </div>
+                                <iframe width="100%" height="480" style="display: none"
+                                        src="<?php echo $this->getEmbedVideoByUrl($item->getVideoUrl()) ?>?autoplay=0"
+                                        allowfullscreen
+                                    >
+                                </iframe>
+                            <?php else: ?>
+                                <?php
+                                $isCustomUpload = $this->checkIsCustomUpload($item);
+                                ?>
+                                <img alt="<?php echo $item->getName() ?>"
+                                     src="<?php echo $this->getImgSrc($item->getThumbFile() ? 'thumbs/' . $item->getThumbFile() : $item->getSourceFile(), $isDefault); ?>"
+                                     source="<?php echo $this->getImgSrc($item->getSourceFile(), $isDefault); ?>"
+                                    <?php echo $isCustomUpload ? 'class="upload"' : '' ?>
+                                    />
+                            <?php endif; ?>
+                        </div>
+                        <div class="template-name">
+                            <span><?php echo $item->getName() ?></span>
+                        </div>
+                    </div>
+                </li>
+            <?php endforeach; ?>
+        </ol>
+    <?php endif; ?>
+</div>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            var mode_config = {
+                itemWrapper: '.giftcard-template-popup-wrapper .template-items-wrapper',
+                itemUploadWrapper: '.giftcard-template-popup-wrapper .item-upload-wrapper',
+                changeModeUrl: '<?php echo $this->getChangeModeUrl()?>',
+                currentMode: '#current_mode',
+                modeEls: '#template_view_mode a i',
+                itemEls: '#giftcard_template_items .template-img img',
+                videoEls: '#giftcard_template_items .template-img .play-icon',
+                useSelectedItem: '#use_selected_item'
+            }
+            GifCardTemplate.design.items.initialize(mode_config);
+        })
+    })
+    (jQuery)
+</script>
+
+

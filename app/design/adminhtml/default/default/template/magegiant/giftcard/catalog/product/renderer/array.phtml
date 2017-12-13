@@ -1,0 +1,97 @@
+<?php
+/**
+ * Magegiant
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the magegiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magegiant
+ * @package     Magegiant_GiftCard
+ * @copyright   Copyright (c) 2014 Magegiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+
+$_htmlId = $this->getHtmlId() ? $this->getHtmlId() : '_' . uniqid();
+?>
+<div id="<?php echo $this->getEntityAttribute()->getAttributeCode() ?>"></div>
+<div class="grid" id="grid<?php echo $_htmlId ?>">
+    <table cellpadding="0" cellspacing="0" class="border" style="width: auto">
+        <tbody>
+            <tr class="headings" id="headings<?php echo $_htmlId ?>">
+				<?php foreach ($this->_columns as $columnName => $column):?>
+                	<th><?php echo $column['label'] ?></th>
+				<?php endforeach;?>
+                <th></th>
+            </tr>
+            <tr id="addRow<?php echo $_htmlId ?>">
+                <td colspan="<?php echo count($this->_columns) + 1 ?>" class="a-right" style="background: #D7E5EF !important;">
+                    <button style="" onclick="" class="scalable add" type="button" id="addToEndBtn<?php echo $_htmlId ?>">
+                        <span><span><span><?php echo $this->_addButtonLabel ?></span></span></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var arrayRow<?php echo $_htmlId ?> = {
+    template : new Template(
+        '<tr id="#{_id}">'
+			<?php foreach ($this->_columns as $columnName => $column):?>
+            	+'<td><?php echo $this->_renderCellTemplate($columnName)?><\/td>'
+			<?php endforeach;?>
+            +'<td><button onclick="arrayRow<?php echo $_htmlId ?>.del(\'#{_id}\')" class="scalable delete" type="button"><span><span><span><?php echo $this->_deleteButtonLabel ?><\/span><\/span><\/span><\/button><\/td>'
+        +'<\/tr>'
+    ),
+    rowsCount : 0,
+    add : function(templateData){
+        if ('' == templateData) {
+            var d = new Date();
+            var templateData = {
+				<?php foreach ($this->_columns as $columnName => $column):?>
+                	<?php echo $columnName ?> : '',
+				<?php endforeach;?>
+                _id : '_' + d.getTime() + '_' + d.getMilliseconds()
+            };
+        }
+
+		Element.insert($('addRow<?php echo $_htmlId ?>'), {before: this.template.evaluate(templateData)});
+
+        this.rowsCount += 1;
+    },
+    del : function(rowId){
+		if(this.rowsCount > 1){
+			$(rowId).remove();
+			this.rowsCount -= 1;
+		}
+    }
+}
+
+Event.observe('addToEndBtn<?php echo $_htmlId ?>', 'click', arrayRow<?php echo $_htmlId ?>.add.bind(arrayRow<?php echo $_htmlId ?>, ''));
+
+<?php
+if (!$this->getArrayRows()){
+	echo "arrayRow{$_htmlId}.add('');\n";
+} else {
+	foreach ($this->getArrayRows() as $_rowId => $_row) {
+		echo "arrayRow{$_htmlId}.add(" . $_row->toJson() . ");\n";
+	}
+}
+?>
+
+// toggle the grid, if element is disabled (depending on scope)
+<?php if ($this->getElement()->getDisabled()):?>
+toggleValueElements({checked:true}, $('grid<?php echo $_htmlId ?>').parentNode);
+<?php endif;?>
+//]]>
+</script>

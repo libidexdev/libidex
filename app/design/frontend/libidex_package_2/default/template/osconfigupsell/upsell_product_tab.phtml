@@ -1,0 +1,3 @@
+<?php if(count($this->getItemCollection()->getItems())): ?>
+	<li class="express-tab"><a href="#tab3">LatexEXPRESS <?php echo Mage::getModel('core/variable')->loadByCode('latex_express_percentage')->getValue('html'); ?> Off</a></li>
+<?php endif;?>

@@ -1,0 +1,31 @@
+<div class="osconfigupsell-tabs">
+  <ul>
+    <li id="show-libidex" class="tab-on">Custom Options</li>
+    <li id="show-latex" class="tab-off"><?php echo Mage::app()->getStore()->getStoreId() == 2 ? 'Custom Options' : 'LatexEXPRESS Product'?></li>
+  </ul>
+</div>
+<div class="clearer"></div>
+
+<script type="text/javascript">
+  $('show-libidex').on('click', function() {
+    // Hide the latex express div and show the standard product ones
+    $$('.product-downsell').each(Element.hide);
+    $$('.product-options').each(Element.show);
+    $$('.product-options-bottom').each(Element.show);
+    $('show-libidex').addClassName('tab-on');
+    $('show-libidex').removeClassName('tab-off');
+    $('show-latex').removeClassName('tab-on');
+    $('show-latex').addClassName('tab-off');
+  });
+  
+  $('show-latex').on('click', function() {
+    // show the latex express div and hide the standard product ones
+    $$('.product-downsell').each(Element.show);
+    $$('.product-options').each(Element.hide);
+    $$('.product-options-bottom').each(Element.hide);
+    $('show-latex').addClassName('tab-on');
+    $('show-latex').removeClassName('tab-off');
+    $('show-libidex').removeClassName('tab-on');
+    $('show-libidex').addClassName('tab-off');
+  });
+</script>

@@ -1,0 +1,41 @@
+<?php
+/**
+ * Magegiant
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the magegiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magegiant
+ * @package     Magegiant_GiftCard
+ * @copyright   Copyright (c) 2014 Magegiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+
+$giftCards = $this->getGiftCards();
+?>
+<tr class="summary-total" onclick="expandDetails(this, '.gc-summary-details')">
+	<td <?php echo $this->getLabelProperties()?> class="label">
+	   <div class="summary-collapse"><?php echo $this->escapeHtml($this->getLabel());?></div>
+	</td>
+	<td <?php echo $this->getValueProperties()?>>
+		<?php echo $this->getValueFormated() ?>
+	</td>
+</tr>
+<?php foreach ($giftCards as $giftCard): ?>
+<tr class="gc-summary-details summary-details" style="display:none;">
+	<td <?php echo $this->getLabelProperties()?>>
+		<?php echo $giftCard['code']; ?>
+	</td>
+	<td <?php echo $this->getValueProperties()?>>
+		-<?php echo $this->getValueFormated($giftCard['value']) ?>
+	</td>
+</tr>
+<?php endforeach; ?>

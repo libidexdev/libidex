@@ -1,0 +1,69 @@
+<?php
+/**
+ * Magegiant
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the magegiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magegiant
+ * @package     Magegiant_GiftCard
+ * @copyright   Copyright (c) 2014 Magegiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+
+$code = $this->getSingleGiftCards();
+?>
+
+<div class="entry-edit box-right">
+    <div class="entry-edit-head">
+        <h4 class="icon-head"><?php echo Mage::helper('giftcard')->__('Gift Card') ?></h4>
+     </div>
+     <fieldset class="np">
+         <div class="content">
+            <div class="giftcard_code">
+				<input type="text" class="input-text" id="gift_code" value="<?php echo $code ?>" name="gift_code" style="width:200px" />&nbsp;
+				<?php echo $this->getButtonHtml(Mage::helper('sales')->__('Apply'), 'order.applyGiftcard(\'gift_code\')') ?>&nbsp;
+				<?php if($code): ?>
+					<?php echo $this->getButtonHtml(Mage::helper('giftcard')->__('Cancel'), 'order.applyGiftcard(\'gift_code\', 1)') ?>
+				<?php endif; ?>
+			</div>
+
+			 <?php echo $this->getChildHtml() ?>
+        </div>
+    </fieldset>
+</div>
+
+<script type="text/javascript">
+	<?php if($this->getGiftcardCode()): ?>
+	Event.observe(window, "load", function () {
+		order.loadArea(['shipping_method', 'totals', 'billing_method'], true, []);
+	});
+	<?php endif;?>
+
+	AdminOrder.prototype.applyGiftcard = function (code, isRemove, parameters) {
+		if (typeof(isRemove) == 'undefined') {
+			isRemove = 0;
+		}
+
+		if (typeof(parameters) == 'undefined') {
+			parameters = {};
+		}
+		parameters[code] = $F(code);
+		parameters['is_remove'] = isRemove ? 1 : 0;
+
+		var baseUrl = this.loadBaseUrl;
+		this.setLoadBaseUrl('<?php echo $this->getLoadBlockUrl() ?>');
+
+		this.loadArea(['items', 'shipping_method', 'totals', 'billing_method'], true, parameters);
+
+		this.setLoadBaseUrl(baseUrl);
+	}
+</script>

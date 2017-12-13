@@ -1,0 +1,59 @@
+<?php
+/**
+ * Magegiant
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the magegiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magegiant
+ * @package     Magegiant_GiftCard
+ * @copyright   Copyright (c) 2014 Magegiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+
+$giftCards = $this->getTotal()->getGiftCards();
+?>
+<?php if ($this->getTotal()->getValue()): ?>
+    <tr class="summary-total" onclick="expandDetails(this, '.gc-summary-details')">
+        <td colspan="<?php echo $this->getColspan(); ?>" style="<?php echo $this->getTotal()->getStyle() ?>"
+            class="a-right">
+            <?php if ($this->getRenderingArea() == $this->getTotal()->getArea()): ?><strong><?php endif; ?>
+                <div class="summary-collapse"><?php echo $this->getTotal()->getTitle() ?></div>
+                <?php if ($this->getRenderingArea() == $this->getTotal()->getArea()): ?></strong><?php endif; ?>
+        </td>
+        <td style="<?php echo $this->getTotal()->getStyle() ?>" class="a-right">
+            <?php if ($this->getRenderingArea() == $this->getTotal()->getArea()): ?><strong><?php endif; ?>
+                <?php echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue()) ?>
+                <?php if ($this->getRenderingArea() == $this->getTotal()->getArea()): ?></strong><?php endif; ?>
+        </td>
+    </tr>
+    <?php foreach ($giftCards as $giftCard): ?>
+        <tr class="gc-summary-details summary-details" style="display:none;">
+            <td colspan="<?php echo $this->getColspan(); ?>" style="<?php echo $this->getTotal()->getStyle() ?>"
+                class="a-right">
+                <?php if ($this->getRenderingArea() == $this->getTotal()->getArea()): ?><strong><?php endif; ?>
+                    <a href="<?php echo Mage::getUrl('giftcard/checkout/removeCode', array('gift_code' => $giftCard['code'])); ?>"
+                       title="<?php echo $this->__('Remove'); ?>" class="btn-remove-giftcard"
+                       style="display: inline-block; vertical-align: text-bottom;"><img
+                            src="<?php echo $this->getSkinUrl('images/magegiant/giftcard/btn_remove.gif') ?>"
+                            alt="<?php echo $this->__('Remove') ?>"/></a>
+
+                    <?php echo Mage::helper('giftcard')->getCodeDisplay($giftCard['code']); ?>
+                    <?php if ($this->getRenderingArea() == $this->getTotal()->getArea()): ?></strong><?php endif; ?>
+            </td>
+            <td style="<?php echo $this->getTotal()->getStyle() ?>" class="a-right">
+                <?php if ($this->getRenderingArea() == $this->getTotal()->getArea()): ?><strong><?php endif; ?>
+                    -<?php echo $this->helper('checkout')->formatPrice($giftCard['value']) ?>
+                    <?php if ($this->getRenderingArea() == $this->getTotal()->getArea()): ?></strong><?php endif; ?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+<?php endif; ?>

@@ -1,0 +1,67 @@
+</div><!-- End Wrapper early -->
+<h1 class="page-subtitle"><span class="inner"><?php echo $this->__('Shopping bag') ?></span></h1>
+<div class="wrapper"><!-- Begin Wrapper again -->
+<div class="cart cf">
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <?php echo $this->getChildHtml('form_before') ?>
+	<div class="cart-items">
+		<h2>Your selection</h2>
+		<p>Please be assured, all our goods are sent in discrete packaging</p>
+
+		<form action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post">
+		<?php echo $this->getBlockHtml('formkey'); ?>
+		<table id="shopping-cart-table" class="data-table cart-table">
+		<?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
+		<thead>
+		<tr>
+		<th rowspan="<?php echo $mergedCells; ?>">&nbsp;</th>
+		<th rowspan="<?php echo $mergedCells; ?>"><span class="nobr"><?php echo $this->__('Product Name') ?></span></th>
+		<th rowspan="<?php echo $mergedCells; ?>"></th>
+		<?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
+		<th class="wish" rowspan="<?php echo $mergedCells; ?>"><span class="nobr"><?php echo $this->__('Move to Wishlist') ?></span></th>
+		<?php endif ?>
+		<th colspan="<?php echo $mergedCells; ?>"><span class="nobr"><?php echo $this->__('Unit Price') ?></span></th>
+		<th rowspan="<?php echo $mergedCells; ?>"><?php echo $this->__('Quantity') ?></th>
+		<th colspan="<?php echo $mergedCells; ?>"><?php echo $this->__('Subtotal') ?></th>
+		<th rowspan="<?php echo $mergedCells; ?>">&nbsp;</th>
+		</tr>
+		<?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+		<tr>
+		<th><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+		<th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+		<th><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+		<th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+		</tr>
+		<?php endif; ?>
+		</thead>
+		<tbody>
+		<?php foreach($this->getItems() as $_item): ?>
+		<?php echo $this->getItemHtml($_item) ?>
+		<?php endforeach ?>
+		</tbody>
+		</table>
+		
+		<script type="text/javascript">decorateTable('shopping-cart-table')</script>
+		</form>
+
+		<?php echo $this->getChildHtml('coupon') ?>
+		<?php echo $this->getChildHtml('rapidselection') ?>
+
+	</div>
+	
+	<div class="cart-summary">
+	<h2>Shopping bag summary</h2>
+		<?php echo $this->getChildHtml('totals'); ?>
+		<?php if(!$this->hasError()): ?>
+		<ul class="checkout-types">
+		<?php foreach ($this->getMethods('methods') as $method): ?>
+		<?php if ($methodHtml = $this->getMethodHtml($method)): ?>
+		<li><?php echo $methodHtml; ?></li>
+		<?php endif; ?>
+		<?php endforeach; ?>
+		</ul>
+		<?php endif; ?>
+		<a class="highlight-link" href="<?php echo $this->getUrl('') ?>">Continue shopping</a>
+	</div>
+
+</div><!-- END Cart -->

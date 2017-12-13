@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Lexel_InventoryReport>
+            <version>0.1.0</version>
+        </Lexel_InventoryReport>
+    </modules>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <lexel_inventoryreport before="Mage_Adminhtml">Lexel_InventoryReport_Adminhtml</lexel_inventoryreport>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <lexel_inventoryreport>
+                    <file>lexel/inventoryreport.xml</file>
+                </lexel_inventoryreport>
+            </updates>
+        </layout>
+    </adminhtml>
+
+    <global>
+        <blocks>
+            <lexel_inventoryreport>
+                <class>Lexel_InventoryReport_Block</class>
+            </lexel_inventoryreport>
+        </blocks>
+
+        <helpers>
+            <lexel_inventoryreport>
+                <class>Lexel_InventoryReport_Helper</class>
+            </lexel_inventoryreport>
+        </helpers>
+    </global>
+</config>

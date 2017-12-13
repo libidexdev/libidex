@@ -1,0 +1,23 @@
+<config>
+    <modules>
+        <ObjectSource_OrderOptions>
+            <version>0.0.1</version>
+        </ObjectSource_OrderOptions>
+    </modules>
+    <global>
+        <blocks>
+            <objectsource_orderoptions>
+                <class>ObjectSource_OrderOptions_Block</class>
+            </objectsource_orderoptions>
+        </blocks>
+    </global>
+    <adminhtml>
+        <layout>
+            <updates>
+                <objectsource_orderoptions>
+                    <file>objectsource/orderoptions.xml</file>
+                </objectsource_orderoptions>
+            </updates>
+        </layout>
+    </adminhtml>
+</config>

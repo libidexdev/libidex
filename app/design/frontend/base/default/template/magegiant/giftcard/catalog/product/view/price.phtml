@@ -1,0 +1,64 @@
+<?php
+/**
+ * Magegiant
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the magegiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magegiant
+ * @package     Magegiant_GiftCard
+ * @copyright   Copyright (c) 2014 Magegiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+
+?>
+<?php $_product = $this->getProduct() ?>
+<?php $_finalPrice = $_product->getPriceModel()->getTotalPrices($_product, 'min') ?>
+<?php $maxPrice = $_product->getPriceModel()->getTotalPrices($_product, 'max') ?>
+<?php $_finalPriceInclTax = $_product->getPriceModel()->getTotalPrices($_product, 'min', true) ?>
+
+<?php if ($this->displayProductStockStatus()): ?>
+	<?php if ($_product->isAvailable()): ?>
+		<p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('In stock') ?></span></p>
+	<?php else: ?>
+		<p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
+	<?php endif; ?>
+<?php endif; ?>
+
+<div class="price-box">
+    <p class="price-as-configured">
+		<?php if($_finalPrice < $maxPrice): ?>
+        <span class="price-label"><?php echo $this->helper('giftcard')->__('Price as configured') ?>:</span>
+		<?php endif; ?>
+		<span class="full-product-price">
+        <?php if ($this->helper('tax')->displayBothPrices()): ?>
+			<span class="price-tax">
+				<span class="price-excluding-tax">
+					<span class="label"><?php echo Mage::helper('tax')->__('Excl. Tax:') ?></span>
+					<span class="price" id="price-excluding-tax-<?php echo $_product->getId() ?><?php echo $this->getIdSuffix() ?>">
+						<?php echo Mage::helper('core')->currency($_finalPrice,true,false) ?>
+					</span>
+				</span>
+				<span class="price-including-tax">
+					<span class="label"><?php echo Mage::helper('tax')->__('Incl. Tax:') ?></span>
+					<span class="price" id="price-including-tax-<?php echo $_product->getId() ?><?php echo $this->getIdSuffix() ?>">
+						<?php echo Mage::helper('core')->currency($_finalPriceInclTax,true,false) ?>
+					</span>
+				</span>
+			</span>
+        <?php else: ?>
+			<span class="price" id="product-price-<?php echo $_product->getId() ?><?php echo $this->getIdSuffix() ?>">
+				<?php echo Mage::helper('core')->currency($_finalPrice,true,false) ?>
+			</span>
+    	<?php endif ?>
+		</span>
+    </p>
+</div>

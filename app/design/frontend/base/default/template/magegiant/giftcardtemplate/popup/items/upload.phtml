@@ -1,0 +1,100 @@
+<?php
+/**
+ * MageGiant
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageGiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    MageGiant
+ * @package     MageGiant_GiftCardTemplate
+ * @copyright   Copyright (c) 2014 MageGiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+?>
+<?php $_product = $this->getProduct(); ?>
+<?php $_isShowMenu = $_product->getData('giftcard_design_all') ?>
+<div class="upload-photo-wrapper">
+    <div class="upload-header">
+        <?php if ($_isShowMenu): ?>
+            <div class="header-top col-mg mg-6 mg-xs-12">
+                <div>
+                    <a class="back-to-design">
+                        <i class="fa fa-backward"></i>
+                        <?php echo $this->__('Back to designs') ?>
+                    </a>
+                </div>
+            </div>
+        <?php endif; ?>
+        <div class="header-top col-mg mg-<?php echo $_isShowMenu ? 6 : 12; ?> mg-xs-12">
+            <div>
+                <h2 class="upload-title">
+                    <?php echo $this->__('Upload your photo') ?>
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="mg-clear"></div>
+    <div class="upload-photo-content">
+        <div class="template-img">
+            <img
+                src="<?php echo $this->getDefaultFrame() ?>" class="upload-frame"
+                />
+
+            <div class="custom-upload">
+                <div class="upload-area"></div>
+            </div>
+        </div>
+        <div class="control upload-area-another col-mg mg-6 mg-xs-12" style="display: none">
+        </div>
+        <div class="control crop-resize col-mg mg-6 mg-xs-12" style="display: none">
+            <button type="button" class="button zoom-in" title="Zoom In">
+                                 <span>
+                                 <i class="fa fa-plus"></i>
+                            </span>
+            </button>
+            <button type="button" class="button zoom-out" title="Zoom Out">
+                                   <span>
+                                        <i class="fa fa-minus"></i>
+                                    </span>
+            </button>
+            <button type="button" class="button rotate" title="Rotate 90 deg">
+                                <span>
+                                    <i class="fa fa-rotate-right"></i>
+                                </span>
+            </button>
+        </div>
+        <script>
+            var upload_config = {
+                backDesignEl: '.upload-header .back-to-design',
+                templateContent: '.upload-photo-content .template-img',
+                uploadContent: '.upload-photo-content .template-img .custom-upload',
+                uploadArea: '.upload-photo-content .upload-area',
+                uploadFrameEl: '.upload-photo-content .upload-frame',
+                uploadAnotherEl: '.upload-area-another',
+                cropResizeArea: '.crop-resize',
+                rotateBtn: '.crop-resize button.rotate',
+                zoomInBtn: '.crop-resize button.zoom-in',
+                zoomOutBtn: '.crop-resize button.zoom-out',
+                currentUploaded: '#current_uploaded',
+                allowType: ['jpg', 'jpeg', 'png', 'gif'],
+                uploadLabel: '<?php echo $this->__('Drag and drop files or click to select')?>',
+                uploadAnotherLabel: '<?php echo $this->__('Upload another image')?>',
+                uploadUrl: '<?php echo $this->getUploadImgUrl()?>',
+                removeImageUrl: '<?php echo $this->getRemoveImageUrl()?>',
+                baseImageUrl: '<?php echo $this->getBaseImageUrl()?>',
+                maxSize: <?php echo $this->getMaxFileSize()?>
+            };
+            GifCardTemplate.design.upload.initialize(upload_config);
+        </script>
+    </div>
+</div>
+<div class="mg-clear"></div>
+

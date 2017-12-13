@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<layout>
+    <checkout_onepage_index>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/objectsource/rapidservice/rapidselection.js</name><params/></action>
+        </reference>
+        <reference name="content">
+            <!--<reference name="checkout.cart">-->
+                <block type="rapidorder/rapidselection" name="rapidselection" as="rapidselection" template="objectsource/rapidorder/selection.phtml"/>
+            <!--</reference>-->
+        </reference>
+    </checkout_onepage_index>
+
+    <os_rapidservice_add_order_total>
+        <reference name="order_totals">
+            <block type="os_rapidservice/sales_order_totals_rapidService" name="total_rapidservice" />
+        </reference>
+    </os_rapidservice_add_order_total>
+
+    <os_rapidservice_add_invoice_total>
+        <reference name="invoice_totals">
+            <block type="os_rapidservice/sales_order_totals_rapidService" name="total_rapidservice" />
+        </reference>
+    </os_rapidservice_add_invoice_total>
+
+    <os_rapidservice_add_creditmemo_total>
+        <reference name="creditmemo_totals">
+            <block type="os_rapidservice/sales_order_totals_rapidService" name="total_rapidservice" />
+        </reference>
+    </os_rapidservice_add_creditmemo_total>
+
+    <sales_order_view>
+        <update handle="os_rapidservice_add_order_total" />
+    </sales_order_view>
+    <sales_order_invoice>
+        <update handle="os_rapidservice_add_invoice_total" />
+    </sales_order_invoice>
+    <sales_order_creditmemo>
+        <update handle="os_rapidservice_add_creditmemo_total" />
+    </sales_order_creditmemo>
+    <sales_order_print>
+        <update handle="os_rapidservice_add_order_total" />
+    </sales_order_print>
+    <sales_order_printinvoice>
+        <update handle="os_rapidservice_add_invoice_total" />
+    </sales_order_printinvoice>
+    <sales_order_printcreditmemo>
+        <update handle="os_rapidservice_add_creditmemo_total" />
+    </sales_order_printcreditmemo>
+    <sales_email_order_items>
+        <update handle="os_rapidservice_add_order_total" />
+    </sales_email_order_items>
+    <sales_email_order_invoice_items>
+        <update handle="os_rapidservice_add_invoice_total" />
+    </sales_email_order_invoice_items>
+    <sales_email_order_creditmemo_items>
+        <update handle="os_rapidservice_add_creditmemo_total" />
+    </sales_email_order_creditmemo_items>
+    <sales_guest_view>
+        <update handle="os_rapidservice_add_order_total" />
+    </sales_guest_view>
+    <sales_guest_invoice>
+        <update handle="os_rapidservice_add_invoice_total" />
+    </sales_guest_invoice>
+    <sales_guest_creditmemo>
+        <update handle="os_rapidservice_add_creditmemo_total" />
+    </sales_guest_creditmemo>
+    <sales_guest_print>
+        <update handle="os_rapidservice_add_order_total" />
+    </sales_guest_print>
+    <sales_guest_printinvoice>
+        <update handle="os_rapidservice_add_invoice_total" />
+    </sales_guest_printinvoice>
+    <sales_guest_printcreditmemo>
+        <update handle="os_rapidservice_add_creditmemo_total" />
+    </sales_guest_printcreditmemo>
+</layout>

@@ -1,0 +1,65 @@
+<?php /***************************************
+Set Global session variable to also use in price.phtml
+***************************************/ ?>
+<?php $geoIPCountry = Mage::getSingleton('geoip/country')->getCountry();?>
+	<?php switch($geoIPCountry) {	
+	case "AT":
+	case "BE":
+	case "CY":
+	case "CZ":
+	case "DE":
+	case "DK":
+	case "ES":
+	case "FI":
+	case "FR":
+	case "GR":
+	case "HU":
+	case "IE":
+	case "IT":
+	case "NL":
+	case "SE":
+	case "NO":
+	$geoIPCountry = "EU";break;
+	
+	case "US":
+	$geoIPCountry = "US";break;
+	
+	case "JP":
+	$geoIPCountry = "JP";break;} ?>
+<!-- Store in session -->
+<?php 
+$geo = Mage::app()->getRequest()->getParam('geo');
+if (!Mage::getSingleton('core/session')->getMyCountry())
+{
+	Mage::getSingleton('core/session')->setMyCountry($geoIPCountry);
+}
+else if (isset($geo))
+{
+	Mage::getSingleton('core/session')->setMyCountry($geo);
+}
+$urlHelper = Mage::helper('core/url');
+$url = $urlHelper->removeRequestParam($urlHelper->getCurrentUrl(), 'geo');
+?>
+
+
+<?php /*************************************** 
+Use Global session variable to display Dropdown
+***************************************/ ?>
+<?php $set_currency = Mage::getSingleton('core/session')->getMyCountry(); ?>
+<?php if ($set_currency == "EU"):?>
+	<li class="currency"><a href="#_">Shipping to EU (EUR €) <i class="fa fa-angle-down"></i></a>
+<?php elseif($set_currency == "US"):?>
+	<li class="currency"><a href="#_">Shipping to US (USD $) <i class="fa fa-angle-down"></i></a>
+<?php elseif($set_currency == "JP"):?>
+	<li class="currency"><a href="#_">Shipping to JP (JPY ¥) <i class="fa fa-angle-down"></i></a>
+<?php else:?>
+	<li class="currency"><a href="#_">Choose Currency (GBP £) <i class="fa fa-angle-down"></i></a>
+<?php endif;?>
+	<ul>
+		<li class="title">Choose Currency</li>
+		<li><a href="<?php echo $urlHelper->addRequestParam($url, array( 'geo' => 'UK' )) ?>">Shipping to UK (GBP £)</i></a>
+		<li><a href="<?php echo $urlHelper->addRequestParam($url, array( 'geo' => 'EU' )) ?>">Shipping to EU (EUR €)</a></li>
+		<li><a href="<?php echo $urlHelper->addRequestParam($url, array( 'geo' => 'JP' )) ?>">Shipping to JP (JPY ¥)</a></li>
+		<li><a href="<?php echo $urlHelper->addRequestParam($url, array( 'geo' => 'US' )) ?>">Shipping to US (USD $)</a></li>				
+	</ul>
+</li>

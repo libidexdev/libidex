@@ -1,0 +1,183 @@
+<?php
+/**
+ * Magegiant
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the magegiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magegiant
+ * @package     Magegiant_GiftCard
+ * @copyright   Copyright (c) 2014 Magegiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+?>
+
+<?php echo $this->getChildHtml('product_type_data_default') ?>
+
+<?php $_product = $this->getProduct() ?>
+<?php $_coreHelper = Mage::helper('core') ?>
+<?php $_taxHelper  = $this->helper('tax') ?>
+<?php $_formData = $this->getFormData() ?>
+<?php $giftCardAmount = $_product->getPriceModel()->analyzeAmount($_product) ?>
+
+<div class="giftcard-product-form">
+	<div class="giftcard-amount">
+		<ul class="form-list">
+            <li class="fields">
+				<div class="field">
+				<?php if($giftCardAmount['type'] == 'fixed'): ?>
+					<div class="price-box">
+						<p class="price-as-configured">
+							<span class="price-label"><?php echo $this->__('Amount') ?>:</span>
+							<span class="full-product-price">
+								<span class="price"><?php echo $_coreHelper->currency($giftCardAmount['amount']) ?></span>
+							</span>
+						</p>
+						<input type="hidden" name="giftcard[amount]" value="<?php echo $giftCardAmount['amount'] ?>" />
+					</div>
+				<?php elseif($giftCardAmount['type'] == 'dropdown'): ?>
+					<label for="giftcard_amount" class="required"><em>*</em><?php echo $this->__('Amount') ?></label>
+					<div class="input-box">
+						<select name="giftcard[amount]" id="giftcard_amount">
+							<?php foreach($giftCardAmount['amount'] as $amount): ?>
+								<option value="<?php echo $amount ?>" <?php echo ($_formData->getAmount() == $amount) ? 'selected' : '' ?>><?php echo $_coreHelper->currency($amount) ?></option>
+							<?php endforeach ?>
+						</select>
+					</div>
+				<?php else: ?>
+					<label for="giftcard_amount" class="required"><em>*</em><?php echo $this->__('Amount') ?></label>
+					<div class="input-box">
+						<input type="text" id="giftcard_amount" name="giftcard[amount]" class="required-entry input-text validate-giftcard-amount-min validate-giftcard-amount-max validate-number validate-greater-than-zero" value="<?php echo $_formData->getAmount() ?>">
+						<?php
+						$minAmount = $_coreHelper->currency($giftCardAmount['amount']['from']);
+						$maxAmount = $_coreHelper->currency($giftCardAmount['amount']['to']);
+						?>
+						<p class="notice">
+							<span>(<?php echo $minAmount . ' - ' . $maxAmount ?>)</span>
+						</p>
+					</div>
+
+					<script type="text/javascript">
+						var minAmount = <?php echo $giftCardAmount['amount']['from'] ?>;
+						var maxAmount = <?php echo $giftCardAmount['amount']['to'] ?>;
+						Validation.add('validate-giftcard-amount-min', '<?php echo Mage::helper('giftcard')->__('Please enter amount equal or greater than %s', $minAmount); ?>', function(v) {
+							return parseFloat(v) >= minAmount;
+						});
+						Validation.add('validate-giftcard-amount-max', '<?php echo Mage::helper('giftcard')->__('Please enter amount equal or less than %s', $maxAmount); ?>', function(v) {
+							return parseFloat(v) <= maxAmount;
+						});
+					</script>
+				<?php endif; ?>
+				</div>
+			</li>
+		</ul>
+		<?php if($giftCardAmount['type'] != 'fixed'): ?>
+			<script type="text/javascript">
+				var giftCardPrice = new GiftCard.OptionsPrice(<?php echo $this->getJsonConfig() ?>, <?php echo Mage::helper('core')->jsonEncode($giftCardAmount) ?>);
+
+				$('giftcard_amount').observe('change', function(event){
+					if(typeof minAmount !== 'undefined'){
+						if(this.value < minAmount){
+							this.value = minAmount;
+						}
+						if(this.value > maxAmount){
+							this.value = maxAmount;
+						}
+					}
+					giftCardPrice.loadPrice();
+				});
+			</script>
+		<?php endif; ?>
+	</div>
+
+	<?php echo $this->getChildHtml('giftcard_data_extra') ?>
+
+	<div class="giftcard-information">
+		<ul class="form-list">
+            <li class="fields">
+				<div class="field">
+					<label for="giftcard_sender_name"><?php echo $this->__('Sender Name') ?></label>
+					<div class="input-box">
+						<input type="text" id="giftcard_sender_name" name="giftcard[sender_name]" class="input-text" value="<?php echo $_formData->getData('sender_name') ?>">
+					</div>
+				</div>
+				<?php if($this->showEmailField($_product)): ?>
+				<div class="field">
+					<label for="giftcard_sender_email"><?php echo $this->__('Sender Email') ?></label>
+					<div class="input-box">
+						<input type="text" id="giftcard_sender_email" name="giftcard[sender_email]" class="validate-email input-text" value="<?php echo $_formData->getData('sender_email') ?>">
+					</div>
+				</div>
+				<?php endif; ?>
+    		</li>
+            <li class="fields">
+                <div class="field">
+                    <label for="giftcard_recipient_name" class="required"><em>*</em><?php echo $this->__('Recipient Name') ?></label>
+                    <div class="input-box">
+                        <input type="text" id="giftcard_recipient_name" name="giftcard[recipient_name]" class="required-entry input-text" value="<?php echo $_formData->getData('recipient_name') ?>">
+                    </div>
+                </div>
+				<?php if($this->showEmailField($_product)): ?>
+				<div class="field">
+                    <label for="giftcard_recipient_email" class="required"><em>*</em><?php echo $this->__('Recipient Email') ?></label>
+                    <div class="input-box">
+                        <input type="text" id="giftcard_recipient_email" name="giftcard[recipient_email]" class="validate-email required-entry input-text" value="<?php echo $_formData->getData('recipient_email') ?>">
+                    </div>
+                </div>
+				<?php endif; ?>
+			</li>
+			<?php if($this->enableCustomMessage($_product)): ?>
+			<li>
+                <label for="giftcard_message"><?php echo $this->__('Message') ?></label>
+                <div class="input-box">
+                    <textarea name="giftcard[message]" id="giftcard_message" class="input-text" cols="5" rows="3" maxlength="<?php echo $this->getMessageMaxLength($_product) ?>" style="resize: vertical; height: 5em"><?php echo $_formData->getData('message') ?></textarea>
+				</div>
+            </li>
+			<?php endif; ?>
+			<?php if($this->enableScheduling($_product)): ?>
+			<li>
+				<?php echo $this->getLayout()->createBlock('core/html_calendar')->setTemplate('page/js/calendar.phtml')->toHtml() ?>
+                <label for="giftcard_scheduling"><?php echo $this->__('Send Date') ?></label>
+                <div class="input-box">
+                    <input type="text" class="input-text validate-date validate-giftcard-date-scheduling" name="giftcard[schedule_at]" id="giftcard_scheduling" value="<?php echo $_formData->getData('schedule_at') ?>" />
+                    <img src="<?php echo Mage::getBaseUrl('skin') ?>/adminhtml/default/default/images/grid-cal.gif" alt="<?php echo $this->__('Select Date') ?>" class="v-middle" id="giftcard_scheduling_calendar" style="display: inline-block"/>
+				</div>
+				<script type="text/javascript">
+					//<![CDATA[
+					Calendar.setup({
+						inputField: "giftcard_scheduling",
+						ifFormat: "%m/%e/%Y",
+						showsTime: false,
+						button: "giftcard_scheduling_calendar",
+						align: "Bl",
+						singleClick: true,
+						disableFunc: function(date) {
+							return date < new Date().setHours(0,0,0,0);
+						}
+					});
+
+					Validation.add('validate-giftcard-date-scheduling', '<?php echo $this->__('Send date cannot be in the past') ?>', function(v) {
+						if(!v) return true;
+
+						var dateTest = new Date(v).setHours(0,0,0,0);
+						var today = new Date().setHours(0,0,0,0);
+
+						return today <= dateTest;
+					});
+					//]]>
+				</script>
+            </li>
+			<?php endif; ?>
+		</ul>
+	</div>
+</div>
+
+<?php echo $this->getChildHtml('product_type_data_extra') ?>

@@ -1,0 +1,24 @@
+<?php $order = Mage::getModel('sales/order')->loadByIncrementId($this->getOrderId());?>
+</div><!-- End Wrapper early -->
+<h1 class="page-subtitle"><span class="inner"><?php echo $this->__('Thank you for your purchase.') ?></span></h1>
+<div class="wrapper"><!-- Begin Wrapper again -->
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+
+<?php if ($this->getOrderId()):?>
+    <?php $isRapidService = Mage::helper('os_rapidservice')->getIsRapidServiceItemByOrderId($this->getOrderId(), true);
+    ?>
+    <?php if ($this->getCanViewOrder()) :?>
+        <p><?php echo $this->__('Your order number is %s', sprintf('<a class="highlight-link" href="%s">%s</a>', $this->escapeHtml($this->getViewOrderUrl()), $this->escapeHtml($this->getOrderId()))) ?></p>
+    <?php else : ?>
+        <p><?php echo $this->__('Your order number is %s', $this->escapeHtml($this->getOrderId())) ?></p>
+    <?php endif; ?>
+    <?php if ($isRapidService) : ?>
+        <p>You have chosen our <a class="highlight-link" href="/orders-delivery-returns" target="_blank">Rapid Order</a> Service and your order will be despatched on or before <strong><?php echo date("d/m/y", mktime(0, 0, 0, date("m"), date("d")+14, date("Y")));;?></strong>.</p>
+    <?php else : ?>
+        <p>Your order will be despatched on or before <strong><?php echo date("d/m/y", strtotime($order->getFulfillmentDataValue('finish_date')));?></strong>.</p>
+    <?php endif;?>
+    <p><?php echo $this->__('You will receive confirmation and details of your order by email.') ?></p>
+<?php endif;?>
+
+<button type="button" class="button success-btn-continue" title="<?php echo $this->__('Continue Shopping') ?>" onclick="window.location='<?php echo $this->getUrl() ?>'"><?php echo $this->__('Continue Shopping') ?></button>

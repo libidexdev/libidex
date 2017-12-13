@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <ObjectSource_Plussize>
+            <active>true</active>
+            <codePool>local</codePool>
+        </ObjectSource_Plussize>
+    </modules>
+</config>

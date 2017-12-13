@@ -1,0 +1,116 @@
+<?php
+/**
+ * MageGiant
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageGiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    MageGiant
+ * @package     MageGiant_GiftCardTemplate
+ * @copyright   Copyright (c) 2014 MageGiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+?>
+<?php $_product = $this->getProduct(); ?>
+<?php $_isShowMenu = $_product->getData('giftcard_design_all') ?>
+<div id="giftcard_template_popup_container" class="col-mg mg-<?php echo $_isShowMenu ? 8 : 4 ?>" style="display: none">
+    <div class="giftcard-template-popup-wrapper">
+        <div class="giftcard-template-header">
+            <h1>
+                <?php echo $this->__('Select a design') ?>
+                <a id="close_popup_template">
+                    <i class="fa fa-close"></i>
+                </a>
+            </h1>
+        </div>
+        <div class="giftcard-template-popup-content row-mg">
+            <?php if ($_isShowMenu): ?>
+                <div class="template-menu col-mg mg-4 mg-xs-12">
+                    <div id="giftcard_template_format" class="menu-item">
+                        <?php echo $this->getChildHtml('popup.format'); ?>
+                    </div>
+                    <div id="giftcard_template_design" class="menu-item">
+                        <?php echo $this->getChildHtml('popup.design'); ?>
+                    </div>
+                </div>
+                <div class="template-content col-mg mg-8 mg-xs-12" id="giftcard_template_content">
+                    <div class="template-items-wrapper">
+                        <div class="template-items" id="giftcard_template_items">
+                            <?php echo $this->getChildHtml('popup.items') ?>
+                        </div>
+                        <div class="mg-clear"></div>
+                        <div class="template-toolbar">
+                            <div class="template-sorter">
+                                <ul id="template_view_mode">
+                                    <li>
+                                        <a title="<?php echo $this->__('Grid Mode') ?>">
+                                            <i class="fa fa-th active"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a title="<?php echo $this->__('List Mode') ?>">
+                                            <i class="fa fa-list"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-upload-wrapper" style="display: none">
+                        <?php echo $this->getChildHtml('popup.item.upload'); ?>
+                    </div>
+                    <div class="button-container">
+                        <button class="button" id="use_selected_item" disabled type="button">
+                            <span><?php echo $this->__('Ok, Preview now') ?></span>
+                        </button>
+                    </div>
+                </div>
+            <?php else: ?>
+                <div class="template-content col-mg mg-12" id="giftcard_template_content">
+                    <div class="template-items-wrapper">
+                        <div class="template-items" id="giftcard_template_items">
+                            <?php echo $this->getChildHtml('popup.items') ?>
+                        </div>
+                        <div class="mg-clear"></div>
+                        <div class="template-toolbar">
+                            <div class="template-sorter">
+                                <ul id="template_view_mode">
+                                    <li>
+                                        <a title="<?php echo $this->__('Grid Mode') ?>">
+                                            <i class="fa fa-th active"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a title="<?php echo $this->__('List Mode') ?>">
+                                            <i class="fa fa-list"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-upload-wrapper">
+                        <?php echo $this->getChildHtml('popup.item.upload'); ?>
+                    </div>
+                    <div class="button-container">
+                        <button class="button" id="use_selected_item" disabled type="button">
+                            <span><?php echo $this->__('Ok, Preview now') ?></span>
+                        </button>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+<div id="giftcard_popup_overlay"></div>
+
+
+

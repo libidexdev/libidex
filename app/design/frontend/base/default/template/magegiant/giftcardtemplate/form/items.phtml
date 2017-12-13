@@ -1,0 +1,122 @@
+<?php
+/**
+ * MageGiant
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageGiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    MageGiant
+ * @package     MageGiant_GiftCardTemplate
+ * @copyright   Copyright (c) 2014 MageGiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+
+/**
+ * Giftcardtemplate template
+ *
+ * @see Magegiant_GiftCardTemplate_Block_Giftcardtemplate
+ */
+?>
+<?php $items = $this->getAllItems(); ?>
+<?php $count = 0; ?>
+<div class="owl-carousel-template">
+    <?php foreach ($items as $item): ?>
+        <?php $isDefault = $item->getIsDefault() ?>
+        <?php $count++; ?>
+        <div>
+            <div class="template-img" id="item-<?php echo $item->getItemId(); ?>">
+                <?php if ($this->checkIsVideo($item)) : ?>
+                    <img
+                        class="<?php echo $count == 1 ? 'active' : '' ?> video-thumb"
+                        alt="<?php echo $item->getName() ?>"
+                        src="<?php echo $item->getThumbFile(); ?>"
+                        />
+                    <div class="play-icon"></div>
+                    <iframe width="100%" height="480" style="display: none"
+                            src="<?php echo $this->getEmbedVideoByUrl($item->getVideoUrl()) ?>?autoplay=0"
+                            allowfullscreen
+                        >
+                    </iframe>
+                <?php else: ?>
+                    <?php
+                    $isCustomUpload = $this->checkIsCustomUpload($item);
+                    ?>
+                    <img
+                        class="<?php echo $count == 1 ? 'active' : '' ?> <?php echo $isCustomUpload ? 'custom' : '' ?>"
+                        alt="<?php echo $item->getName() ?>"
+                        src="<?php echo $this->getImgSrc($item->getThumbFile() ? 'thumbs/' . $item->getThumbFile() : $item->getSourceFile(), $isDefault); ?>"
+                        source="<?php echo $this->getImgSrc($item->getSourceFile(), $isDefault) ?>"
+                        />
+                <?php endif; ?>
+
+            </div>
+        </div>
+    <?php endforeach ?>
+    <?php if ($this->getProduct() && $this->getProduct()->getData('giftcard_design_all')): ?>
+        <div>
+            <div class="template-img see-more-designs">
+                <a id="see_more_designs"
+                   title="<?php echo $this->__('See more designs') ?>">
+                    <span><?php echo $this->__('See more') ?></span>
+                </a>
+            </div>
+        </div>
+    <?php endif ?>
+</div>
+<div class="mg-clear"></div>
+<?php if ($this->getFormatType() == Magegiant_GiftCardTemplate_Model_Format_Options::FORMAT_ANIMATED) : ?>
+    <?php echo $this->getChildHtml('form.items.video') ?>
+<?php else: ?>
+    <?php echo $this->getChildHtml('form.items.upload') ?>
+<?php endif; ?>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            /*Items*/
+            var form_items_config = {
+                itemEls: '#giftcard_template_form_list_items .template-img img',
+                videoEls: '#giftcard_template_form_list_items .template-img .play-icon'
+            }
+            GifCardTemplate.form.items.initialize(form_items_config);
+            /*Popup*/
+            var popup_config = {
+                overlayId: '#giftcard_popup_overlay',
+                popupContainer: '#giftcard_template_popup_container',
+                showPopupBtn: '#see_more_designs',
+                hidePopupBtn: '#close_popup_template',
+                initPopupUrl: '<?php echo $this->getInitPopupUrl()?>'
+            }
+            GifCardTemplate.popup.init(popup_config);
+            /*Jquery owlCarousel*/
+            $(".owl-carousel-template").owlCarousel({
+                itemsCustom: [
+                    [0, 1],
+                    [480, 2],
+                    [768, 3],
+                    [992, 4],
+                    [1200, 5]
+                ],
+                loop: false,
+                autoPlay: false,
+                slideSpeed: 500,
+                navigation: true,
+                pagination: false,
+                stopOnHover: true,
+                lazyLoad: true,
+                mouseDrag: true,
+                touchDrag: true,
+                autoHeight: true,
+                addClassActive: true,
+                responsive: true
+            });
+        });
+    })(jQuery);
+</script>

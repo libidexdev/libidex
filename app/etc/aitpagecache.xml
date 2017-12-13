@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <global>
+        <models>
+            <core>
+                <rewrite>
+                    <cache>Aitoc_Aitpagecache_Model_Rewrite_CoreCache</cache>
+                </rewrite>
+            </core>
+        </models>
+    </global>
+</config>

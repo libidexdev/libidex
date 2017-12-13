@@ -1,0 +1,194 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magegiant
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the magegiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category    Magegiant
+ * @package     Magegiant_GiftCardTemplate
+ * @copyright   Copyright (c) 2014 Magegiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+-->
+<config>
+    <modules>
+        <Magegiant_GiftCardTemplate>
+            <version>0.1.0</version>
+        </Magegiant_GiftCardTemplate>
+    </modules>
+    <frontend>
+        <routers>
+            <giftcardtemplate>
+                <use>standard</use>
+                <args>
+                    <module>Magegiant_GiftCardTemplate</module>
+                    <frontName>giftcardtemplate</frontName>
+                </args>
+            </giftcardtemplate>
+        </routers>
+        <layout>
+            <updates>
+                <giftcardtemplate>
+                    <file>magegiant/giftcardtemplate.xml</file>
+                </giftcardtemplate>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Magegiant_GiftCardTemplate>
+                    <files>
+                        <default>Magegiant_GiftCardTemplate.csv</default>
+                    </files>
+                </Magegiant_GiftCardTemplate>
+            </modules>
+        </translate>
+    </frontend>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <giantgiftcardtemplate after="Mage_Adminhtml">Magegiant_GiftCardTemplate_Adminhtml</giantgiftcardtemplate>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <giftcardtemplate>
+                    <file>magegiant/giftcardtemplate.xml</file>
+                </giftcardtemplate>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Magegiant_GiftCardTemplate>
+                    <files>
+                        <default>Magegiant_GiftCardTemplate.csv</default>
+                    </files>
+                </Magegiant_GiftCardTemplate>
+            </modules>
+        </translate>
+    </adminhtml>
+    <global>
+        <models>
+            <giftcardtemplate>
+                <class>Magegiant_GiftCardTemplate_Model</class>
+                <resourceModel>giftcardtemplate_mysql4</resourceModel>
+            </giftcardtemplate>
+            <giftcardtemplate_mysql4>
+                <class>Magegiant_GiftCardTemplate_Model_Mysql4</class>
+                <entities>
+                    <design>
+                        <table>magegiant_giftcard_template_design</table>
+                    </design>
+                    <design_items>
+                        <table>magegiant_giftcard_template_design_items</table>
+                    </design_items>
+                    <design_items_detail>
+                        <table>magegiant_giftcard_template_design_items_detail</table>
+                    </design_items_detail>
+                </entities>
+            </giftcardtemplate_mysql4>
+        </models>
+        <resources>
+            <giant_giftcardtemplate_setup>
+                <setup>
+                    <module>Magegiant_GiftCardTemplate</module>
+                    <class>Magegiant_GiftCardTemplate_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </giant_giftcardtemplate_setup>
+            <giftcardtemplate_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </giftcardtemplate_write>
+            <giftcardtemplate_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </giftcardtemplate_read>
+        </resources>
+        <blocks>
+            <giftcardtemplate>
+                <class>Magegiant_GiftCardTemplate_Block</class>
+            </giftcardtemplate>
+        </blocks>
+        <helpers>
+            <giftcardtemplate>
+                <class>Magegiant_GiftCardTemplate_Helper</class>
+            </giftcardtemplate>
+        </helpers>
+        <events>
+            <giftcard_generate_product_prepare_data>
+                <observers>
+                    <giftcardtemplate_observers>
+                        <class>giftcardtemplate/observer</class>
+                        <method>generateGiftCard</method>
+                    </giftcardtemplate_observers>
+                </observers>
+            </giftcard_generate_product_prepare_data>
+        </events>
+        <giftcardtemplate>
+            <blocks>
+                <!--Popup Actions-->
+                <initPopup>
+                    <format_type>giftcard.template.popup.format</format_type>
+                    <design_type>giftcard.template.popup.design</design_type>
+                    <design_items>giftcard.template.popup.items</design_items>
+                </initPopup>
+                <changeFormat>
+                    <design_type>giftcard.template.popup.design</design_type>
+                    <design_items>giftcard.template.popup.items</design_items>
+                </changeFormat>
+                <changeDesign>
+                    <design_items>giftcard.template.popup.items</design_items>
+                </changeDesign>
+                <changeMode>
+                    <design_items>giftcard.template.popup.items</design_items>
+                </changeMode>
+                <!--Form Actions-->
+                <changeFormFormat>
+                    <form_design_items>giftcard.template.form.items</form_design_items>
+                    <format_type>giftcard.template.popup.format</format_type>
+                    <design_type>giftcard.template.popup.design</design_type>
+                    <design_items>giftcard.template.popup.items</design_items>
+                </changeFormFormat>
+            </blocks>
+            <sections>
+                <format_type>#giftcard_template_format</format_type>
+                <design_type>#giftcard_template_design</design_type>
+                <template_content>#giftcard_template_content</template_content>
+                <design_items>#giftcard_template_items</design_items>
+                <form_design_items>#giftcard_template_form_list_items</form_design_items>
+            </sections>
+        </giftcardtemplate>
+    </global>
+
+    <default>
+        <giftcard>
+            <giftcardtemplate>
+                <is_enabled>1</is_enabled>
+                <load_jquery>1</load_jquery>
+                <max_file_size>2097152</max_file_size>
+                <upload_label>Drag and drop files or click to select (Recommended size: 600x480)</upload_label>
+            </giftcardtemplate>
+        </giftcard>
+    </default>
+
+</config>

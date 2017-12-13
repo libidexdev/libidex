@@ -1,0 +1,22 @@
+/*label.required:after, span.required:after { content: ''!important;}
+.realOptionTitle { display: none!important }
+.swatchPreview img { width: 70px }
+
+.product-options dl dt, .product-options dl dd {padding: 10px }
+.product-options dl dt { background-color: #1D1D1D; margin: 0px; border-top: 1px solid #151515; border-bottom: 1px solid #3E3E3E;}
+.product-options dl dt, .product-options dl dt label { cursor: pointer; }
+.product-options dl dt:hover, .product-options dl dt.stepSelected { background-color: #2D2D2D }
+.product-options dl dt label .stepTitle,
+.product-options dl dt label .stepSubTitle { margin: 0px;font-weight: normal }
+.product-options dl dt label .stepTitle::first-letter { font-size: 160%; }
+.product-options dl dt label .stepTitle span { font-size: 180% }
+.product-options dl dt label .stepTitle  { color: #ffffff; margin-top: -3px; }
+.product-options dl dt label .stepSubTitle  { color: #dddddd; }
+
+.product-options dl dd { background-color: #242424; border-bottom: 1px solid #3E3E3E; margin: 0px }
+.product-options dl dd .contentTitle { color: #ffffff; margin: 0px; }
+.product-options dl dd .contentSubTitle { color: #BEBEBE; font-weight: normal }
+
+.product-options > .required { display: none; }*/
+
+#nextStepBtn {float:right}

@@ -1,0 +1,54 @@
+<?php if($this->canShowBlock()): ?>
+<div class="block block-layered-nav">
+    <div class="block-content">
+        <?php echo $this->getStateHtml() ?>
+        <?php if ($this->getLayer()->getState()->getFilters()): ?>
+            <div class="actions"><a href="<?php echo $this->getClearUrl() ?>"><?php echo $this->__('Clear All') ?></a></div>
+        <?php endif; ?>
+        <?php if($this->canShowOptions()): ?>
+            <div id="narrow-by-list">
+                <?php $_filters = $this->getFilters() ?>
+                <?php foreach ($_filters as $_filter): ?>
+				<?php if ($_filter->getName()=="Size Size") { continue; } ?>
+				<?php if ($_filter->getName()=="Colour") { continue; } ?>
+				<?php if ( (strpos(Mage::helper('core/url')->getCurrentUrl(), "plus-size") ||
+							strpos(Mage::helper('core/url')->getCurrentUrl(), "featured-products") ||
+							strpos(Mage::helper('core/url')->getCurrentUrl(), "staff-picks")) && 
+							$_filter->getName()=="Category") { continue; } ?>
+                <?php if($_filter->getItemsCount()): ?>
+                <dl>
+<?php
+
+switch($_filter->getName())
+{
+    case "Size Size":
+        $name = 'Size';
+        break;
+    default:
+        $name = $_filter->getName();
+        break;
+}
+
+?>
+                    <dt class="priority-1-heading white thick <?php echo $this->__($name) ?>"><?php echo $this->__($name) ?></dt>
+                    <dd><?php echo $_filter->getHtml() ?></dd>
+                </dl>
+				
+<?php
+// Insert plussize ad
+if (Mage::app()->getStore()->getStoreId()==1 && $_filter->getName() == "Category") {		
+?>
+				<dl style="color: black; background: -webkit-linear-gradient(#fff, #aaa); background: -o-linear-gradient(#fff, #aaa); background: -moz-linear-gradient(#fff, #aaa); background: linear-gradient(#fff, #aaa);">
+					<dt class="priority-1-heading black thick"><?php echo $this->__("NEW!"); ?></dt>
+					<dd><a href='/plus-size.html' style="color: black;">Click here to see our large range of XXS, 3XL and 4XL styles</a></dd>
+				</dl>
+<?php } ?>		
+				
+                <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+            <script type="text/javascript">decorateDataList('narrow-by-list')</script>
+        <?php endif; ?>
+    </div>
+</div>
+<?php endif; ?>

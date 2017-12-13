@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_malaysiainvoice_index>
+        <reference name="content">
+            <block type="os_malaysia_invoice_adminhtml/invoice" name="malaysiainvoice_invoice" />
+        </reference>
+    </adminhtml_malaysiainvoice_index>
+
+    <adminhtml_malaysiainvoice_new>
+        <reference name="content">
+            <block type="os_malaysia_invoice_adminhtml/invoice_edit" name="invoice_edit"></block>
+        </reference>
+        <reference name="left">
+            <block type="os_malaysia_invoice_adminhtml/invoice_edit_tabs" name="invoice_tabs"></block>
+        </reference>
+    </adminhtml_malaysiainvoice_new>
+
+    <adminhtml_malaysiainvoice_view>
+        <update handle="malaysiainvoice_invoice_view" />
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><file>objectsource/malaysiainvoice/opener.js</file></action>
+        </reference>
+    </adminhtml_malaysiainvoice_view>
+
+    <adminhtml_malaysiainvoice_printinvoice>
+        <update handle="malaysiainvoice_invoice_view" />
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><file>objectsource/malaysiainvoice/instantprint.js</file></action>
+            <action method="removeItem"><type>skin_css</type><name>print.css</name></action>
+        </reference>
+        <reference name="root">
+            <action method="setTemplate"><template>empty.phtml</template></action>
+        </reference>
+        <reference name="invoice_view">
+            <action method="setTemplate"><template>objectsource/malaysiainvoice/print.phtml</template></action>
+        </reference>
+        <reference name="invoice_items">
+            <action method="setData"><name>document_type</name><value>invoice</value></action>
+        </reference>
+        <remove name="footer" />
+    </adminhtml_malaysiainvoice_printinvoice>
+
+    <adminhtml_malaysiainvoice_printpackinglist>
+        <update handle="malaysiainvoice_invoice_view" />
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><file>objectsource/malaysiainvoice/instantprint.js</file></action>
+            <action method="removeItem"><type>skin_css</type><name>print.css</name></action>
+        </reference>
+        <reference name="root">
+            <action method="setTemplate"><template>empty.phtml</template></action>
+        </reference>
+        <reference name="invoice_view">
+            <action method="setTemplate"><template>objectsource/malaysiainvoice/print.phtml</template></action>
+        </reference>
+        <reference name="invoice_items">
+            <action method="setData"><name>document_type</name><value>packing_list</value></action>
+        </reference>
+    </adminhtml_malaysiainvoice_printpackinglist>
+
+    <malaysiainvoice_invoice_view>
+        <reference name="content">
+            <block type="os_malaysia_invoice_adminhtml/invoice_view" name="invoice_view">
+                <block type="os_malaysia_invoice_adminhtml/invoice_view_form" name="form" template="objectsource/malaysiainvoice/view/form.phtml">
+                    <block type="os_malaysia_invoice_adminhtml/invoice_view_info" name="invoice_info" template="objectsource/malaysiainvoice/view/info.phtml">
+                        <block type="os_malaysia_invoice_adminhtml/invoice_view_header" name="invoice_header" template="objectsource/malaysiainvoice/view/header.phtml" />
+                        <block type="os_malaysia_invoice_adminhtml/invoice_view_items" name="invoice_items" template="objectsource/malaysiainvoice/view/items.phtml">
+                        </block>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </malaysiainvoice_invoice_view>
+</layout>

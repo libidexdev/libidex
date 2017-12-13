@@ -1,0 +1,11 @@
+<?php
+$customer = $this->getCustomer();
+$order = $this->getOrder();
+$field_code = $this->getFieldCode();
+if($order){
+	$customer = Mage::getModel('customer/customer')->load($order->getCustomerId());
+}
+if($customer && $field_code){
+	$field_value = $customer->getData($field_code);
+}
+if($field_value) echo $field_value;

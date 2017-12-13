@@ -1,0 +1,24 @@
+##
+# Root / An Add-on for Magento WordPress Integration
+#
+# Author:			Benn Tideswell
+# URL:				http://fishpig.co.uk/magento/wordpress-integration/root/
+##
+
+03/10/2014 - v1.0.2.2
+- Fixed bug that set the 'id' parameter on most controllers when the 'Replace Homepage' option was enabled. Thanks to Seb Ledan for pointing out this bug.
+
+23/04/2014 - v1.0.2.1
+- Added Module name and URL into config.xml
+
+11/03/2014 - v1.0.2.0
+- Small fix for top link
+
+03/03/2014 - v1.0.1.0
+- Fixed issue that stopped products from being saved.
+
+01/03/2014 - v1.0.0.2
+- Removed toplink and breadcrumb when there is no true blog homepage (or a page that is set to display the blog posts)
+
+10/11/2013 - v1.0.0.1
+- Fixed post previews when integrating at root

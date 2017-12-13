@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Lexel_Sagepay>
+            <version>0.1.0</version>
+        </Lexel_Sagepay>
+    </modules>
+    <global>
+        <models>
+            <lexel_sagepay>
+                <class>Lexel_Sagepay_Model</class>
+            </lexel_sagepay>
+            <sagepaysuite>
+                <rewrite>
+                    <paypal_checkout>Lexel_Sagepay_Model_Paypal_Checkout</paypal_checkout>
+                </rewrite>
+            </sagepaysuite>
+        </models>
+    </global>
+</config>

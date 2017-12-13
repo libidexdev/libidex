@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * MageGiant
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MageGiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category    MageGiant
+ * @package     MageGiant_GiftCardTemplate
+ * @copyright   Copyright (c) 2014 MageGiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+-->
+<layout version="0.1.0">
+    <default>
+        <!-- update layout for all frontend page -->
+    </default>
+    <giftcard_template_handle>
+        <reference name="head">
+            <action method="addJs" ifconfig="giftcard/giftcardtemplate/load_jquery">
+                <script>magegiant/giftcardtemplate/jquery/jquery-1.10.2.min.js</script>
+            </action>
+            <action method="addJs">
+                <script>magegiant/giftcardtemplate/jquery/noconflict.js</script>
+            </action>
+            <action method="addJs">
+                <script>magegiant/giftcardtemplate/template.js</script>
+            </action>
+            <action method="addJs">
+                <script>magegiant/giftcardtemplate/jquery/jquery.fs.dropper.min.js</script>
+            </action>
+            <action method="addJs">
+                <script>magegiant/giftcardtemplate/jquery/jQueryRotate.js</script>
+            </action>
+            <action method="addJs">
+                <script>magegiant/giftcardtemplate/jquery/jquery-ui.min.js</script>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/magegiant/giftcardtemplate/slider/owl.carousel.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/magegiant/giftcardtemplate/popup/jquery.popupoverlay.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/magegiant/giftcardtemplate/slider/owl.carousel.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/magegiant/giftcardtemplate/slider/owl.transitions.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/magegiant/giftcardtemplate/grid-magegiant.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/magegiant/giftcardtemplate/style.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/magegiant/giftcardtemplate/style.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/magegiant/giftcardtemplate/upload/jquery.fs.dropper.min.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/magegiant/giftcardtemplate/font-awesome/css/font-awesome.css</name>
+                <params/>
+            </action>
+        </reference>
+        <reference name="product.info.media">
+            <action method="setTemplate">
+                <template>magegiant/giftcardtemplate/media.phtml</template>
+            </action>
+            <block type="giftcardtemplate/catalog_product_view_form" name="giftcard.template.form" template="magegiant/giftcardtemplate/form.phtml">
+                <!--popup template-->
+                <block type="giftcardtemplate/catalog_product_view_popup" name="giftcard.template.popup" as="template.popup" template="magegiant/giftcardtemplate/popup.phtml">
+                    <block type="giftcardtemplate/catalog_product_view_popup_format" name="giftcard.template.popup.format" as="popup.format"
+                           template="magegiant/giftcardtemplate/popup/format.phtml"
+                            />
+                    <block type="giftcardtemplate/catalog_product_view_popup_design" name="giftcard.template.popup.design" as="popup.design"
+                           template="magegiant/giftcardtemplate/popup/design.phtml"
+                            />
+                    <block type="giftcardtemplate/catalog_product_view_popup_items" name="giftcard.template.popup.items" as="popup.items"
+                           template="magegiant/giftcardtemplate/popup/items.phtml"
+                            />
+                    <block type="giftcardtemplate/catalog_product_view_popup_upload" name="giftcard.template.popup.item.upload" as="popup.item.upload"
+                           template="magegiant/giftcardtemplate/popup/items/upload.phtml"
+                            />
+                </block>
+                <!--end popup-->
+                <!--Quick Select Form-->
+                <block type="giftcardtemplate/catalog_product_view_form_format" name="giftcard.template.form.format" as="form.format"
+                       template="magegiant/giftcardtemplate/form/format.phtml"
+                        />
+                <block type="giftcardtemplate/catalog_product_view_form_items" name="giftcard.template.form.items" as="form.items"
+                       template="magegiant/giftcardtemplate/form/items.phtml">
+                    <block type="giftcardtemplate/catalog_product_view_form_items_video" name="giftcard.template.form.items.video" as="form.items.video"
+                           template="magegiant/giftcardtemplate/form/items/video.phtml"
+                            />
+                    <block type="giftcardtemplate/catalog_product_view_form_items_upload" name="giftcard.template.form.items.upload" as="form.items.upload"
+                           template="magegiant/giftcardtemplate/form/items/upload.phtml"
+                            />
+                </block>
+            </block>
+        </reference>
+    </giftcard_template_handle>
+    <PRODUCT_TYPE_giantcard>
+        <update handle="giftcard_template_handle"/>
+    </PRODUCT_TYPE_giantcard>
+    <!--Add template to email-->
+    <giftcard_email_template>
+        <reference name="giftcard.email.extra">
+            <block type="core/template" name="giftcard.template.designed" template="magegiant/giftcardtemplate/designed.phtml"/>
+        </reference>
+    </giftcard_email_template>
+</layout>

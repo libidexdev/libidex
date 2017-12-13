@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <ObjectSource_RapidService>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <ObjectSource_RapidOrder />
+            </depends>
+        </ObjectSource_RapidService>
+    </modules>
+</config>

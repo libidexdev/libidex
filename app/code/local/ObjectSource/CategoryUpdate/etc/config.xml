@@ -1,0 +1,17 @@
+<config>
+    <modules>
+        <ObjectSource_CategoryUpdate>
+            <version>0.0.1</version>
+        </ObjectSource_CategoryUpdate>
+    </modules>
+    <global>
+        <resources>
+            <objectsource_categoryupdate_setup>
+                <setup>
+                    <module>ObjectSource_CategoryUpdate</module>
+                    <class>Mage_Catalog_Model_Resource_Setup</class>
+                </setup>
+            </objectsource_categoryupdate_setup>
+        </resources>
+    </global>
+</config>

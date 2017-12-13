@@ -1,0 +1,19 @@
+<div class="related-products">
+<?php if($this->getItems()->getSize()): ?>
+<h4 class="priority-1-heading">You may also like</h4>
+	<div class="owl-product-max-six owl-carousel products-grid"> 
+		<?php foreach($this->getItems() as $_item): ?>
+            <div class="item">
+                <div class="product">
+<div class="product-image">
+	<a href="<?php echo $_item->getProductUrl() ?>" title="<?php echo $this->escapeHtml($_item->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize() ?>" alt="<?php echo $this->escapeHtml($_item->getName()) ?>" /></a>
+	<div class="hover-cta"><a href="<?php echo $_item->getProductUrl() ?>"><span>+</span> View Item</a> <a href="<?php echo $this->helper('wishlist')->getAddUrl($_item) ?>"><i class="fa fa-heart"></i></a></div>
+</div><!--  Close Product-image -->
+<h2><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $_item->getName() ?></a></h2>
+<?php echo $this->getPriceHtml($_item, true) ?>
+                </div>
+            </div>
+        <?php endforeach ?>
+	</div>
+<?php endif; ?>
+</div>

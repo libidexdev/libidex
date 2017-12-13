@@ -1,0 +1,15 @@
+<?php $_filters = $this->getActiveFilters() ?>
+<?php if (!empty($_filters)): ?>
+    <p class="block-subtitle"><?php echo Mage::helper('catalog')->__('Currently filtering by') ?></p>
+    <div class="currently cf">
+	 <?php foreach ($_filters as $_filter): ?>
+	 	<?php if ($_filter->hasData('children')): ?>
+                <?php foreach ($_filter->getData('children') as $child): ?>
+                   <a  class="btn-remove-state" href="<?php echo $child['url'] ?>"><?php echo $child['label'] ?><i class="fa fa-times"></i></a>
+                <?php endforeach ?>
+            <?php else: ?>
+             	 	<a class="btn-remove-state" href="<?php echo $_filter->getRemoveUrl() ?>"><?php echo $_filter->getLabel() ?><i class="fa fa-times"></i></a>
+            <?php endif ?>
+	    <?php endforeach; ?> 
+    </div>
+<?php endif; ?>

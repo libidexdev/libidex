@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Lexel_OneStepCheckout>
+            <codePool>local</codePool>
+            <active>true</active>
+            <depends>
+                <Idev_OneStepCheckout/>
+            </depends>
+        </Lexel_OneStepCheckout>
+    </modules>
+</config>

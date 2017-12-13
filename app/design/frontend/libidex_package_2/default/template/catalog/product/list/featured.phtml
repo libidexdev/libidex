@@ -1,0 +1,106 @@
+<section class="home-section featured-products">
+<div class="inner">
+
+<?php // Get all active children of ID 14 ?>
+<?php $_categoryId = $this->getCategoryId();?>
+<?php $category = Mage::getModel('catalog/category')->load($_categoryId);?>
+<?php $categories = $category->getCollection()
+        ->addAttributeToSelect(array('name'))
+        ->addAttributeToFilter('is_active', 1)
+        ->addIdFilter($category->getChildren()) ?>
+
+<?php // If there is more than one active tab then show tabs ?>
+<?php if (count($categories) > 1):?>
+
+<div id="homeTabs" class="featured-product-tabs">
+	<ul class="priority-1-heading white">
+		<?php $i=0; foreach ($categories as $category): $i++?>
+			<li><a href="#tab-<?php echo $i;?>"><?php echo $category->getName() ?> <span> / </span></a></li> 
+		<?php endforeach; ?>
+	</ul>
+
+	<?php $ii=0; foreach ($categories as $category): $ii++?>
+	<div id="tab-<?php echo $ii;?>">
+		<?php
+		$_categoryId = $category->getId();
+		$_productCollection2 = Mage::getModel('catalog/category')->load($_categoryId)
+		->getProductCollection()
+		->addAttributeToSelect('*')
+		->addAttributeToFilter('status', 1)
+		->addAttributeToFilter('visibility', 4);?>
+		<div class="owl-product-max-four owl-carousel products-grid owl-theme"> 
+			<?php foreach ($_productCollection2 as $_product2): ?>
+			<div class="item">
+				<?php $specialprice = Mage::getModel('catalog/product')->load($_product2->getId())->getSpecialPrice(); ?>
+				<?php if ($specialprice):?><span class="special-badge"></span><?php endif; ?>
+				<div class="product-image">
+				<a href="<?php echo $_product2->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product2->getName()) ?>">
+				<img class="lazyOwl" src="<?php echo $this->helper('catalog/image')->init($_product2, 'small_image')->constrainOnly(TRUE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize(576,null)?>" data-src="<?php echo $this->helper('catalog/image')->init($_product2, 'small_image')->constrainOnly(TRUE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize(576,null)?>" alt="<?php echo $this->htmlEscape($_product2->getName()) ?>" /></a>					
+				<div class="hover-cta"><a href="<?php echo $_product2->getProductUrl() ?>"><span>+</span> View Item</a> <a href="<?php echo $this->helper('wishlist')->getAddUrl($_product2) ?>"><i class="fa fa-heart"></i></a></div>
+					<div class="product-grid-badge">
+						<?php $badge = $this->getLayout()->createBlock('cms/block')->setBlockId('product_grid_badge')->toHtml() ?>
+						<?php if ($badge): ?>
+							<a href="<?php echo $_product2->getProductUrl() ?>"><?php echo $badge; ?></a>
+						<?php endif;?>
+					</div>
+				</div>
+				<h2><a href="<?php echo $_product2->getProductUrl() ?>"><?php echo $_product2->getName() ?></a></h2>
+				
+				<div class="price-box">
+					<?php if ($_product2->getFinalPrice() < $_product2->getPrice()): ?>
+					<span class="old-price"><?php echo Mage::helper('core')->currency($_product2->getPrice());;	?></span>
+					<?php endif; ?>
+					<span class="price"><?php echo Mage::helper('core')->currency($_product2->getFinalPrice());;	?></span>
+				</div>
+			</div>
+			<?php endforeach ?>
+		</div>		
+		
+		<div class="inner" style="margin-top: 10px; color: black; background: -webkit-linear-gradient(#fff, #aaa); background: -o-linear-gradient(#fff, #aaa); background: -moz-linear-gradient(#fff, #aaa); background: linear-gradient(#fff, #aaa); padding: 10px; cursor: pointer; text-align: center; width: 300px;" onclick="document.location='<?php echo $category->getUrl(); ?>'">
+			Click Here to see all <strong><?php echo $category->getName(); ?></strong>
+		</div>
+		
+	</div>
+	<?php endforeach;?>
+	</div><!-- END featured-product-tabs -->
+	
+	<script src="<?php echo $this->getSkinUrl('plugins/jquery-ui-1.11.2/jquery-ui.min.js') ?>"></script>
+	<script>
+	jQuery( "#homeTabs" ).tabs();
+	</script>
+
+
+<?php // If there is only active cat then show simple layout (without tabs) ?>
+<?php else:?>
+		 <?php foreach ($categories as $category):?>
+		 	<h4 class="priority-1-heading white"><?php echo $category->getName() ?></h4>
+			<?php
+			$_categoryId = $category->getId();
+			$_productCollection2 = Mage::getModel('catalog/category')->load($_categoryId)
+			->getProductCollection()
+			->addAttributeToSelect('*')
+			->addAttributeToFilter('status', 1)
+			->addAttributeToFilter('visibility', 4);?>
+			<div class="owl-product-max-four owl-carousel products-grid owl-theme"> 
+			<?php foreach ($_productCollection2 as $_product2): ?>
+			<div class="item">
+			<?php $specialprice = Mage::getModel('catalog/product')->load($_product2->getId())->getSpecialPrice(); ?>
+			<?php if ($specialprice):?><span class="special-badge"></span><?php endif; ?>
+			<div class="product-image">
+			<a href="<?php echo $_product2->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product2->getName()) ?>">
+			<img class="lazyOwl" src="<?php echo $this->helper('catalog/image')->init($_product2, 'small_image')->constrainOnly(TRUE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize(576,null)?>" data-src="<?php echo $this->helper('catalog/image')->init($_product2, 'small_image')->constrainOnly(TRUE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize(576,null)?>" alt="<?php echo $this->htmlEscape($_product2->getName()) ?>" /></a>					
+			<div class="hover-cta"><a href="<?php echo $_product2->getProductUrl() ?>"><span>+</span> View Item</a> <a href="<?php echo $this->helper('wishlist')->getAddUrl($_product2) ?>"><i class="fa fa-heart"></i></a></div>
+			</div>
+			<h2><a href="<?php echo $_product2->getProductUrl() ?>"><?php echo $_product2->getName() ?></a></h2>
+			<div class="price-box">
+			<span class="price"><?php echo Mage::helper('core')->currency($_product2->getPrice());;	?></span>
+			</div>
+			</div>		
+			<?php endforeach ?>
+			</div>
+		<?php endforeach ?>
+<?php endif;?>
+
+
+</div>
+</section>

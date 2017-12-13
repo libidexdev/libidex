@@ -1,0 +1,45 @@
+<?php
+/**
+ * MageGiant
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageGiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    MageGiant
+ * @package     MageGiant_GiftCardTemplate
+ * @copyright   Copyright (c) 2014 MageGiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+
+/**
+ * Giftcardtemplate template
+ *
+ * @see Magegiant_GiftCardTemplate_Block_Giftcardtemplate
+ */
+?>
+<?php $formats = $this->getFormatOptions(); ?>
+<?php foreach ($formats as $format): ?>
+    <div class="field col-mg mg-3"
+        <?php echo count($formats) == 1 ? 'style= "display: none"' : ''; ?>
+        >
+        <div class="input-box">
+            <input type="radio" id="giftcard_template_format_<?php echo $format['value'] ?>"
+                   name="giftcard[template_format]"
+                   class="radio"
+                   value="<?php echo $format['value'] ?>"
+                <?php echo $format['value'] == $this->getFormatType() ? 'checked' : '' ?>
+                />
+            <label
+                for="giftcard_template_format_<?php echo $format['value'] ?>"><?php echo $format['label'] ?></label>
+        </div>
+    </div>
+<?php endforeach ?>
+<div class="mg-clear"></div>

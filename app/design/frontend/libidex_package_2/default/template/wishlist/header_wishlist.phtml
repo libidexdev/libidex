@@ -1,0 +1,27 @@
+<?php if ($this->hasWishlistItems()): ?>
+<a class="level-top" href="<?php echo $this->helper('wishlist')->getListUrl() ?>"><i class="fa fa-heart"></i> <span><?php echo $this->getItemCount(); ?></span></a>
+	<ul>
+	<li class="title"><a href="<?php echo $this->helper('wishlist')->getListUrl() ?>"><?php echo $this->getItemCount(); ?> items in wishlist.</a></li>
+	<li>
+		<?php foreach ($this->getWishlistItems() as $_item): ?>
+		<?php $product = $_item->getProduct(); ?>
+		<div class="sidebar-item cf">
+			<a href="<?php echo $this->getProductUrl($_item) ?>" title="<?php echo $this->escapeHtml($product->getName()) ?>"><img class="sidebar-img" src="<?php echo $this->helper('catalog/image')->init($product, 'thumbnail')->resize(50); ?>" alt="<?php echo $this->escapeHtml($product->getName()) ?>" /></a>
+			<div class="sidebar-details">
+				<h6><a href="<?php echo $this->getProductUrl($_item) ?>"><?php echo $this->escapeHtml($product->getName()) ?></a></h6>
+				<?php echo $this->getPriceHtml($product, false, '-wishlist') ?>
+				<?php if ($product->isSaleable() && $product->isVisibleInSiteVisibility()): ?>
+					<a class="highlight-link" href="<?php echo $this->getItemAddToCartUrl($_item) ?>"><?php echo $this->__('Add to Bag') ?></a>
+				<?php endif; ?>
+			</div>
+		</div>
+		<?php endforeach; ?>
+		<a class="button primary-cta" href="<?php echo $this->helper('wishlist')->getListUrl() ?>">View wishlist</a>
+	</li>	
+	</ul>
+<?php else:?>
+	<a class="level-top" href="<?php echo $this->helper('wishlist')->getListUrl() ?>"><i class="fa fa-heart"></i> <span>0</span></a>
+	<ul>
+	<li class="title">0 items in wishlist.</li>			
+	</ul>
+<?php endif;?>

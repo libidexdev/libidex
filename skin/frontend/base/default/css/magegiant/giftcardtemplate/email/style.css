@@ -1,0 +1,76 @@
+body, button, input, select, table, textarea {
+    font-family: "Helvetica Neue", Verdana, Arial, sans-serif;
+    color: #636363;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.giftcard-template-container {
+    width: 585px;
+    border: 1px solid #ccc;
+    margin: 0 auto;
+    -webkit-box-shadow: 0px 3px 8px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 3px 8px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 3px 8px 0px rgba(0, 0, 0, 0.75);
+}
+
+.template-img {
+    position: relative;
+}
+
+.template-img img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+.template-img .custom-upload {
+    position: absolute;
+    top: 62px;
+    left: 158px;
+    width: 279px;
+    height: 179px;
+    overflow: hidden;
+}
+
+.gift-message-box {
+    padding: 10px 10px;
+    border-bottom: 1px solid #f0efe4;
+    margin: 10px 10px;
+}
+
+.gift-message-box .detail-message {
+    padding: 20px 10px;
+}
+
+.gift-price-box {
+    padding: 10px 10px;
+    text-align: center;
+
+}
+
+.gift-price-box .code-box {
+    border-right: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+.gift-price-box .price-box {
+    font-size: 20px;
+}
+
+.gift-price-box .logo-box img {
+    max-width: 100px !important;
+}
+
+.printer {
+    float: right;
+    margin-right: 20px;
+    color: blue;
+    font-style: italic;
+}
+
+.price-box {
+    margin: 7px 0;
+    font-family: "Helvetica Neue", Verdana, Arial, sans-serif;
+}

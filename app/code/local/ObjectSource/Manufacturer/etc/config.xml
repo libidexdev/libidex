@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <ObjectSource_Manufacturer>
+            <version>0.1.0</version>
+        </ObjectSource_Manufacturer>
+    </modules>
+    <global>
+        <models>
+            <catalog>
+                <rewrite>
+                    <product>ObjectSource_Manufacturer_Model_Catalog_Product</product>
+                </rewrite>
+            </catalog>
+        </models>
+    </global>
+    <frontend>
+        <layout>
+            <updates>
+                <manufacturer module="ObjectSource_Manufacturer">
+                    <file>objectsource/manufacturer.xml</file>
+                </manufacturer>
+            </updates>
+        </layout>
+    </frontend>
+    <adminhtml>
+        <layout>
+            <updates>
+                <objectsource_manufacturer>
+                    <file>objectsource/manufacturer.xml</file>
+                </objectsource_manufacturer>
+            </updates>
+        </layout>
+    </adminhtml>
+    <stores>
+        <admin>
+            <design>
+                <theme>
+                    <template>libidex</template>
+                </theme>
+            </design>
+        </admin>
+    </stores>
+</config>

@@ -1,0 +1,23 @@
+<?php $_product = $this->getProduct(); ?>
+<?php $buttonTitle = $this->__('Add to Bag'); ?>
+<?php $_manufacture_process = $_product->getAttributeText('manufacturing_type') ?>
+<?php if($_product->isSaleable()): ?>
+	<?php if ( $_product->getTypeId()=="giantcard") : ?>
+	<div id="add-to-cart-advice" class="validation-advice"><span id="add-to-cart-advice-text" style="display:none">Ooops! Think you've forgotten something…</span></div>
+	<?php endif; ?>
+
+    <div class="add-to-cart">
+        <?php if(!$_product->isGrouped()): ?>
+        <label for="qty" class="qty-label"><?php echo $this->__('Qty:') ?></label>
+        <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getProductDefaultQty() * 1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+        <?php endif; ?>
+        <?php if ($_manufacture_process == 'made_to_order' || $_product->getTypeId()=="giantcard"):?>
+        <button type="button" title="<?php echo $buttonTitle ?>" id="product-addtocart-button" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><?php echo $buttonTitle ?></button>
+        <?php else :?>
+        	<?php $this_products_id = $this->getProduct()->getId();?>
+        	<?php $this_products_express_url = Mage::getModel('catalog/product')->setStoreId(2)->load($this_products_id)->getProductUrl();?>
+			<a target="_blank" class="button btn-cart" href="<?php echo $this_products_express_url;?>">Add to Bag</a>
+        <?php endif;?>
+        <?php echo $this->getChildHtml('', true, true) ?>
+    </div>
+<?php endif; ?>

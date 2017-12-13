@@ -1,0 +1,60 @@
+<?php
+/**
+ * Magegiant
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the magegiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magegiant
+ * @package     Magegiant_GiftCard
+ * @copyright   Copyright (c) 2014 Magegiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+?>
+
+<div class="page-title title-buttons">
+	<h1><?php echo $this->__('View Withdrawal') ?></h1>
+</div>
+
+<?php $giftCard = $this->getGiftcardInformation(); ?>
+<?php if($giftCard && $giftCard->getId()): ?>
+<div class="fieldset giftcard-view-detail">
+	<h2 class="legend"><?php echo $this->__('Gift Card Information') ?></h2>
+	<ul class="form-list">
+		<li class="fields">
+			<div class="title"><?php echo $this->__('Gift Card Code') ?></div>
+			<div class="content"><strong><?php echo $giftCard->getCode() ?></strong></div>
+		</li>
+		<li class="fields">
+			<div class="title"><?php echo $this->__('Status') ?></div>
+			<div class="content"><strong><?php echo $this->getStatusLabel($giftCard) ?></strong></div>
+		</li>
+		<li class="fields">
+			<div class="title"><?php echo $this->__('Amount') ?></div>
+			<div class="price-box">
+				<span class="regular-price"><?php echo Mage::helper('core')->formatPrice($giftCard->getAmount()) ?></span>
+			</div>
+		</li>
+		<?php if($giftCard->getExpiredAt()): ?>
+		<li class="fields">
+			<div class="title"><?php echo $this->__('Expired At') ?></div>
+			<div class="content"><?php echo $this->formatDate($giftCard->getExpiredAt(), 'medium') ?></div>
+		</li>
+		<?php endif; ?>
+	</ul>
+</div>
+<?php endif; ?>
+
+<?php echo $this->getChildHtml('giftcard.view.history'); ?>
+
+<div class="buttons-set">
+    <p class="back-link"><a href="<?php echo $this->getUrl('giftcard') ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+</div>

@@ -1,0 +1,16 @@
+<config>
+    <modules>
+        <Lexel_CountriesOrder>
+            <version>0.2</version>
+        </Lexel_CountriesOrder>
+    </modules>
+    <global>
+        <models>
+            <directory_resource>
+                <rewrite>
+                    <country_collection>Lexel_CountriesOrder_Model_Resource_Directory_Country_Collection</country_collection>
+                </rewrite>
+            </directory_resource>
+        </models>
+    </global>
+</config>

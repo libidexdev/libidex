@@ -1,0 +1,51 @@
+</div><!-- End Wrapper early -->
+<?php echo $this->getLayout()->createBlock('core/template')->setTemplate('customer/account/account-heading.phtml')->toHtml(); ?>
+<div class="wrapper"><!-- Begin Wrapper again -->
+<div class="account-login">
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form">
+        <?php echo $this->getBlockHtml('formkey'); ?>
+        
+        
+        <p class="note-msg" style="border:medium double #bbb"><strong>We have recently updated our website, if you are an existing customer you may need to reset your password.</strong></p>
+        
+        
+        <div class="col2-set">
+            <div class="col-1 registered-customers">
+	            <h2 class="priority-1-heading">Registered Customers</h2>	            
+                <ul class="form-list">
+                        <li>
+                            <div class="input-box">
+                                <input type="text" name="login[username]" placeholder="Email address" value="<?php echo $this->escapeHtml($this->getUsername()) ?>" id="email" class="input-text required-entry validate-email" title="<?php echo $this->__('Email Address') ?>" />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="input-box">
+                                <input type="password" name="login[password]" placeholder="Password" class="input-text required-entry validate-password" id="pass" title="<?php echo $this->__('Password') ?>" />
+                            </div>
+                        </li>
+                        <?php echo $this->getChildHtml('form.additional.info'); ?>
+                        <?php echo $this->getChildHtml('persistent.remember.me'); ?>
+                    </ul>
+                <?php echo $this->getChildHtml('persistent.remember.me.tooltip'); ?>
+                <a href="#forgot-password" class="fancybox forgotten-pass highlight-link"><?php echo $this->__('Forgotten your password?') ?></a>
+                <button type="submit" class="button" title="<?php echo $this->__('Login') ?>" name="send" id="send2"><?php echo $this->__('Login') ?></button>
+            </div>
+
+            <div class="col-2 new-customers">
+				<h2 class="priority-1-heading">Not registered? No problem</h2>
+				<p>Creating an account with <?php echo Mage::app()->getStore()->getName();?> is quick and easy, and will allow you to move through our checkout quicker. You can also store multiple shipping addresses, gain access to your order history, and much more.</p>               
+                <a class="button fancybox" href="#register"><?php echo $this->__('Register now') ?></a>
+            </div>
+        </div><!-- END col2-set -->
+			<?php if (Mage::helper('checkout')->isContextCheckout()): ?><input name="context" type="hidden" value="checkout" /><?php endif; ?>
+    </form>
+    <script type="text/javascript">
+    //<![CDATA[
+        var dataForm = new VarienForm('login-form', true);
+    //]]>
+    </script>
+</div><!-- END account-login -->
+
+<?php echo $this->getChildHtml('registerPopup'); ?>
+<?php echo $this->getChildHtml('forgotPasswordPopup'); ?>

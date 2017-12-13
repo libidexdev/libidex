@@ -1,0 +1,47 @@
+/* www.lexel.co.uk */
+/*Checkout login pop-up*/
+#login-step-popup {left: 400px !important; top: 240px !important;}
+#login-step-popup .popup-title {height: 40px;}
+/*Checkout login text*/
+.onestepcheckout-login-link {font-weight: bold !important;}
+/*responsive checkout*/
+@media (max-width: 600px) {
+    #login-step-popup {left: 0px !important; top: 240px !important; width: 100% !important;}
+}
+
+.corner-flash{
+    display: none;
+}
+
+.discounted .corner-flash{
+    display: block;
+}
+
+.discounted .corner-flash img{
+    width: 50px;
+    position: absolute;
+    right: 0;
+}
+
+#checkout-payment-method-load label[for="p_method_sagepayform"]{
+    background-position: 150px 2px;
+    padding-left: 22px !important;
+}
+
+#p_method_sagepaypaypal{
+    float: left;
+    margin-right: -40px;
+    margin-top: 10px;
+}
+
+#p_method_sagepaypaypal + label[for="p_method_sagepaypaypal"]{
+    background-repeat: no-repeat;
+    background-image: url(../../../base/default/sagepaysuite/images/sage-pay-small.jpg);
+    background-size: 86px;
+    background-position: 90px 2px;
+    min-height: 31px;
+    width: 100%;
+    display: inline-block;
+    padding-left: 22px;
+    line-height: 31px;
+}

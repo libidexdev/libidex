@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Aitoc_Aitpagecache>
+            <active>false</active>
+            <codePool>local</codePool>
+            <self_name>Magento Booster</self_name>
+        </Aitoc_Aitpagecache>
+    </modules>
+</config>

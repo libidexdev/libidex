@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<layout>
+    <orderfulfillment_adminhtml_index_jobticketloader>
+        <remove name="root"/>
+        <block type="orderfulfillment/adminhtml_jobticket_loader" name="loader" output="toHtml" template="objectsource/orderfulfillment/loader.phtml">
+            <!--<action method="addItem"><type>skin_js</type><name>objectsource/orderfulfillment/jobTicketLoader.js</name><params/></action>-->
+        </block>
+    </orderfulfillment_adminhtml_index_jobticketloader>
+
+    <orderfulfillment_adminhtml_index_jobticketpreview>
+        <remove name="root"/>
+        <block type="orderfulfillment/adminhtml_jobticket_preview" name="preview" output="toHtml" template="objectsource/orderfulfillment/preview.phtml">
+        </block>
+    </orderfulfillment_adminhtml_index_jobticketpreview>
+
+    <sales_order_grid_update_handle>
+        <reference name="sales_order.grid">
+            <action method="addColumnAfter">
+                <columnId>lineitems</columnId>
+                <arguments helper="orderfulfillment/getLineItemsParams">
+<!--                    <header>Line Items</header>
+                    <index>type</index>
+                    <filter_index>type</filter_index>
+                    <type>text</type>
+                    <width>190px</width>
+                    <renderer>ObjectSource_OrderFulfillment_Block_Adminhtml_Renderer_Lineitems</renderer>
+-->
+                </arguments>
+                <after>shipping_name</after>
+            </action>
+            <action method="addColumnAfter">
+                <columnId>code</columnId>
+                <arguments>
+                    <header>Code</header>
+                    <index>code</index>
+                    <type>text</type>
+                    <width>10px</width>
+                    <align>left</align>
+                </arguments>
+                <after>lineitems</after>
+            </action>
+            <action method="addColumnAfter">
+                <columnId>approved</columnId>
+                <arguments>
+                    <header>Appr</header>
+                    <index>appr</index>
+                    <type>text</type>
+                    <width>10px</width>
+                    <align>left</align>
+                </arguments>
+                <after>lineitems</after>
+            </action>
+        </reference>
+    </sales_order_grid_update_handle>
+    <adminhtml_sales_order_grid>
+        <!-- apply layout handle defined above -->
+        <update handle="sales_order_grid_update_handle" />
+    </adminhtml_sales_order_grid>
+    <adminhtml_sales_order_index>
+        <!-- apply layout handle defined above -->
+        <update handle="sales_order_grid_update_handle" />
+    </adminhtml_sales_order_index>
+</layout>

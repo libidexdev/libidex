@@ -1,0 +1,171 @@
+<?php $page = $this->getPage() ?>
+<?php if ($page): ?>
+	<?php $helper = $this->helper('wordpress') ?>
+	<?php $author = $page->getAuthor() ?>
+	<?php $page_layout_option = $page->getMetaValue('page_layout_option');?>	
+	<?php $faq_repeater = $page->getMetaValue('faq');?>	
+	<h1 class="page-subtitle"><span class="inner"><?php echo $this->escapeHtml($page->getPostTitle()) ?></span></h1>						
+	
+	
+<?php if ($faq_repeater):?>
+<div class="faq-wrapper">
+<script src="<?php echo $this->getSkinUrl('plugins/isotope.pkgd.min.js') ?>"></script>
+<script>
+	jQuery( function($) {
+  // quick search regex
+  var qsRegex;
+  var buttonFilter;
+  
+  // init Isotope
+  var $container = $('.isotope').isotope({
+    itemSelector: '.element-item',
+    layoutMode: 'fitRows',
+    filter: function() {
+      var $this = $(this);
+      var searchResult = qsRegex ? $this.text().match( qsRegex ) : true;
+      var buttonResult = buttonFilter ? $this.is( buttonFilter ) : true;
+      return searchResult && buttonResult;
+    }
+  });
+
+  $('#filters').on( 'click', 'button', function() {
+    buttonFilter = $( this ).attr('data-filter');
+    $container.isotope();
+  });
+  
+  // use value of search field to filter
+  var $quicksearch = $('#quicksearch').keyup( debounce( function() {
+    qsRegex = new RegExp( $quicksearch.val(), 'gi' );
+    $container.isotope();
+  }) );
+  
+    // change is-checked class on buttons
+  $('.button-group').each( function( i, buttonGroup ) {
+    var $buttonGroup = $( buttonGroup );
+    $buttonGroup.on( 'click', 'button', function() {
+      $buttonGroup.find('.is-checked').removeClass('is-checked');
+      $( this ).addClass('is-checked');
+    });
+  });
+  
+});
+
+// debounce so filtering doesn't happen every millisecond
+function debounce( fn, threshold ) {
+  var timeout;
+  return function debounced() {
+    if ( timeout ) {
+      clearTimeout( timeout );
+    }
+    function delayed() {
+      fn();
+      timeout = null;
+    }
+    setTimeout( delayed, threshold || 100 );
+  };
+}
+</script>
+
+
+ <div class="wrapper col2-right-layout">
+
+	<aside>		
+		<div class="block">
+			<div class="block-title">Search FAQ's</div>
+			<div class="blog-search"><input type="text" id="quicksearch" class="input-text" placeholder="Start typing to search faq's" /></div>
+		</div>			
+		<div class="block block-blog block-blog-categories">
+			<div class="block-title">FAQ Categories</div>
+			<div id="filters" class="button-group block-cosntent">	
+				<ul>
+					<li><button class="isotope-btn is-checked" data-filter="*">Show all FAQ's</button></li>
+					<li><button class="isotope-btn highlight-link" data-filter=".Delivery">Delivery</button></li>
+					<li><button class="isotope-btn" data-filter=".Garment">Garment</button></li>
+					<li><button class="isotope-btn" data-filter=".Orders">Orders</button></li>
+				</ul>
+			</div>
+		</div>
+	</aside>
+
+	<div class="col-main isotope cf">
+		<?php foreach($faq_repeater as $faq2):?>
+		<div class="element-item <?php echo $faq2['faq_tag'];?> " data-category="metalloid">
+		<h3 class="pririty-1-heading thick"><?php echo $faq2['question'];?></h3>
+		<?php echo $faq2['answer'];?><br/>
+		<?php // echo $faq2['faq_tag'];?>
+		</div>
+		<?php endforeach; ?>
+	</div>
+</div><!-- END wrapper col2-right-layout -->
+        
+
+</div>
+<?php endif;?>
+
+
+
+
+<div class="wordpress-page-view">		
+<?php if ($page_layout_option == 'Tabs'):?>
+	<?php $tab_image = $page->getMetaValue('tab_image_left');?>
+	<div class="inner wp-tabs-view">	
+	<div class="wp-tabs-image-left">
+		<img src="<?php echo $page->getMetaValue('tab_image_left');?>" alt="" />
+	</div>
+	<?php echo $page->getMetaValue('inner_content');?>
+		
+	<?php $page_tabs_repeater = $page->getMetaValue('page_tabs_repeater');?>
+	<div id="wpTabs" class="cms-tabs wp-tabs std">
+		<ul>
+			<?php $i=0; foreach($page_tabs_repeater as $page_tabs):$i++?>
+				<li><a href="#tab-<?php echo $i;?>"><?php echo $page_tabs['tab_title'];?></a></li>
+			<?php endforeach; ?>
+		</ul>
+		<?php $ii=0; foreach($page_tabs_repeater as $page_tabs):$ii++?>
+			<div id="tab-<?php echo $ii;?>">
+				<?php $tab_inner_repeater = $page_tabs['tab_inner_repeater'];?>				
+				<?php foreach($tab_inner_repeater as $tab_inner):?>
+					<h3 class="tab-inner-title priority-1-heading thick"><?php echo $tab_inner['inner_title'];?></h3>
+					<div class="tab-inner-content cms-styles"><?php print $tab_inner['inner_content'];?></div>
+				<?php endforeach; ?>				
+			</div><!-- END TAB Content -->
+		<?php endforeach; ?>
+	</div>
+	<script src="<?php echo $this->getSkinUrl('plugins/jquery-ui-1.11.2/jquery-ui.min.js') ?>"></script>
+	<script>
+	jQuery( "#wpTabs" ).tabs();
+	</script>
+	</div>	
+			
+	<!-- content_image_one -->		
+<?php else:?>		
+		
+
+	<?php $page_section_repeater = $page->getMetaValue('page_sections_repeater');?>
+	<?php foreach($page_section_repeater as $page_section):?>
+	<?php $Layout_option = $page_section['the_section_layout_options'];?>
+	<?php $bg_image = $page_section['the_section_background_image'];?>
+	<?php $bg_colour = $page_section['the_section_background_colour'];?>
+	<?php $first_content_image = $page_section['first_content_image'];?>
+	<?php $second_content_image = $page_section['second_content_image'];?>
+	
+	<section class="cf cms-option <?php echo $Layout_option;?>" 
+		style="<?php if ($bg_image) { echo 'background-image:url('.$bg_image.');';} ?><?php if ($bg_colour) { echo 'background-color:'.$bg_colour.';';} ?>">
+		<div class="inner">
+				<div class="cms-option-content" style="color:<?php echo $page_section['the_section_text_colour'];?>">
+					<h2><?php echo $page_section['the_section_title'];?></h2>
+					<?php echo $page_section['the_section_content'];?>
+					<div class="clear"></div>
+					<?php if ($first_content_image) :?><img class="first_content_image" src="<?php echo $page_section['first_content_image'];?>" alt=""/><?php endif;?>					<?php if ($second_content_image) :?><img class="second_content_image" src="<?php echo $page_section['second_content_image'];?>" alt=""/><?php endif;?>
+				</div>
+				<div class="cms-option-img" style="background-image:url(<?php echo $page_section['the_section_image'];?>);">
+			</div>
+		</div>
+	</section>
+	<?php endforeach; ?>
+		
+		
+<?php endif;?><!-- END if TABS -->		
+		
+</div><!-- END wordpress-page-view -->
+<?php endif; ?>

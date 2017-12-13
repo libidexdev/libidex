@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<layout version="1.0.0">
+    <adminhtml_catalog_product_edit>
+        <reference name="head">            
+            <action method="addItem"><type>skin_js</type><name>amasty/amconf/configurableEdit.js</name><params/></action>
+        </reference>
+    </adminhtml_catalog_product_edit>  
+    <adminhtml_catalog_product_attribute_edit>
+        <reference name="head"> 
+            <action method="addJs"><stylesheet>amasty/plugin/jquery-1.9.1.min.js</stylesheet></action>
+            <action method="addJs"><stylesheet>amasty/plugin/jquery.tooltipster.min.js</stylesheet></action>
+            <action method="addCss"><stylesheet>amasty/amconf/tooltipster.css</stylesheet></action>
+         </reference>
+    </adminhtml_catalog_product_attribute_edit>
+</layout>

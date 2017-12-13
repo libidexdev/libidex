@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<layout>
+    <checkout_cart_index>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/objectsource/rapidorder/rapidselection.js</name><params/></action>
+        </reference>
+        <reference name="content">
+            <!--<reference name="checkout.cart">-->
+                <action method="unsetChild"><name>rapidselection</name></action>
+            <!--</reference>-->
+        </reference>
+    </checkout_cart_index>
+</layout>
+

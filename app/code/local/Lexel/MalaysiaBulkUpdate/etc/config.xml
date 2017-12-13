@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<config>
+
+    <modules>
+        <Lexel_MalaysiaBulkUpdate>
+            <version>0.1.0</version>
+        </Lexel_MalaysiaBulkUpdate>
+    </modules>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <lexel_malaysiabulkupdate before="Mage_Adminhtml">Lexel_MalaysiaBulkUpdate_Adminhtml</lexel_malaysiabulkupdate>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <lexel_malaysiabulkupdate>
+                    <file>lexel/malaysiabulkupdate.xml</file>
+                </lexel_malaysiabulkupdate>
+            </updates>
+        </layout>
+    </adminhtml>
+
+    <global>
+        <models>
+            <lexel_malaysiabulkupdate>
+                <class>Lexel_MalaysiaBulkUpdate_Model</class>
+            </lexel_malaysiabulkupdate>
+        </models>
+
+        <blocks>
+            <lexel_malaysiabulkupdate>
+                <class>Lexel_MalaysiaBulkUpdate_Block</class>
+            </lexel_malaysiabulkupdate>
+        </blocks>
+
+        <helpers>
+            <lexel_malaysiabulkupdate>
+                <class>Lexel_MalaysiaBulkUpdate_Helper</class>
+            </lexel_malaysiabulkupdate>
+        </helpers>
+
+    </global>
+
+    <crontab>
+        <jobs>
+            <lexel_malaysiabulkupdate>
+                <schedule><cron_expr>1 * * * *</cron_expr></schedule>
+                <run>
+                    <model>lexel_malaysiabulkupdate/observer::run</model>
+                </run>
+            </lexel_malaysiabulkupdate>
+        </jobs>
+    </crontab>
+
+</config>

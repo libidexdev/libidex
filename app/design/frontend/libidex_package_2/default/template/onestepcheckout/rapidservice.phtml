@@ -1,0 +1,106 @@
+<?php if (Mage::helper('os_rapidservice')->isRapidServiceAvailable($this->getQuote())): ?>
+	<div id="rapid-order-selection">
+		<?php
+		$helper = Mage::helper('rapidorder');
+		$value = $helper->getQuoteCouponValue();
+		?>
+        <script type="text/javascript">
+
+            document.observe('dom:loaded', function() {
+                if (checkout !== undefined)
+                {
+                    var validates = 0;
+                    checkout.origIsValid = checkout.isValid;
+                    checkout.isValid = function()
+                    {
+                        $('rapid-selection-advice').hide();
+                        result = this.origIsValid();
+                        var radios = document.getElementsByName('rapidSelection')
+
+                        for (var i = 0; i < radios.length; i++) {
+                            if (radios[i].checked) {
+                                //return result; // checked
+                                validates = 1;
+                            }
+
+                        }
+                        if(validates == 0) {
+                            $('rapid-selection-advice').show();
+                        }
+                        //return false;
+
+                        // validate shipping methods
+                        $('delivery-method-advice').hide();
+
+                        var hasValueSelected = false;
+                        var royalMailRadio = false;
+
+                        var Shippingradios = document.getElementsByName('shipping_method')
+
+                        for (var i = 0; i < Shippingradios.length; i++) {
+                            if (Shippingradios[i].checked) {
+                                //return result; // checked
+                                validates = 2;
+                            }
+
+                        }
+
+                        if (validates != 2) {
+                            $('delivery-method-advice').show();
+                        }
+                        else {
+                            return true;
+                        }
+
+                        return false
+                    };
+                }
+            });
+            (function($) {
+                $(document).ready(function() {
+                    $('input[type=radio][name=rapidSelection]').change(function() {
+                        $('#rapidSelectionForm').submit();
+                    });
+                });
+            })(jQuery);
+
+            function rapidApplySilver()
+            {
+
+                jQuery.post("/rapidservice/cart/add/", { 'addProduct': 'rapidSilver' })
+                // Second success from post.
+                    .done(function (response) {
+                         updateOscTotals('<?php echo $this->getUrl("onestepcheckout/ajax/set_methods_separate"); ?>', false);
+                    }).fail(function (jqXHR) {
+                    alert('Something has gone wrong, please refresh the page and try again, specific error: ' + jqXHR.toString());
+                });
+            }
+
+            function rapidApplyStandard()
+            {
+                jQuery.post("/rapidservice/cart/remove/", { 'removeProduct': 'rapidSilver' })
+                // Second success from post.
+                    .done(function (response) {
+                        updateOscTotals('<?php echo $this->getUrl("onestepcheckout/ajax/set_methods_separate"); ?>', false);
+                    }).fail(function (jqXHR) {
+                    alert('Something has gone wrong, please refresh the page and try again, specific error: ' + jqXHR.toString());
+                });
+            }
+
+        </script>
+		<div class="rapid-selection-wrapper-checkout">
+			<strong>Please choose how fast you want your order made:</strong><br><br>
+			<input type="radio" name="rapidSelection"<?php echo $value!='SILVER'?' checked':''?> value="STANDARD" class="validate-one-required-by-name" onclick="rapidApplyStandard()"><strong>Standard Service (no extra charge)</strong> - <span>Made within 4 weeks.</span>
+			<br><br>
+			<?php if (Mage::helper('os_rapidservice')->isRapidServiceEnabled()) { ?>
+				<input type="radio" name="rapidSelection"<?php echo $value=='SILVER'?' checked':''?> value="SILVER" class="validate-one-required-by-name" onclick="rapidApplySilver()"><strong>Silver Rapid</strong> - <span>Made within 10 working days (working days means Monday to Friday, excluding weekends and UK public holidays) The Cost for this service is an additional 25%, calculated using the full original price and not discounted prices.</span>
+				<div id="rapid-selection-advice" class="validation-advice" style="display:none;">Please select your production type</div>
+			<?php } else { ?>
+				<input type="radio" name="rapidSelection" value="SILVER" class="validate-one-required-by-name" style="display:none;">
+				<div id="rapid-selection-advice" class="validation-advice" style="display:none;">Please select your production type</div>
+				<?php echo $this->__('Rapid Service not currently available. Please sign up to our newsletter for the most up to date news.'); ?>
+			<?php } // if Rapid Order is Available ?>
+		</div>
+		<?php echo $this->getChildHtml('coupon') ?>
+	</div>
+<?php endif; ?>

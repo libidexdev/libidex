@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_inventoryreport_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/inventoryreport/styles.css</name>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="lexel_inventoryreport/inventory" name="lexel.inventoryreport.strapline"
+                   template="inventoryreport/summary.phtml"
+                   after="-" />
+        </reference>
+    </adminhtml_inventoryreport_index>
+</layout>

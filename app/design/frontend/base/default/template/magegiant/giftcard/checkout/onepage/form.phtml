@@ -1,0 +1,65 @@
+<?php
+/**
+ * Magegiant
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the magegiant.com license that is
+ * available through the world-wide-web at this URL:
+ * http://magegiant.com/license-agreement/
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magegiant
+ * @package     Magegiant_GiftCard
+ * @copyright   Copyright (c) 2014 Magegiant (http://magegiant.com/)
+ * @license     http://magegiant.com/license-agreement/
+ */
+?>
+
+<dt>
+	<input id="giftcard-payment-method" onchange="expandDetails(this, '.payment-form-giftcard')" type="checkbox" name="giftcard_payment_method" title="<?php echo $this->__('Use Gift Card') ?>" class="checkbox" >
+	<label for="giftcard-payment-method"><?php echo $this->__('Add Gift Card Code') ?></label>
+</dt>
+<dd class="payment-form-giftcard" style="display:none;">
+	<ul class="form-list" id="payment_form_giftcard" style="overflow: hidden;">
+		<li>
+			<label for="gift_code" class="required"><?php echo $this->__('Enter your gift card code if you have one.') ?></label>
+			<div class="input-box">
+				<input type="text" id="gift_code" name="gift_code" title="<?php echo $this->__('Gift Code') ?>" class="input-text" list="gift_codes" value="<?php echo $this->getGiftCard() ?>">
+				<?php
+				$list = Mage::helper('giftcard')->getListOfGiftcard();
+				if ($list && $list->getSize()):
+					?>
+					<datalist id="gift_codes" style="display: none">
+					<?php foreach ($list as $card): ?>
+						<option value="<?php echo $card->getCode() ?>"><?php echo Mage::helper('core')->currency($card->getAmount()) ?></option>
+					<?php endforeach; ?>
+			  	</datalist>
+				<?php endif; ?>
+			</div>
+		</li>
+		<li>
+			<div class="gc-buttons-set">
+				<button type="button" title="<?php echo $this->__('Apply Gift Card') ?>" class="button" onclick="checkGiftcard('<?php echo $this->getUrl('giftcard/checkout/addCode', array('ajax' => true)) ?>')" value="<?php echo $this->__('Apply Gift Card') ?>"><span><span><?php echo $this->__('Apply Gift Card') ?></span></span></button>
+				<?php if ($this->allowCheck()): ?>
+					<button type="button" title="<?php echo $this->__('Check Gift Card') ?>" class="button" onclick="checkGiftcard('<?php echo $this->getUrl('giftcard/checkout/checkPost') ?>')" value="<?php echo $this->__('Check Gift Card') ?>"><span><span><?php echo $this->__('Check Gift Card') ?></span></span></button>
+				<?php endif; ?>
+			</div>
+			<div id="check-gc-please-wait" class="gc-please-wait" style="display: none; margin-top: 15px;">
+        		<img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle"> <?php echo $this->__('Please wait, loading...') ?>
+			</div>
+			<div class="check-gc-status" id="check-gc-status" style="margin-top: 15px;"><?php echo $this->getMessage() ?></div>
+        </li>
+    </ul>
+</dd>
+<?php if($this->useGiftCard()): ?>
+<script type="text/javascript">
+	var inputEl = $('giftcard-payment-method');
+	inputEl.checked = 'checked';
+	expandDetails(inputEl, '.payment-form-giftcard');
+</script>
+<?php endif; ?>

@@ -1,0 +1,36 @@
+<?php
+/**
+ * File is based on app/design/adminhtml/default/default/template/sales/items/column/name.phtml
+ *
+ * Unfortunately, that file only works for Mage_Sales_Model_Order_Item and we need it to work for Mage_Sales_Model_Quote_Item.
+ */
+?>
+<?php $_helper = Mage::helper('catalog/product_configuration'); ?>
+
+
+<?php if ($_item = $this->getData('item')): ?>
+    <?php if ($_options = $this->getOrderOptions()): ?>
+        <dl class="item-options">
+            <?php foreach ($_options as $_option): ?>
+                <dt><?php echo $_option['label'] ?></dt>
+                <dd>
+                    <?php if (isset($_option['custom_view']) && $_option['custom_view']): ?>
+                        <?php echo $this->getCustomizedOptionValue($_option); ?>
+                    <?php else: ?>
+                        <?php $_option = $this->getFormattedOption($_option['value']); ?>
+                        <?php echo $_option['value']; ?><?php if (isset($_option['remainder']) && $_option['remainder']): ?><span id="<?php echo $_dots = 'dots' . uniqid()?>"> ...</span><span id="<?php echo $_id = 'id' . uniqid()?>"><?php echo $_option['remainder'] ?></span>
+                            <script type="text/javascript">
+                                $('<?php echo $_id ?>').hide();
+                                $('<?php echo $_id ?>').up().observe('mouseover', function(){$('<?php echo $_id ?>').show();});
+                                $('<?php echo $_id ?>').up().observe('mouseover', function(){$('<?php echo $_dots?>').hide();});
+                                $('<?php echo $_id ?>').up().observe('mouseout',  function(){$('<?php echo $_id ?>').hide();});
+                                $('<?php echo $_id ?>').up().observe('mouseout',  function(){$('<?php echo $_dots ?>').show();});
+                            </script>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </dd>
+            <?php endforeach; ?>
+        </dl>
+    <?php endif; ?>
+    <?php echo $this->escapeHtml($_item->getDescription()) ?>
+<?php endif; ?>

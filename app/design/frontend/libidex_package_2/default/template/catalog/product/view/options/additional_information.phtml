@@ -1,0 +1,12 @@
+<?php /** @var $this ObjectSource_ProductPageStep_Block_Popup */ ?>
+<?php $_id = $this->getData('id'); ?>
+<?php $_title = $this->getData('title'); ?>
+<?php $_blockId = $this->getData('cms_block'); ?>
+<?php $_content = $this->getLayout()->createBlock('cms/block')->setBlockId($_blockId)->toHtml(); ?>
+
+<div id="<?php echo $_id ?>" class="additional-info-popup <?php echo $_id ?>-modal-content" style="display:none">
+    <h4 class="modal-title"><?php echo $_title ?> <a class="close-modal" href="javascript:void(0)" onclick="jQuery.fancybox.close();"><i class="fa fa-times-circle"></i></a></h4>
+    <div class="modal-content">
+        <?php echo $_content; ?>
+    </div>
+</div>
